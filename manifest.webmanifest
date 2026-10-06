@@ -1,0 +1,20 @@
+{
+  "name": "Diario di Ghisa",
+  "short_name": "Ghisa",
+  "description": "Scheda della palestra, log delle serie e carichi progressivi.",
+  "lang": "it",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "diario-di-ghisa",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#131619",
+  "theme_color": "#131619",
+  "categories": ["fitness", "health", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
