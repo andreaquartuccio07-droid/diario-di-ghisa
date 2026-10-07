@@ -8,8 +8,9 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
 
 - **Un file solo per l'app**: tutto in `index.html` (HTML + `<style>` + `<script>` inline).
   Non spezzarlo in più file senza che l'utente lo chieda.
-- **Niente librerie esterne**: grafici in SVG scritto a mano, font da Google Fonts.
-  Qualsiasi risorsa esterna in più va cacheata nel service worker, altrimenti rompe l'offline.
+- **Niente librerie né risorse esterne**: grafici in SVG scritto a mano, font in locale in `fonts/`
+  (Archivo, IBM Plex Sans, IBM Plex Mono, sottoinsieme latino) dichiarati con `@font-face` in `index.html`.
+  Il service worker serve solo file della propria origine: una risorsa esterna rompe l'offline.
 - **A ogni modifica dell'app alza `VERSIONE` in `sw.js`** (`ghisa-v1` → `ghisa-v2`): senza quello
   i telefoni restano sulla copia vecchia in cache. Se aggiungi file da far funzionare offline,
   mettili anche nell'array `GUSCIO`.
@@ -37,6 +38,30 @@ service worker e mostra la striscia "Nuova versione disponibile"):
 - Persistenza: `localStorage`, chiave `diario-ghisa-v2`. Resta il codice che usa `claude.use("db")`
   per la vecchia versione Artifact: fuori da claude.ai `window.claude` non esiste, `avviaSync()`
   esce subito e l'app lavora solo in locale. Non è un bug.
+
+## Strumenti di Claude
+
+La cartella `.claude/` contiene ciò che è specifico di questo progetto; il resto è installato
+sull'account. Usali senza aspettare che l'utente li nomini:
+
+| Quando | Cosa usare |
+|---|---|
+| Schermata nuova o rifatta, componenti, layout | skill `ui-ux-pro-max` e `frontend-design` |
+| Grafici e numeri in `vistaProgressi()` / `vistaReport()` | skill `dataviz` (SVG a mano, niente librerie) |
+| Qualsiasi modifica grafica: colori, font, misure, componenti | skill `stile-ghisa` (`.claude/skills/`), prima delle altre |
+| Token nuovi, tema chiaro/scuro | skill `design-system` |
+| Modifica alla forma dei dati salvati | agente `Plan` prima di scrivere codice, e backup dell'utente |
+| Dopo una modifica consistente | agente `revisore-pwa` (`.claude/agents/`) |
+| Fine di ogni modifica all'app | skill `rilascio` (`.claude/skills/`) |
+| Vedere la modifica funzionare | skill `run` |
+| Questionario di fine blocco da mandare al coach | connettore Gmail: crea una **bozza**, non inviare |
+| Copia di sicurezza di un backup `.json` | connettore Google Drive, solo se l'utente lo chiede |
+
+- Non usare la skill `ui-styling`: porta Tailwind e shadcn, vietati dalla regola sulle librerie.
+- L'hook in `.claude/settings.json` blocca la chiusura del turno se l'app è cambiata e `VERSIONE` no.
+- I connettori (Gmail, Drive) sono legati all'account claude.ai, non a file del repo. Server MCP
+  specifici del progetto andrebbero in `.mcp.json` nella radice; i plugin in `enabledPlugins` di
+  `.claude/settings.json`. Al momento non ne serve nessuno.
 
 ## Da sapere
 

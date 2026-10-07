@@ -1,9 +1,8 @@
 /* Service worker del Diario di Ghisa.
    Tiene l'app in cache cosi' parte subito e funziona anche senza campo in palestra.
    Alzare VERSIONE a ogni rilascio: la cache vecchia viene buttata e l'app avvisa di aggiornare. */
-const VERSIONE = "ghisa-v1";
+const VERSIONE = "ghisa-v2";
 const CACHE_APP = VERSIONE + "-app";
-const CACHE_FONT = VERSIONE + "-font";
 
 const GUSCIO = [
   "./",
@@ -14,9 +13,11 @@ const GUSCIO = [
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
   "./icons/favicon-32.png",
+  "./fonts/archivo.woff2",
+  "./fonts/ibm-plex-sans.woff2",
+  "./fonts/ibm-plex-mono-500.woff2",
+  "./fonts/ibm-plex-mono-600.woff2",
 ];
-
-const dominioFont = host => host === "fonts.googleapis.com" || host === "fonts.gstatic.com";
 
 self.addEventListener("install", ev => {
   // Niente skipWaiting: la versione nuova resta in attesa finche' l'utente non tocca "Aggiorna".
@@ -30,7 +31,7 @@ self.addEventListener("install", ev => {
 self.addEventListener("activate", ev => {
   ev.waitUntil((async () => {
     const nomi = await caches.keys();
-    await Promise.all(nomi.filter(n => n !== CACHE_APP && n !== CACHE_FONT).map(n => caches.delete(n)));
+    await Promise.all(nomi.filter(n => n !== CACHE_APP).map(n => caches.delete(n)));
     await self.clients.claim();
   })());
 });
@@ -45,11 +46,10 @@ self.addEventListener("fetch", ev => {
 
   let url;
   try { url = new URL(req.url); } catch (e) { return; }
-  const font = dominioFont(url.hostname);
-  if (url.origin !== self.location.origin && !font) return;
+  if (url.origin !== self.location.origin) return;
 
   ev.respondWith((async () => {
-    const cache = await caches.open(font ? CACHE_FONT : CACHE_APP);
+    const cache = await caches.open(CACHE_APP);
     const salvata = await cache.match(req, {ignoreSearch: true});
 
     const dallaRete = fetch(req).then(res => {
