@@ -75,14 +75,14 @@ header.top{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1
 .chip-sync{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);border-radius:100px;padding:3px 8px;background:var(--surface);white-space:nowrap}
 .chip-sync[data-on="1"]{color:var(--up);border-color:color-mix(in srgb,var(--up) 35%,var(--line))}
 .menu{position:relative}
-.menu>summary{list-style:none;width:33px;height:33px;display:grid;place-items:center;border-radius:9px;border:1px solid var(--line);background:var(--surface)}
+.menu>summary{list-style:none;width:44px;height:44px;display:grid;place-items:center;border-radius:9px;border:1px solid var(--line);background:var(--surface)}
 .menu>summary::-webkit-details-marker{display:none}
-.menu-pop{position:absolute;right:0;top:39px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:224px;z-index:50}
-.menu-pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 10px;border-radius:8px;font-size:14px}
+.menu-pop{position:absolute;right:0;top:50px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:224px;z-index:50}
+.menu-pop button{display:block;width:100%;min-height:44px;text-align:left;background:none;border:0;padding:9px 10px;border-radius:8px;font-size:14px}
 .menu-pop button:hover{background:var(--surface-2)}
 .menu-pop hr{border:0;border-top:1px solid var(--line);margin:5px 2px}
 
-main{padding:15px 0 130px}
+main{padding:15px 0 calc(130px + env(safe-area-inset-bottom) + var(--timer-h,0px))}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 .tabs-in{display:grid;grid-template-columns:repeat(4,1fr);max-width:760px;margin:0 auto}
 .tab{background:none;border:0;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-3);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;border-top:2px solid transparent;margin-top:-1px;position:relative}
@@ -95,7 +95,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surf
   .tab{flex-direction:row;gap:7px;padding:10px 15px;border-top:0;border-bottom:2px solid transparent}
   .tab[aria-selected="true"]{border-bottom-color:var(--accent)}
   .tab .pallino{top:8px;right:4px}
-  main{padding-bottom:40px}
+  main{padding-bottom:calc(40px + var(--timer-h,0px))}
 }
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
@@ -117,7 +117,7 @@ h3{font-size:15px;font-weight:700}
 .btn.primary:hover{filter:brightness(1.06)}
 .btn.ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
 .btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
-.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.sm{min-height:44px;padding:6px 12px;font-size:13px;border-radius:8px}
 .btn.block{width:100%}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .icobtn{width:32px;height:32px;flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);border-radius:8px;color:var(--ink-2)}
@@ -158,7 +158,7 @@ h3{font-size:15px;font-weight:700}
 .nota-es{font-size:11.5px;color:var(--ink-3);font-style:italic}
 
 .serie{padding:4px 7px 7px}
-.sr{display:grid;grid-template-columns:30px 1fr 1fr 44px;gap:6px;align-items:center;padding:5px 3px;border-radius:10px}
+.sr{display:grid;grid-template-columns:30px 1fr 1fr 48px;gap:6px;align-items:center;padding:5px 3px;border-radius:10px}
 .sr+.sr{border-top:1px solid var(--line)}
 .sr-n{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-3);text-align:center}
 .sr[data-att="1"] .sr-n{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
@@ -166,22 +166,25 @@ h3{font-size:15px;font-weight:700}
 .fld input{width:100%;border:1px solid var(--line-2);background:var(--surface-3);border-radius:9px;padding:10px 28px 10px 10px;font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
 .fld input::-webkit-outer-spin-button,.fld input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .fld u{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10.5px;color:var(--ink-3);text-decoration:none;pointer-events:none}
-.tick{width:42px;height:42px;border-radius:11px;border:1px solid var(--line-2);background:var(--surface);display:grid;place-items:center;color:var(--ink-3)}
+.tick{width:48px;height:48px;border-radius:11px;border:1px solid var(--line-2);background:var(--surface);display:grid;place-items:center;color:var(--ink-3)}
 .tick svg{width:19px;height:19px}
 .sr[data-done="1"]{background:var(--up-soft)}
 .sr[data-done="1"] .tick{background:var(--up);border-color:var(--up);color:#fff}
 .sr[data-done="1"] input{background:transparent;border-color:transparent}
 .serie-az{display:flex;gap:6px;padding:0 6px 9px;align-items:center}
+.serie-az .btn{min-height:48px;padding-left:14px;padding-right:14px}
 
 .note-box{width:100%;border:1px solid var(--line-2);background:var(--surface);border-radius:11px;padding:11px 12px;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14.5px;font-weight:400;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;resize:vertical;min-height:70px}
-.salva-bar{position:sticky;bottom:74px;z-index:30;padding-top:6px}
-@media(min-width:760px){.salva-bar{bottom:16px}}
+/* --timer-h: altezza del timer di recupero quando e' a schermo (la imposta avviaTimer), cosi' Salva gli sta sopra */
+.salva-bar{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom) + var(--timer-h,0px));z-index:30;padding-top:6px}
+.salva-bar .btn{min-height:48px}
+@media(min-width:760px){.salva-bar{bottom:calc(16px + var(--timer-h,0px))}}
 
-.timer{position:fixed;left:13px;right:13px;bottom:72px;z-index:46;max-width:734px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:12px;padding:9px 10px 9px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.timer{position:fixed;left:13px;right:13px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:46;max-width:734px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:12px;padding:6px 6px 6px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
 @media(min-width:760px){.timer{bottom:16px}}
 .timer .t{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
 .timer .lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.66;margin-right:auto;line-height:1.2}
-.timer button{background:transparent;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);color:inherit;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
+.timer button{background:transparent;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);color:inherit;border-radius:8px;min-height:48px;padding:6px 12px;font-size:13px;font-weight:600}
 .timer .prog{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);border-radius:0 3px 3px 0;transition:width .95s linear}
 @media(prefers-reduced-motion:reduce){.timer .prog{transition:none}}
 
@@ -192,6 +195,7 @@ h3{font-size:15px;font-weight:700}
 .giorno-head input:focus{border-color:var(--line-2);background:var(--surface);outline:none}
 .ex-row{display:flex;align-items:center;gap:9px;padding:9px 10px 9px 13px}
 .ex-row+.ex-row{border-top:1px solid var(--line)}
+.ex-row[data-ses] .icobtn{width:44px;height:44px}
 .ex-row .info{min-width:0;flex:1}
 .ex-row .nome{font-weight:600;font-size:14px;line-height:1.3}
 .ex-row .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -214,6 +218,7 @@ h3{font-size:15px;font-weight:700}
 table.st{width:100%;border-collapse:collapse;font-size:13px}
 table.st th{text-align:left;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:7px 9px;border-bottom:1px solid var(--line)}
 table.st td{padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:middle}
+@media(max-width:360px){table.st th,table.st td{padding-left:5px;padding-right:5px}}
 table.st tr:last-child td{border-bottom:0}
 table.st td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
 .pr{display:inline-block;background:var(--accent);color:var(--on-accent);font-size:9.5px;font-weight:700;letter-spacing:.07em;padding:1px 5px;border-radius:4px;text-transform:uppercase;vertical-align:1px}
@@ -231,7 +236,7 @@ table.st td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabul
 .dom .q{font-size:14px;font-weight:600;line-height:1.35}
 .dom textarea{width:100%;border:1px solid var(--line-2);background:var(--surface-3);border-radius:10px;padding:10px 11px;font-family:inherit;font-size:14.5px;resize:vertical;min-height:64px}
 .scala{display:flex;align-items:center;gap:12px}
-.scala input[type=range]{flex:1;accent-color:var(--accent);height:26px}
+.scala input[type=range]{flex:1;accent-color:var(--accent);height:44px}
 .scala .val{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
 .scala-lab{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
 .sugg{font-size:12px;color:var(--ink-2);background:var(--surface-3);border:1px dashed var(--line-2);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:7px}
@@ -372,6 +377,7 @@ function dataIT(iso){ return new Date(iso + "T12:00:00").toLocaleDateString("it-
 function piuGiorni(iso, n){ const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return isoData(d); }
 function giorniTra(a, b){ return Math.round((new Date(b+"T12:00:00") - new Date(a+"T12:00:00")) / 86400000); }
 const giorniFa = iso => giorniTra(iso, oggiISO());
+const nSedute = n => n + (n === 1 ? " seduta" : " sedute");
 const num = (n, d=1) => String(Math.round(n * 10**d) / 10**d).replace(".", ",");
 const segno = n => (n > 0 ? "+" : n < 0 ? "−" : "") + num(Math.abs(n), 1);
 const arrotonda = (v, passo) => Math.max(passo, Math.round(v / passo) * passo);
@@ -713,7 +719,7 @@ function cardBlocco(){
     '<div class="sett">' + sett.join("") + '</div>' +
     '<div class="small muted">' + (b.finito
       ? '<b>Blocco concluso.</b> Compila il questionario nella scheda Report e mandalo al coach.'
-      : 'Settimana <b>' + b.settimana + '</b> di ' + b.settimane + ' · <b class="mono">' + b.sedute.length + '</b> sedute registrate su ' + b.attese + ' previste finora') +
+      : 'Settimana <b>' + b.settimana + '</b> di ' + b.settimane + ' · <b class="mono">' + b.sedute.length + '</b> ' + (b.sedute.length === 1 ? "seduta registrata" : "sedute registrate") + ' su ' + b.attese + ' previste finora') +
     '</div></div>';
 }
 
@@ -732,7 +738,7 @@ function vistaOggi(){
 
   let html = '<div class="stack">';
   html += '<div><div class="eyebrow">' + esc(dataLunga(oggiISO())) + '</div><h1>Allenamento di oggi</h1>' +
-    '<div class="small muted" style="margin-top:3px">Questa settimana: <b class="mono">' + w.n + '</b> sedute · <b class="mono">' + w.serie + '</b> serie · <b class="mono">' + num(w.volume/1000, 1) + '</b> t</div></div>';
+    '<div class="small muted" style="margin-top:3px">Questa settimana: <b class="mono">' + w.n + '</b> ' + (w.n === 1 ? "seduta" : "sedute") + ' · <b class="mono">' + w.serie + '</b> serie · <b class="mono">' + num(w.volume/1000, 1) + '</b> t</div></div>';
   html += cardBlocco();
 
   html += '<div class="giorni">' + s.giorni.map(d =>
@@ -904,12 +910,12 @@ function vistaProgressi(){
     html += '<div class="tiles">' +
       tile("Massimale stimato", num(ultimo.e1rm, 1), "kg", dir === "fermo" ? "stabile da 4 sett." : segno(delta) + " kg in 4 sett.", dir) +
       tile("Record carico", num(recordKg, 2), "kg", "miglior 1RM " + num(record1rm, 1) + " kg", "fermo") +
-      tile("Volume 4 sett.", num(dentro.reduce((t, x) => t + x.volume, 0) / 1000, 1), "t", dentro.length + " sedute", "fermo") +
+      tile("Volume 4 sett.", num(dentro.reduce((t, x) => t + x.volume, 0) / 1000, 1), "t", nSedute(dentro.length), "fermo") +
       tile("Ultima seduta", num(ultimo.kgMax, 2), "kg", dataBreve(ultimo.data) + " · " + ultimo.lavoro.map(s => s.reps).join("·"), "fermo") + '</div>';
     html += '<div class="card" style="padding:13px 11px 9px"><div class="spread" style="padding:0 4px 8px">' +
       '<div class="eyebrow">Massimale stimato (Epley)</div><div class="tiny muted">barre = volume</div></div>' +
       '<div class="chart-box">' + grafico(storia) + '</div></div>';
-    html += '<div class="card" style="overflow:hidden"><table class="st"><thead><tr><th>Data</th><th>Serie</th><th class="num">Carico</th><th class="num">1RM</th><th class="num">Volume</th></tr></thead><tbody>' +
+    html += '<div class="card" style="overflow-x:auto"><table class="st"><thead><tr><th>Data</th><th>Serie</th><th class="num">Carico</th><th class="num">1RM</th><th class="num">Volume</th></tr></thead><tbody>' +
       storia.slice().reverse().slice(0, 14).map(x =>
         '<tr><td class="mono" style="font-size:12px">' + dataBreve(x.data) + '</td>' +
         '<td class="mono" style="font-size:12px">' + x.sets.map(s => (s.att ? "(" + s.reps + ")" : s.reps)).join("·") + '</td>' +
@@ -942,7 +948,7 @@ function grafico(storia){
   const W = 680, H = 250, pl = 48, pr = 22, pt = 26, pb = 32;
   const iw = W - pl - pr, ih = H - pt - pb;
   if (storia.length < 2){
-    return '<svg viewBox="0 0 ' + W + ' 110" role="img" aria-label="Servono almeno due sedute"><text x="' + (W/2) + '" y="58" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="14" fill="var(--ink-3)">Servono almeno due sedute per disegnare la progressione.</text></svg>';
+    return '<p class="small muted" style="margin:0;padding:26px 14px;text-align:center">Servono almeno due sedute per disegnare la progressione.</p>';
   }
   const vals = storia.map(x => x.e1rm);
   const vmin = Math.min.apply(null, vals), vmax = Math.max.apply(null, vals);
@@ -1014,7 +1020,7 @@ function suggerimento(tipo){
     return "Peso attuale " + num(p.ultimo.kg, 1) + " kg, " + (Math.abs(p.delta) < 0.2 ? "stabile" : segno(p.delta) + " kg") + " rispetto a " + num(p.primo.kg, 1) + " kg del " + dataBreve(p.primo.data) + ".";
   }
   if (tipo === "aderenza"){
-    return "Hai registrato " + b.sedute.length + " sedute su " + b.totali + " previste nel blocco (" + Math.round(b.sedute.length / b.totali * 100) + "%).";
+    return "Hai registrato " + nSedute(b.sedute.length) + " su " + b.totali + " previste nel blocco (" + Math.round(b.sedute.length / b.totali * 100) + "%).";
   }
   if (tipo === "note"){
     const note = b.sedute.filter(s => s.note).map(s => dataBreve(s.data) + " " + s.giornoNome + ": " + s.note);
@@ -1045,7 +1051,7 @@ function vistaReport(){
   '</div>';
 
   if (prog.length){
-    html += '<div><div class="eyebrow" style="margin-bottom:7px">Progressioni del blocco</div><div class="card" style="overflow:hidden"><table class="st"><thead><tr>' +
+    html += '<div><div class="eyebrow" style="margin-bottom:7px">Progressioni del blocco</div><div class="card" style="overflow-x:auto"><table class="st"><thead><tr>' +
       '<th>Esercizio</th><th class="num">Da</th><th class="num">A</th><th class="num">Δ 1RM</th></tr></thead><tbody>' +
       prog.map(p => {
         const dir = p.delta > 0.3 ? "su" : p.delta < -0.3 ? "giu" : "fermo";
@@ -1136,6 +1142,7 @@ function avviaTimer(sec, etichetta){
   el.innerHTML = '<span class="t">0:00</span><span class="lbl">' + esc(etichetta || "recupero") + '</span>' +
     '<button data-piu30>+30s</button><button data-stop>Salta</button><span class="prog" style="width:100%"></span>';
   document.body.appendChild(el);
+  document.documentElement.style.setProperty("--timer-h", (el.offsetHeight + 8) + "px");
   let tot = sec, resta = sec;
   const tick = () => {
     el.querySelector(".t").textContent = Math.floor(Math.max(0, resta) / 60) + ":" + String(Math.max(0, resta % 60)).padStart(2, "0");
@@ -1146,7 +1153,11 @@ function avviaTimer(sec, etichetta){
   tick();
   timer = {el, id: setInterval(tick, 1000), piu(){ tot += 30; resta += 30; tick(); }};
 }
-function fermaTimer(){ if (timer){ clearInterval(timer.id); timer.el.remove(); timer = null; } }
+function fermaTimer(){
+  if (!timer) return;
+  clearInterval(timer.id); timer.el.remove(); timer = null;
+  document.documentElement.style.removeProperty("--timer-h");
+}
 function suona(){
   try {
     if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
@@ -1269,6 +1280,7 @@ document.addEventListener("click", ev => {
   if (meno){
     const righe = stato.bozza.sets[meno.dataset.meno];
     if (righe.length > 1){
+      if (righe[righe.length - 1].done && !confirm("Togliere l'ultima serie? L'hai già spuntata.")) return;
       righe.pop();
       $('[data-serie="' + meno.dataset.meno + '"]').lastElementChild.remove();
       salvaLocale(); aggiornaSalva();
@@ -1318,6 +1330,12 @@ document.addEventListener("click", ev => {
       const el = ico.closest("[data-ses]");
       if (el && confirm("Eliminare questo allenamento dallo storico?")){
         stato.sessioni = stato.sessioni.filter(s => s.id !== el.dataset.ses);
+        // la bozza era precompilata con l'obiettivo calcolato anche su questa seduta: se non c'è ancora niente di spuntato la rifaccio
+        if (stato.bozza && !contaFatte()){
+          const note = stato.bozza.note;
+          stato.bozza = creaBozza(stato.bozza.giornoId);
+          if (stato.bozza) stato.bozza.note = note;
+        }
         eliminaSessione(el.dataset.ses);
         render();
       }

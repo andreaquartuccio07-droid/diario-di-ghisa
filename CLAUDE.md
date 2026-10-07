@@ -51,7 +51,8 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 | Qualsiasi modifica grafica: colori, font, misure, componenti | skill `stile-ghisa` (`.claude/skills/`), prima delle altre |
 | Token nuovi, tema chiaro/scuro | skill `design-system` |
 | Modifica alla forma dei dati salvati | agente `Plan` prima di scrivere codice, e backup dell'utente |
-| Dopo una modifica consistente | agente `revisore-pwa` (`.claude/agents/`) |
+| Dopo una modifica consistente | agente `revisore-pwa` (`.claude/agents/`): rilegge il codice |
+| Dopo una modifica all'app, prima del rilascio | agente `tester` (`.claude/agents/`): prova l'app in un browser vero con Playwright |
 | Fine di ogni modifica all'app | skill `rilascio` (`.claude/skills/`) |
 | Vedere la modifica funzionare | skill `run` |
 | Questionario di fine blocco da mandare al coach | connettore Gmail: crea una **bozza**, non inviare |
@@ -59,9 +60,13 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 
 - Non usare la skill `ui-styling`: porta Tailwind e shadcn, vietati dalla regola sulle librerie.
 - L'hook in `.claude/settings.json` blocca la chiusura del turno se l'app è cambiata e `VERSIONE` no.
-- I connettori (Gmail, Drive) sono legati all'account claude.ai, non a file del repo. Server MCP
-  specifici del progetto andrebbero in `.mcp.json` nella radice; i plugin in `enabledPlugins` di
-  `.claude/settings.json`. Al momento non ne serve nessuno.
+- I connettori (Gmail, Drive) sono legati all'account claude.ai, non a file del repo.
+- `.mcp.json` nella radice dichiara il server MCP `playwright` (`npx @playwright/mcp@latest`, avviato
+  con `cmd /c` perché su Windows `npx` da solo non parte). Lo usa l'agente `tester`. Va approvato una
+  volta con `/mcp`; se gli strumenti `mcp__playwright__*` mancano, dillo invece di saltare la prova.
+- Il `tester` lavora su `http://localhost:5188` con un profilo del browser suo: i dati che inserisce
+  sono finti e non toccano quelli dell'utente. Non modifica file.
+- Plugin: andrebbero in `enabledPlugins` di `.claude/settings.json`. Al momento non ne serve nessuno.
 
 ## Da sapere
 

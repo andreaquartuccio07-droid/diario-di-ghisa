@@ -25,6 +25,8 @@ Non fa parte dell'app. Serve a far lavorare meglio Claude su questo progetto.
 | `.claude/skills/stile-ghisa/` | Le regole grafiche: colori, caratteri, misure, componenti. |
 | `.claude/skills/rilascio/` | La procedura da seguire quando pubblico una modifica. Si richiama scrivendo `/rilascio`. |
 | `.claude/agents/revisore-pwa.md` | Un "controllore" che rilegge il codice e cerca errori, senza modificare niente. |
+| `.claude/agents/tester.md` | Un "collaudatore" che apre l'app in un browser e la prova come farei io: aggiunge e cancella serie, ricarica, la usa offline, a schermo da telefono. Poi dice cosa funziona e cosa no. |
+| `.mcp.json` (fuori da `.claude`) | Collega Claude Code a Playwright, il programma che comanda il browser per il collaudatore. |
 
 ## File di servizio
 

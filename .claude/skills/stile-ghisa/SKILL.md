@@ -115,8 +115,14 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
 ## Bersagli
 
 Tutto ciò che si tocca fra una serie e l'altra è alto almeno **48px** (minimo assoluto 44px).
-Alcuni elementi esistenti sono più piccoli (`.tick` 42px, `.icobtn` 32px, menu ⋯ 33px): non usarli
-come misura per quelli nuovi, e se li ritocchi portali a misura.
+Spunta, `+ serie` / `− serie`, Salva e i bottoni del timer sono a 48px. Menu ⋯ e le sue voci, `.btn.sm`,
+"Elimina allenamento" e i cursori del questionario sono a 44px. Restano a 32px solo i `.icobtn` nelle
+righe di Scheda (quattro per riga: a 44px schiaccerebbero il nome dell'esercizio): non usarli come
+misura per elementi nuovi.
+
+Il timer di recupero scrive la propria altezza in `--timer-h` su `<html>` finché è a schermo:
+`.salva-bar` e il padding di `main` la sommano per non finirci sotto. Ogni altro elemento fisso in
+basso deve fare lo stesso.
 
 ## Layout
 
