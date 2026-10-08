@@ -6,6 +6,17 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v7 — 8 ottobre 2026
+
+**Icona della Home con un nome nuovo.**
+
+- Aggiungendo l'app alla Home l'iPhone mostrava una "G" al posto del disco di ghisa: è il segnaposto
+  che mette quando non riesce a prendere l'icona. Il file pubblicato era giusto, quindi l'icona per
+  l'iPhone ora ha un nome nuovo (`icons/ghisa-home-180.png`), così non può usare una copia vecchia o
+  rimasta a metà.
+- Quando si aggiunge l'app alla Home, nella finestra "Aggiungi alla schermata Home" si vede
+  l'anteprima dell'icona: se non è il disco, annullare, aspettare qualche secondo e riprovare.
+
 ## ghisa-v6 — 8 ottobre 2026
 
 **Grafica nuova ("Abisso") e icona nuova. Solo aspetto: funzioni e dati salvati sono gli stessi.**

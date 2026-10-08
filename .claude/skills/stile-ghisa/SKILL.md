@@ -216,7 +216,9 @@ Il disegno sta in `icons/icona-sorgente.html` (SVG a mano, non fa parte dell'app
 Per rifare i PNG: servire la cartella del progetto in locale, aprire
 `icons/icona-sorgente.html?solo=i2&px=512` con Playwright e fare lo screenshot alla misura giusta
 (`i2` per le icone normali, `i2m` per la maskable, col disco dentro l'80% centrale).
-Misure: 512, 192, maskable 512, apple-touch 180, favicon 32. Le icone sono quadrate a tutto campo:
+Misure: 512, 192, maskable 512, apple-touch 180, favicon 32. L'icona per l'iPhone è `icons/ghisa-home-180.png`
+(è quella dichiarata nell'`<head>`); `apple-touch-icon.png` è la stessa immagine, tenuta per le copie già installate.
+Se l'icona cambia ancora, dare al file un nome nuovo: l'iPhone tiene in memoria quella vecchia per nome. Le icone sono quadrate a tutto campo:
 gli angoli li arrotonda il telefono.
 
 ## Checklist prima di chiudere una modifica grafica
