@@ -1,7 +1,7 @@
 /* Service worker del Diario di Ghisa.
    Tiene l'app in cache cosi' parte subito e funziona anche senza campo in palestra.
    Alzare VERSIONE a ogni rilascio: la cache vecchia viene buttata e l'app avvisa di aggiornare. */
-const VERSIONE = "ghisa-v5";
+const VERSIONE = "ghisa-v6";
 const CACHE_APP = VERSIONE + "-app";
 
 const GUSCIO = [
@@ -13,7 +13,8 @@ const GUSCIO = [
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
   "./icons/favicon-32.png",
-  "./fonts/archivo.woff2",
+  "./fonts/barlow-condensed-600.woff2",
+  "./fonts/barlow-condensed-700.woff2",
   "./fonts/ibm-plex-sans.woff2",
   "./fonts/ibm-plex-mono-500.woff2",
   "./fonts/ibm-plex-mono-600.woff2",

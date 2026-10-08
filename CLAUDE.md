@@ -9,7 +9,7 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
 - **Un file solo per l'app**: tutto in `index.html` (HTML + `<style>` + `<script>` inline).
   Non spezzarlo in più file senza che l'utente lo chieda.
 - **Niente librerie né risorse esterne**: grafici in SVG scritto a mano, font in locale in `fonts/`
-  (Archivo, IBM Plex Sans, IBM Plex Mono, sottoinsieme latino) dichiarati con `@font-face` in `index.html`.
+  (Barlow Condensed, IBM Plex Sans, IBM Plex Mono, sottoinsieme latino) dichiarati con `@font-face` in `index.html`.
   Il service worker serve solo file della propria origine: una risorsa esterna rompe l'offline.
 - **A ogni modifica dell'app alza `VERSIONE` in `sw.js`** (`ghisa-v1` → `ghisa-v2`): senza quello
   i telefoni restano sulla copia vecchia in cache. Se aggiungi file da far funzionare offline,
@@ -18,8 +18,8 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
   `prefers-color-scheme: dark`, `[data-theme="dark"]`). Mai colori letterali nei componenti.
 - **Mobile first**: si usa col telefono in mano fra una serie e l'altra. Bersagli grandi,
   niente interazioni che richiedano precisione, attenzione alle `env(safe-area-inset-*)`.
-- Le icone si rigenerano con uno script PowerShell + System.Drawing (non è nel repo):
-  barra e dischi gialli `#F5C518` su grafite `#131619`.
+- Le icone si rigenerano da `icons/icona-sorgente.html` (SVG a mano) con uno screenshot di Playwright,
+  come spiegato nella skill `stile-ghisa`: un disco di ghisa con scritte ciano su fondo blu abisso.
 
 ## Struttura del codice
 
@@ -45,7 +45,9 @@ service worker e mostra la striscia "Nuova versione disponibile"):
 - `andamento()` / `apriStorico()` — indicatore di progresso e pannello dal basso (`#dlg-storico`).
 - `aggiornaBozza()` — da usare dopo ogni modifica alla scheda: a metà allenamento non butta via le
   serie spuntate. Non chiamare `creaBozza()` direttamente in quei punti.
-- `blocco()` / `progressioniBlocco()` — stato del blocco di 6 settimane e delta dei carichi.
+- `blocco()` / `progressioniBlocco()` — stato del blocco di 6 settimane e delta dei carichi. Nel Report
+  e nel testo per il coach ogni esercizio riporta le serie intere di prima e ultima seduta
+  (`serieDa` / `serieA`): il coach deve vedere "80×5 · 70×8·8·8", non un solo carico.
 - `vistaOggi()`, `vistaScheda()`, `vistaProgressi()`, `vistaReport()` — le quattro schermate.
 - Persistenza: `localStorage`, chiave `diario-ghisa-v2`. Resta il codice che usa `claude.use("db")`
   per la vecchia versione Artifact: fuori da claude.ai `window.claude` non esiste, `avviaSync()`
@@ -82,6 +84,9 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 
 ## Da sapere
 
+- **Storia e stato del progetto**: `spiegazione/storia-delle-modifiche.md` elenca cosa è cambiato a ogni
+  versione, cosa resta da provare sull'iPhone, cosa è stato lasciato così apposta e i limiti noti.
+  Leggilo prima di lavorare su un problema e aggiungi una voce in cima a ogni rilascio.
 - I dati stanno **solo sul dispositivo**. Prima di modifiche rischiose alla struttura dei dati,
   ricordare all'utente di fare Esporta backup (.json) dal menu ⋯.
 - Recuperi voluti dall'utente: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio

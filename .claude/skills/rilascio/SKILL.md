@@ -52,6 +52,10 @@ Se non riesci a provare qualcosa, dillo chiaramente invece di darlo per buono.
 
 ## 6. Chiusura
 
+Aggiungi una voce in cima a `spiegazione/storia-delle-modifiche.md`: versione, data, cosa è cambiato
+in parole semplici. Aggiorna anche le sezioni in fondo (da provare sull'iPhone, lasciato così apposta,
+limiti) se la modifica le tocca.
+
 Riassumi all'utente: cosa è cambiato, versione vecchia → nuova, cosa hai provato e cosa no.
 Commit e push **solo se l'utente li chiede**. Dopo il push, sul telefono compare la striscia
 "Nuova versione disponibile": va toccato "Aggiorna".

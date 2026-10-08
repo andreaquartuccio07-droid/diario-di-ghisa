@@ -81,7 +81,7 @@ Poi togli la rete:
   `taskkill //PID <pid> //F`): per un'app che carica tutto dalla propria origine è equivalente.
 
 Senza rete: ricarica. L'app deve partire, con i font giusti (verifica con
-`document.fonts.check('700 16px Archivo')` e lo stesso per `"IBM Plex Sans"` e `"IBM Plex Mono"`),
+`document.fonts.check('700 16px "Barlow Condensed"')` e lo stesso per `"IBM Plex Sans"` e `"IBM Plex Mono"`),
 senza richieste fallite verso l'esterno (`browser_network_requests`). Ripeti in breve le prove 1 e 3:
 aggiungi una serie, ricarica, deve esserci. Poi rimetti la rete o riavvia il server.
 
@@ -115,7 +115,7 @@ timer da 2:30 con etichetta "recupero superserie · nome". In Oggi e in Scheda i
 "senza pausa", il secondo "rec 2:30".
 
 ### 11. Fine timer
-A zero la barra diventa gialla con "0:00", "Tempo! Riparti" e il solo bottone "Stop"; la sveglia
+A zero la barra diventa ciano con "0:00", "Tempo! Riparti" e il solo bottone "Stop"; la sveglia
 squilla ogni 1,5 secondi (tre bip e una vibrazione, viste dalle spie) finché non tocchi Stop, e si
 chiude da sola dopo 40 squilli. Con Stop squilli e vibrazione si fermano davvero e Salva torna al
 suo posto. Durante il recupero viene chiesto di tenere acceso lo schermo (`navigator.wakeLock`).

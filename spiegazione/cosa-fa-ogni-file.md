@@ -12,7 +12,7 @@ Sono i file che finiscono sul telefono.
 | `sw.js` | Fa funzionare l'app offline, salvandola sul telefono. Contiene `VERSIONE`: va alzata a ogni modifica, altrimenti il telefono resta sulla copia vecchia. |
 | `manifest.webmanifest` | Nome, icona e colori dell'app quando la installo sul telefono. |
 | `icons/` | Le icone dell'app. |
-| `fonts/` | I caratteri di scrittura (Archivo, IBM Plex Sans, IBM Plex Mono), salvati qui così ci sono anche senza campo. |
+| `fonts/` | I caratteri di scrittura (Barlow Condensed, IBM Plex Sans, IBM Plex Mono), salvati qui così ci sono anche senza campo. |
 
 ## Cartella `.claude` — roba per Claude Code
 
@@ -37,7 +37,7 @@ Non fa parte dell'app. Serve a far lavorare meglio Claude su questo progetto.
 | `anteprima.mjs` | Apre l'app sul computer per provarla: `node anteprima.mjs`, poi `http://localhost:5173` nel browser. Serve perché l'offline non funziona aprendo `index.html` con doppio clic. |
 | `.gitignore` | Dice a git quali file ignorare. |
 | `.nojekyll` | Serve a GitHub Pages, il sito dove l'app viene pubblicata. |
-| `spiegazione/` | Questa cartella. |
+| `spiegazione/` | Questa cartella. Dentro c'è anche `storia-delle-modifiche.md`: tutto quello che è stato fatto all'app, versione per versione, e cosa resta da provare. |
 
 ## Le lettere accanto ai file in VS Code
 
