@@ -685,7 +685,7 @@ function progressioniBlocco(){
     if (storia.length < 2) return;
     const a = storia[0], z = storia[storia.length - 1];
     out.push({nome: e.nome, gruppo: e.gruppo, sedute: storia.length, da: a.e1rm, a: z.e1rm, delta: z.e1rm - a.e1rm,
-      kgDa: a.kgMax, kgA: z.kgMax, deltaKg: z.kgMax - a.kgMax, pct: a.e1rm ? (z.e1rm - a.e1rm) / a.e1rm * 100 : 0});
+      kgDa: a.kgMax, kgA: z.kgMax, deltaKg: z.kgMax - a.kgMax, serieDa: serieGruppi(a.sets).join(" · "), serieA: serieGruppi(z.sets).join(" · "), pct: a.e1rm ? (z.e1rm - a.e1rm) / a.e1rm * 100 : 0});
   });
   return out.sort((x, y) => y.pct - x.pct);
 }
@@ -1165,11 +1165,13 @@ function vistaReport(){
 
   if (prog.length){
     html += '<div><div class="eyebrow" style="margin-bottom:7px">Progressioni del blocco</div><div class="card" style="overflow-x:auto"><table class="st"><thead><tr>' +
-      '<th>Esercizio</th><th class="num">Da</th><th class="num">A</th><th class="num">Δ 1RM</th></tr></thead><tbody>' +
+      '<th>Esercizio · prima e ultima seduta</th><th class="num">Δ 1RM</th></tr></thead><tbody>' +
       prog.map(p => {
         const dir = p.delta > 0.3 ? "su" : p.delta < -0.3 ? "giu" : "fermo";
-        return '<tr><td><div style="font-weight:600;font-size:13px">' + esc(p.nome) + '</div><div class="tiny muted">' + p.sedute + ' sedute</div></td>' +
-          '<td class="num">' + num(p.kgDa, 2) + '</td><td class="num">' + num(p.kgA, 2) + '</td>' +
+        return '<tr><td><div style="font-weight:600;font-size:13px">' + esc(p.nome) + '</div>' +
+          '<div class="tiny muted">da <span class="mono">' + p.serieDa + '</span></div>' +
+          '<div class="small">a <span class="mono">' + p.serieA + '</span></div>' +
+          '<div class="tiny muted">' + p.sedute + ' sedute</div></td>' +
           '<td class="num"><span class="delta" data-dir="' + dir + '">' + segno(p.delta) + '</span></td></tr>';
       }).join("") + '</tbody></table></div></div>';
   } else {
@@ -1224,9 +1226,9 @@ function testoQuestionario(){
     L.push("");
   });
   if (prog.length){
-    L.push("--- PROGRESSIONI DI CARICO DEL BLOCCO (massimale stimato) ---");
+    L.push("--- PROGRESSIONI DI CARICO DEL BLOCCO (kg x ripetizioni di ogni serie: prima -> ultima seduta; massimale stimato) ---");
     prog.forEach(p => {
-      L.push("  " + p.nome + ": " + num(p.kgDa, 2) + " -> " + num(p.kgA, 2) + " kg   1RM " + num(p.da, 1) + " -> " + num(p.a, 1) + " (" + segno(p.delta) + " kg, " + segno(p.pct) + "%)  su " + p.sedute + " sedute");
+      L.push("  " + p.nome + ": " + p.serieDa + "  ->  " + p.serieA + "   1RM " + num(p.da, 1) + " -> " + num(p.a, 1) + " (" + segno(p.delta) + " kg, " + segno(p.pct) + "%)  su " + p.sedute + " sedute");
     });
     L.push("");
   }
