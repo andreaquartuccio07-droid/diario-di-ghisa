@@ -21,6 +21,15 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
 - Le icone si rigenerano da `icons/icona-sorgente.html` (SVG a mano) con uno screenshot di Playwright,
   come spiegato nella skill `stile-ghisa`: un disco di ghisa con scritte ciano su fondo blu abisso.
 
+- **Stile "Abisso"** (dalla v6, scelto dall'utente): fondo chiaro con fascia di luce ciano in alto, riquadri
+  di vetro chiaro, e in vetro scuro solo ciò che conta (obiettivo, timer, barra in basso, giorno scelto).
+  Ciano come colore principale, niente viola/fucsia. Il tema chiaro è quello che l'utente usa sempre.
+  Kg e ripetizioni a 24px: misura approvata, a 32px li ha trovati troppo grandi. Tutti i dettagli nella
+  skill `stile-ghisa`: leggila prima di toccare qualsiasi cosa di grafico.
+- `--aurora-top` è anche il `theme-color` nell'`<head>` e nel manifest: i tre valori vanno cambiati insieme.
+- `backdrop-filter` solo su elementi fissi (intestazione, timer, barra in basso, avvisi), mai sulle card
+  che scorrono: sul telefono rallenta.
+
 ## Struttura del codice
 
 Tutto dentro una IIFE in fondo a `index.html` (più un secondo `<script>` che registra il
@@ -95,6 +104,14 @@ sull'account. Usali senza aspettare che l'utente li nomini:
   piano. Per questo durante il recupero si tiene acceso lo schermo (`navigator.wakeLock`). Suono,
   silenzioso e schermo acceso si possono verificare solo sul telefono vero ("Prova la sveglia" nel menu ⋯).
 - Fuori da claude.ai "Esporta backup" usa il foglio di condivisione sul telefono e un download sul computer.
+- **Icona su iPhone**: non si aggiorna da sola e, se l'iPhone non riesce a scaricarla mentre si aggiunge
+  l'app, mette una lettera "G" come segnaposto. Per questo l'icona dichiarata nell'`<head>` è
+  `icons/ghisa-home-180.png`: se l'icona cambia ancora, darle un nome nuovo (e metterlo in `GUSCIO`).
+  Per vederla l'utente deve aggiungere di nuovo l'app da Safari; ogni icona sulla Home ha dati separati,
+  quindi la procedura sicura è: Esporta backup dalla vecchia → aggiungi la nuova (controllando
+  l'anteprima) → Importa backup → verifica in Progressi → solo allora elimina la vecchia.
+- Per proporre una grafica nuova: prima domande a scelta multipla, poi 2-3 anteprime vere (pagine di prova
+  fuori dall'app, screenshot con Playwright in `.playwright-mcp/`, che git ignora), e sceglie l'utente.
 - Esiste una vecchia copia come Artifact su claude.ai
   (`https://claude.ai/code/artifact/b3e22f10-69b3-4072-8ef5-94c23e2c5705`), non più allineata.
   Per ripubblicarla andrebbe tolto l'involucro `<!doctype html>`/`<head>`/`<body>` da `index.html`,

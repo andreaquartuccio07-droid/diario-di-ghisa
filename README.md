@@ -11,7 +11,8 @@ anche senza connessione.
 | `index.html` | l'app: HTML, CSS e JavaScript in un file solo |
 | `manifest.webmanifest` | nome, icone e modo di apertura dell'app installata |
 | `sw.js` | service worker: tiene l'app in cache per l'uso offline |
-| `icons/` | icone generate (192, 512, maskable, apple-touch, favicon) |
+| `icons/` | icone (192, 512, maskable, 180 per iPhone, favicon) e `icona-sorgente.html`, il disegno da cui si ricavano |
+| `fonts/` | i caratteri dell'app, in locale: Barlow Condensed, IBM Plex Sans, IBM Plex Mono |
 | `anteprima.mjs` | server statico per provarla in locale |
 
 ## Provarla sul PC
@@ -45,6 +46,10 @@ Da quel momento l'icona apre l'app a schermo intero, senza barra del browser, an
 Quando modifichi l'app, **alza `VERSIONE` in `sw.js`** (es. `ghisa-v1` → `ghisa-v2`) prima di
 pubblicare: altrimenti i telefoni continuano a usare la copia in cache. Alla prima apertura
 successiva l'app mostra la striscia "Nuova versione disponibile" con il pulsante per aggiornare.
+
+**Icona su iPhone.** L'iPhone tiene l'icona del giorno in cui hai aggiunto l'app: "Aggiorna" cambia
+l'app ma non l'icona. Per avere un'icona nuova va aggiunta di nuovo l'app da Safari, e la nuova parte
+vuota: esporta il backup dalla vecchia, aggiungi la nuova, importa il backup, e solo dopo elimina la vecchia.
 
 ## I tuoi dati
 

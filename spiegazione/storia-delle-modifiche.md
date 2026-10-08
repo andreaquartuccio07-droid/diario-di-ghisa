@@ -16,6 +16,8 @@ Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
   rimasta a metà.
 - Quando si aggiunge l'app alla Home, nella finestra "Aggiungi alla schermata Home" si vede
   l'anteprima dell'icona: se non è il disco, annullare, aspettare qualche secondo e riprovare.
+- Provato sull'iPhone l'8 ottobre: app riaggiunta alla Home da Safari, icona col disco, backup
+  esportato dall'app vecchia e importato in quella nuova senza perdere niente.
 
 ## ghisa-v6 — 8 ottobre 2026
 
@@ -116,15 +118,12 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 - Grafica nuova: i numeri si leggono sotto le luci della palestra? La barra in alto dell'iPhone (ora,
   batteria) ha lo stesso azzurro dell'intestazione, senza una fascia bianca sopra?
 - Lo scorrimento della pagina è fluido come prima, anche col timer a schermo?
-- Icona nuova: per vederla bisogna togliere l'app dalla Home e rimetterla da Safari ("Aggiungi a Home").
-  Prima fai Esporta backup: togliendo l'app l'iPhone può cancellare i dati salvati.
 - Suono della sveglia: menu ⋯ → "Prova la sveglia", col tasto silenzioso spento e acceso.
 - Musica: con "Sveglia col silenzioso: sì" la sveglia mette in pausa la musica; con "no" si mescola
   ma col silenzioso tace.
 - Schermo che resta acceso durante un recupero vero.
 - Uscire dall'app e rientrare a recupero in corso: il tempo deve essere giusto.
 - Pannello dello storico: i bottoni in fondo non devono finire sotto la barra dell'iPhone.
-- "Esporta backup": deve aprirsi il foglio di condivisione.
 
 ## Lasciato così apposta
 
@@ -135,10 +134,19 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 - In Progressi la tessera "Record carico" mostra un numero solo: il carico più pesante mai sollevato,
   serie pesante compresa.
 - Se si ricarica la pagina mentre la sveglia sta suonando, la sveglia sparisce.
+- Nei grafici i numeri dell'asse a sinistra toccano la prima barra del volume. C'era già prima della
+  grafica nuova; per sistemarlo va cambiato il disegno del grafico, non solo lo stile.
+- Sul computer (schermo largo) la barra delle schede copre la prima voce del menu ⋯. Sul telefono no.
+- Il "vetro" dei riquadri che scorrono è finto (bianco semitrasparente senza sfocatura): la sfocatura
+  vera è solo su intestazione, timer, barra in basso e avvisi, per non rallentare lo scorrimento.
 
 ## Limiti che non si possono togliere
 
 - Su iPhone un'app web non può vibrare.
+- Su iPhone l'icona sulla Home non si aggiorna da sola: resta quella del giorno in cui si è aggiunta
+  l'app. Per cambiarla bisogna aggiungere di nuovo l'app da Safari. Ogni icona sulla Home ha i suoi
+  dati separati, quindi: Esporta backup dalla vecchia, aggiungi la nuova, Importa backup, controlla
+  in Progressi, e solo alla fine elimina la vecchia.
 - Su iPhone la sveglia suona solo con l'app aperta e lo schermo acceso: non a schermo spento, non
   con un'altra app davanti.
 - Gli schemi misti riconosciuti sono solo "1×N + M×R" (una serie iniziale più le serie di lavoro).

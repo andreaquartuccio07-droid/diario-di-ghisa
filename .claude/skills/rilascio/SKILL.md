@@ -40,6 +40,11 @@ Se `git diff HEAD -- sw.js` mostra già la riga `VERSIONE` cambiata, non alzarla
 
 Ogni file che l'app carica dalla propria origine deve stare in `GUSCIO`.
 
+Se è cambiata l'icona: l'iPhone non la aggiorna da sola e tiene in memoria quella vecchia per nome.
+Dai al file per iPhone un nome nuovo (oggi `icons/ghisa-home-180.png`), aggiorna il `<link rel="apple-touch-icon">`
+e `GUSCIO`, e nel riassunto spiega all'utente la procedura sicura per riaggiungere l'app alla Home
+(backup dalla vecchia, nuova icona, importa, verifica, poi elimina la vecchia: vedi `CLAUDE.md`).
+
 ## 5. Prova
 
 Apri l'app con la skill `run` (o `node anteprima.mjs` se è quello che usa il progetto) e controlla:

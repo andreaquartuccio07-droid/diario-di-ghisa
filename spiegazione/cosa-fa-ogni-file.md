@@ -11,7 +11,7 @@ Sono i file che finiscono sul telefono.
 | `index.html` | È l'app. Grafica, logica, tutto sta qui. |
 | `sw.js` | Fa funzionare l'app offline, salvandola sul telefono. Contiene `VERSIONE`: va alzata a ogni modifica, altrimenti il telefono resta sulla copia vecchia. |
 | `manifest.webmanifest` | Nome, icona e colori dell'app quando la installo sul telefono. |
-| `icons/` | Le icone dell'app. |
+| `icons/` | Le icone dell'app: il disco di ghisa in varie misure. `ghisa-home-180.png` è quella che usa l'iPhone. `icona-sorgente.html` è il disegno da cui Claude le ricava: non finisce sul telefono. |
 | `fonts/` | I caratteri di scrittura (Barlow Condensed, IBM Plex Sans, IBM Plex Mono), salvati qui così ci sono anche senza campo. |
 
 ## Cartella `.claude` — roba per Claude Code
@@ -52,5 +52,7 @@ Spariscono dopo il commit. Finché non faccio commit e push, il telefono non ved
 - "Sveglia col silenzioso: sì" la fa sentire anche col tasto silenzioso ma mette in pausa la musica; "no" la mescola alla musica ma col silenzioso tace.
 - Su iPhone la sveglia suona solo con l'app aperta e lo schermo acceso (l'app prova a tenerlo acceso da sola durante il recupero). Non vibra: Apple non lo permette alle app web.
 
+- La grafica si chiama "Abisso": fondo chiaro, azzurro in alto, riquadri di vetro, timer e barra in basso scuri. Le regole stanno in `.claude/skills/stile-ghisa/`.
+- L'icona sulla Home dell'iPhone non cambia con "Aggiorna". Per cambiarla: Esporta backup, aggiungi di nuovo l'app da Safari, Importa backup nella nuova, controlla in Progressi, poi elimina la vecchia.
 - I miei dati di allenamento stanno **solo sul telefono**, non in questi file. Prima di modifiche grosse: menu ⋯ → Esporta backup (.json).
 - Dopo una modifica pubblicata, sul telefono compare "Nuova versione disponibile": va toccato "Aggiorna".
