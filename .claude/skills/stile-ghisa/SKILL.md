@@ -111,6 +111,16 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
   Da 760px in su diventa una barra in alto.
 - **Stato vuoto** `.vuoto`: un titolo, una riga in `--ink-2`, un bottone per l'azione giusta. Mai uno schermo bianco.
 - **Avvisi** `.toast`, `.timer`, `.aggiorna`: colori invertiti (`--ink` come sfondo, `--bg` come testo).
+  Il `.toast` sta in alto sotto l'intestazione (in basso copriva Salva e il timer) e non intercetta i tocchi.
+- **Sveglia** `.timer.suona`: a tempo scaduto la barra del timer diventa `--accent` con testo `--on-accent`,
+  scritta grande in Archivo e un solo bottone "Stop".
+- **Storico** `.storico-btn`: la riga "Ultima …" in cima alla card è un bottone alto almeno 48px, con i
+  numeri in mono, l'indicatore `.delta` (▲ / ▼ / =) e una freccia a destra.
+- **Pannello dal basso** `dialog.foglio`: attaccato al fondo su telefono, centrato da 760px in su;
+  testata con titolo e × da 44px, corpo che scorre, due bottoni da 48px in fondo. Nessun `.btn.primary`
+  dentro: quello della schermata resta Salva.
+- **Grafici**: `grafico(storia, larghezza)` si disegna alla larghezza vera dello spazio, così i numeri
+  restano a 11-13px anche a 320px. Mai un SVG largo rimpicciolito con `viewBox`.
 
 ## Bersagli
 

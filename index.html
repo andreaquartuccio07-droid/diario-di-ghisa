@@ -178,6 +178,7 @@ h3{font-size:15px;font-weight:700}
 /* --timer-h: altezza del timer di recupero quando e' a schermo (la imposta avviaTimer), cosi' Salva gli sta sopra */
 .salva-bar{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom) + var(--timer-h,0px));z-index:30;padding-top:6px}
 .salva-bar .btn{min-height:48px}
+.salva-bar .btn:disabled{opacity:1;background:var(--surface-2);border-color:var(--line-2);color:var(--ink-3)}
 @media(min-width:760px){.salva-bar{bottom:calc(16px + var(--timer-h,0px))}}
 
 .timer{position:fixed;left:13px;right:13px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:46;max-width:734px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:12px;padding:6px 6px 6px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
@@ -187,6 +188,9 @@ h3{font-size:15px;font-weight:700}
 .timer button{background:transparent;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);color:inherit;border-radius:8px;min-height:48px;padding:6px 12px;font-size:13px;font-weight:600}
 .timer .prog{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);border-radius:0 3px 3px 0;transition:width .95s linear}
 @media(prefers-reduced-motion:reduce){.timer .prog{transition:none}}
+.timer.suona{background:var(--accent);color:var(--on-accent)}
+.timer.suona .lbl{opacity:1;font-family:Archivo,sans-serif;font-size:16px;font-weight:700;letter-spacing:0;text-transform:none}
+.timer.suona button{border-color:color-mix(in srgb,var(--on-accent) 45%,transparent);min-width:88px}
 
 .giorno-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
 .giorno-head{display:flex;align-items:center;gap:7px;padding:9px 9px 9px 13px;background:var(--surface-3);border-bottom:1px solid var(--line)}
@@ -213,7 +217,7 @@ h3{font-size:15px;font-weight:700}
 
 .sel{width:100%;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:10px 11px;font-weight:600}
 .chart-box{overflow-x:auto}
-.chart-box svg{display:block;width:100%;height:auto;min-width:300px}
+.chart-box svg{display:block;width:100%;height:auto;min-width:250px}
 
 table.st{width:100%;border-collapse:collapse;font-size:13px}
 table.st th{text-align:left;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:7px 9px;border-bottom:1px solid var(--line)}
@@ -238,11 +242,26 @@ table.st td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabul
 .scala{display:flex;align-items:center;gap:12px}
 .scala input[type=range]{flex:1;accent-color:var(--accent);height:44px}
 .scala .val{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
-.scala-lab{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
+.scala-lab span:last-child{text-align:right}
+.scala-lab{display:flex;justify-content:space-between;gap:14px;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
 .sugg{font-size:12px;color:var(--ink-2);background:var(--surface-3);border:1px dashed var(--line-2);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:7px}
 .sugg b{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
 
 dialog{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink);padding:0;width:min(460px,calc(100vw - 24px));box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.storico-btn{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;text-align:left;background:var(--surface-3);border:1px solid var(--line);border-radius:10px;padding:7px 8px 7px 11px;color:var(--ink-2)}
+.storico-btn .testo{flex:1;min-width:0;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:12.5px;font-weight:500;line-height:1.4}
+.storico-btn .delta{font-size:12.5px;white-space:nowrap}
+.storico-btn svg{width:16px;height:16px;flex:0 0 auto;color:var(--ink-3)}
+dialog.foglio{width:100%;max-width:760px;max-height:88vh;max-height:88dvh;margin:auto auto 0;border-bottom:0;border-radius:var(--r) var(--r) 0 0;padding-bottom:env(safe-area-inset-bottom)}
+dialog.foglio[open]{display:flex;flex-direction:column}
+.foglio .dlg-head{display:flex;align-items:center;gap:10px}
+.foglio .dlg-head .icobtn{width:44px;height:44px;margin-left:auto}
+.foglio .dlg-body{max-height:none;flex:1;min-height:0}
+.foglio .dlg-body>*{flex:0 0 auto}
+.foglio .dlg-foot .btn{min-height:48px;flex:1}
+.foglio .tiles{grid-template-columns:1fr 1fr}
+.foglio .tile .v .delta{font-size:19px}
+@media(min-width:760px){dialog.foglio{margin:auto;width:min(620px,calc(100vw - 24px));border-bottom:1px solid var(--line);border-radius:var(--r)}}
 dialog::backdrop{background:rgba(8,11,14,.55)}
 .dlg-head{padding:13px 15px;border-bottom:1px solid var(--line)}
 .dlg-body{padding:13px 15px;display:flex;flex-direction:column;gap:11px;max-height:66vh;overflow:auto}
@@ -254,8 +273,8 @@ label.ck input{width:20px;height:20px;accent-color:var(--accent)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:100px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);max-width:92vw;text-align:center}
-@media(min-width:760px){.toast{bottom:24px}}
+.toast{position:fixed;left:13px;right:13px;margin:0 auto;width:fit-content;top:calc(64px + env(safe-area-inset-top));z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:100px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);max-width:min(92vw,520px);text-align:center;pointer-events:none}
+@media(min-width:760px){.toast{top:auto;bottom:24px}}
 
 /* ---------- installata come app sul telefono ---------- */
 body{-webkit-tap-highlight-color:transparent}
@@ -286,6 +305,9 @@ header.top{padding-top:env(safe-area-inset-top)}
       <div class="menu-pop">
         <button data-azione="esporta">Esporta backup (.json)</button>
         <button data-azione="importa">Importa backup…</button>
+        <hr>
+        <button data-azione="prova-sveglia">Prova la sveglia</button>
+        <button data-azione="silenzioso" id="voce-silenzioso">Sveglia col silenzioso</button>
         <hr>
         <button data-azione="nuovo-blocco">Inizia un nuovo blocco</button>
         <button data-azione="ripristina">Ripristina la scheda del coach</button>
@@ -338,13 +360,25 @@ header.top{padding-top:env(safe-area-inset-top)}
       </div>
       <label class="f">Tecnica sull'ultima serie<input name="tecnica" maxlength="40" placeholder="es. rest-pause ×2"></label>
       <label class="f">Nota del coach<input name="nota" maxlength="140" placeholder="es. seduto a terra, piedi piantati"></label>
-      <label class="ck"><input type="checkbox" name="superset"> In superset con l'esercizio successivo</label>
+      <label class="ck"><input type="checkbox" name="superset"> In superserie con l'esercizio successivo</label>
     </div>
     <div class="dlg-foot">
       <button class="btn ghost" value="annulla" formnovalidate>Annulla</button>
       <button class="btn primary" value="ok">Salva</button>
     </div>
   </form>
+</dialog>
+
+<dialog id="dlg-storico" class="foglio" aria-labelledby="st-titolo">
+  <div class="dlg-head">
+    <div><div class="eyebrow">Storico</div><h2 id="st-titolo"></h2></div>
+    <button class="icobtn" data-chiudi-storico aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="dlg-body" id="st-corpo"></div>
+  <div class="dlg-foot">
+    <button class="btn" data-storico-progressi>Apri in Progressi</button>
+    <button class="btn" data-chiudi-storico>Chiudi</button>
+  </div>
 </dialog>
 
 <input type="file" id="file-import" accept="application/json,.json" hidden>
@@ -379,6 +413,7 @@ function giorniTra(a, b){ return Math.round((new Date(b+"T12:00:00") - new Date(
 const giorniFa = iso => giorniTra(iso, oggiISO());
 const nSedute = n => n + (n === 1 ? " seduta" : " sedute");
 const num = (n, d=1) => String(Math.round(n * 10**d) / 10**d).replace(".", ",");
+const mmss = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
 const segno = n => (n > 0 ? "+" : n < 0 ? "−" : "") + num(Math.abs(n), 1);
 const arrotonda = (v, passo) => Math.max(passo, Math.round(v / passo) * passo);
 const e1rm = (kg, reps) => kg > 0 && reps > 0 ? kg * (1 + reps / 30) : 0;
@@ -386,64 +421,75 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 const chiave = nome => String(nome).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
 
 /* ============ la scheda del coach ============ */
+/* Recuperi: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio e 2:30 dopo l'ultimo.
+   Si applica una volta sola a ogni scheda (scheda.recuperi = 2); poi i valori restano modificabili da Scheda. */
+function sistemaRecuperi(scheda){
+  if (!scheda || !Array.isArray(scheda.giorni) || scheda.recuperi >= 2) return scheda;
+  scheda.giorni.forEach(g => (g.esercizi || []).forEach((e, i) => {
+    const prima = g.esercizi[i - 1], dopo = g.esercizi[i + 1];
+    e.recupero = e.superset && dopo ? 0 : (prima && prima.superset ? 150 : 90);
+  }));
+  scheda.recuperi = 2;
+  return scheda;
+}
 function schedaCoach(){
   const e = o => Object.assign({id: uid(), gruppo:"petto", att:0, serie:4, repMin:8, repMax:8, repsTxt:"", recupero:90, incremento:2.5, tecnica:"", nota:"", superset:false, sezione:"main"}, o);
   const ADDOME = [
-    e({nome:"Crunch al cavo", gruppo:"core", serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:60, incremento:2.5, sezione:"post"}),
-    e({nome:"Ab wheel (con elastico se riesci)", gruppo:"core", serie:3, repMin:8, repMax:10, repsTxt:"10-8", recupero:60, incremento:1.25, sezione:"post"}),
+    e({nome:"Crunch al cavo", gruppo:"core", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, sezione:"post"}),
+    e({nome:"Ab wheel (con elastico se riesci)", gruppo:"core", serie:3, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, sezione:"post"}),
   ];
   const POLPACCI = [
-    e({nome:"Calf alla pressa orizzontale", gruppo:"gambe", serie:3, repMin:12, repMax:12, repsTxt:"12", recupero:60, incremento:5, sezione:"post"}),
-    e({nome:"Calf seduto (macchinario)", gruppo:"gambe", serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:60, incremento:2.5, sezione:"post"}),
+    e({nome:"Calf alla pressa orizzontale", gruppo:"gambe", serie:3, repMin:12, repMax:12, repsTxt:"12", incremento:5, sezione:"post"}),
+    e({nome:"Calf seduto (macchinario)", gruppo:"gambe", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, sezione:"post"}),
   ];
   const g = (nome, tipo, post, esercizi) => ({
     id: uid(), nome, tipo, post,
     esercizi: esercizi.concat((post === "addome" ? ADDOME : POLPACCI).map(x => Object.assign({}, x, {id: uid()}))),
   });
-  return {
+  return sistemaRecuperi({
     rev: REV,
     nome: "Scheda Andrea 7.0",
     sottotitolo: "7° blocco — 3 full body + 1 seduta focus petto/dorso, gambe a volume di mantenimento",
     blocco: {numero: 7, settimane: 6, inizio: oggiISO(), sedutePerSettimana: 4},
     giorni: [
       g("1° giorno", "Full body", "addome", [
-        e({nome:"Stacco rumeno", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:150, incremento:5}),
-        e({nome:"Panca 30° multipower", gruppo:"petto", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:150, incremento:2.5}),
-        e({nome:"Lat machine presa prona", gruppo:"dorso", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:120, incremento:2.5}),
-        e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:0, incremento:1.25, superset:true}),
-        e({nome:"Leg extension", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:90, incremento:2.5}),
-        e({nome:"Panca Scott macchina", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", recupero:0, incremento:1.25, superset:true}),
-        e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", recupero:90, incremento:1.25, nota:"sdraiato su panca, spalle al cavo"}),
+        e({nome:"Stacco rumeno", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5}),
+        e({nome:"Panca 30° multipower", gruppo:"petto", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Lat machine presa prona", gruppo:"dorso", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25, superset:true}),
+        e({nome:"Leg extension", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
+        e({nome:"Panca Scott macchina", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, superset:true}),
+        e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, nota:"sdraiato su panca, spalle al cavo"}),
       ]),
       g("2° giorno", "Full body", "polpacci", [
-        e({nome:"Piegamenti zavorrati", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", recupero:120, incremento:2.5, tecnica:"rest-pause ×2"}),
-        e({nome:"Pulley", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", recupero:120, incremento:2.5, tecnica:"rest-pause ×2"}),
-        e({nome:"Leg curl sdraiato", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:90, incremento:2.5}),
-        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:75, incremento:1.25}),
-        e({nome:"Face pull", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", recupero:75, incremento:1.25, nota:"seduto a terra, cavo altezza spalle con voulchen, piedi piantati"}),
-        e({nome:"Curl cavo basso barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:0, incremento:1.25, superset:true}),
-        e({nome:"Pusshdown con voulchen", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:90, incremento:1.25}),
+        e({nome:"Piegamenti zavorrati", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Pulley", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Leg curl sdraiato", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
+        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25}),
+        e({nome:"Face pull", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", incremento:1.25, nota:"seduto a terra, cavo altezza spalle con voulchen, piedi piantati"}),
+        e({nome:"Curl cavo basso barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
+        e({nome:"Pusshdown con voulchen", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25}),
       ]),
       g("3° giorno", "Upper", "addome", [
-        e({nome:"Panca 30° multipower", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", recupero:150, incremento:2.5}),
-        e({nome:"Croci cavi alti", gruppo:"petto", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:75, incremento:1.25, tecnica:"stripping ×1"}),
-        e({nome:"Pulley barra lat focus upper back", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", recupero:120, incremento:2.5}),
-        e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:75, incremento:1.25, tecnica:"stripping ×1"}),
-        e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:0, incremento:1.25, superset:true}),
-        e({nome:"French press manubri", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", recupero:75, incremento:1.25}),
-        e({nome:"Pusshdown barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:0, incremento:1.25, superset:true}),
-        e({nome:"Curl cavo basso barra dritta spalle al cavo", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", recupero:75, incremento:1.25, nota:"focus allungamento"}),
+        e({nome:"Panca 30° multipower", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Croci cavi alti", gruppo:"petto", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
+        e({nome:"Pulley barra lat focus upper back", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
+        e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25, superset:true}),
+        e({nome:"French press manubri", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25}),
+        e({nome:"Pusshdown barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
+        e({nome:"Curl cavo basso barra dritta spalle al cavo", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, nota:"focus allungamento"}),
       ]),
       g("4° giorno", "Full body", "polpacci", [
-        e({nome:"Lento avanti manubri", gruppo:"spalle", att:5, serie:3, repMin:8, repMax:10, repsTxt:"8-10", recupero:150, incremento:2.5}),
-        e({nome:"Pendlum squat", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", recupero:180, incremento:5}),
-        e({nome:"T-bar machine", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", recupero:120, incremento:2.5}),
-        e({nome:"Lat machine presa triangolo", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", recupero:90, incremento:2.5, tecnica:"stripping ×1"}),
-        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:10, repMax:10, repsTxt:"10", recupero:75, incremento:1.25, tecnica:"rest-pause ×2", nota:"cavo o macchina"}),
-        e({nome:"Croci manubri panca 30°", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", recupero:75, incremento:1.25}),
+        e({nome:"Lento avanti manubri", gruppo:"spalle", att:5, serie:3, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
+        e({nome:"Pendlum squat", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5}),
+        e({nome:"T-bar machine", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Lat machine presa triangolo", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"stripping ×1"}),
+        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25, tecnica:"rest-pause ×2", nota:"cavo o macchina"}),
+        e({nome:"Croci manubri panca 30°", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25}),
       ]),
     ],
-  };
+  });
 }
 
 /* ============ questionario del coach ============ */
@@ -526,7 +572,7 @@ async function avviaSync(){
     const doc = await db.doc("stato/corrente").get();
     const remoto = doc.exists ? doc.data() : null;
     if (remoto && remoto.scheda && Number(remoto.rev) >= REV){
-      stato.scheda = remoto.scheda;
+      stato.scheda = sistemaRecuperi(remoto.scheda);
       stato.questionario = remoto.questionario || {};
       stato.pesi = remoto.pesi || [];
     } else {
@@ -563,7 +609,7 @@ function storicoDi(nome){
       const lavoro = sets.filter(x => !x.att);
       const migliore = sets.reduce((a, b) => e1rm(b.kg, b.reps) > e1rm(a.kg, a.reps) ? b : a);
       return {
-        data: s.data, giornoNome: s.giornoNome, sets, lavoro: lavoro.length ? lavoro : sets,
+        data: s.data, giornoNome: s.giornoNome, sets, lavoro,
         kgMax: Math.max.apply(null, sets.map(x => x.kg)),
         volume: sets.reduce((t, x) => t + x.kg * x.reps, 0),
         e1rm: e1rm(migliore.kg, migliore.reps),
@@ -576,8 +622,12 @@ function storicoDi(nome){
 function obiettivo(es){
   const storia = storicoDi(es.nome);
   const ultima = storia[storia.length - 1];
-  if (!ultima) return {kg: 0, reps: es.repMin, motivo: "Prima volta: parti con un carico che ti lascia 1-2 ripetizioni di margine e annotalo.", ultima: null};
-  const sets = ultima.lavoro;
+  // l'obiettivo si calcola sull'ultima seduta che ha serie di lavoro: una seduta con la sola serie iniziale non conta
+  const conLavoro = storia.filter(x => x.lavoro.length);
+  const rif = conLavoro[conLavoro.length - 1];
+  if (!rif) return {kg: 0, reps: es.repMin, ultima: ultima || null,
+    motivo: (ultima ? "Nessuna serie di lavoro registrata finora" : "Prima volta") + ": parti con un carico che ti lascia 1-2 ripetizioni di margine e annotalo."};
+  const sets = rif.lavoro;
   const kg = sets.reduce((a, b) => a.kg >= b.kg ? a : b).kg;
   const alCarico = sets.filter(s => s.kg >= kg);
   if (alCarico.length >= es.serie && alCarico.every(s => s.reps >= es.repMax)){
@@ -596,9 +646,20 @@ function prescrizione(e){
   const reps = e.repsTxt || (e.repMin === e.repMax ? String(e.repMax) : e.repMin + "-" + e.repMax);
   return (e.att ? "1×" + e.att + " + " : "") + e.serie + "×" + reps;
 }
+// ["100×5", "80×8·7·6"]: ogni serie col suo carico, unendo quelle consecutive allo stesso peso.
+// La serie iniziale (att) resta sempre un gruppo a sé, anche se ha lo stesso carico delle altre.
+function serieGruppi(sets){
+  const gruppi = [];
+  sets.forEach(s => {
+    const u = gruppi[gruppi.length - 1];
+    if (u && u.kg === s.kg && u.att === !!s.att) u.reps.push(s.reps);
+    else gruppi.push({kg: s.kg, att: !!s.att, reps: [s.reps]});
+  });
+  return gruppi.map(g => num(g.kg, 2) + "×" + g.reps.join("·"));
+}
 function riassuntoUltima(u){
   if (!u) return "Nessuno storico";
-  return "Ultima " + dataBreve(u.data) + ": " + num(u.kgMax, 2) + " kg × " + u.lavoro.map(s => s.reps).join("·");
+  return "Ultima " + dataBreve(u.data) + ": " + serieGruppi(u.sets).join(" · ");
 }
 
 /* --- blocco --- */
@@ -679,11 +740,24 @@ function creaBozza(giornoId){
   g.esercizi.forEach(e => {
     const o = obiettivo(e);
     const righe = [];
-    if (e.att) righe.push({kg: o.kg || "", reps: e.att, done: false, att: true});
+    // la serie iniziale ha un carico suo: riparte da quello dell'ultima volta che l'hai fatta, non da quello delle serie di lavoro
+    const attUltima = e.att ? storicoDi(e.nome).map(x => x.sets.find(y => y.att)).filter(Boolean).pop() : null;
+    if (e.att) righe.push({kg: attUltima ? attUltima.kg : "", reps: e.att, done: false, att: true});
     for (let i = 0; i < e.serie; i++) righe.push({kg: o.kg || "", reps: o.reps || "", done: false});
     sets[e.id] = righe;
   });
   return {giornoId, data: oggiISO(), sets, note: ""};
+}
+// Dopo una modifica alla scheda: se non c'è niente di spuntato la bozza si rifà da capo. A metà allenamento
+// restano le righe già scritte, si aggiungono quelle degli esercizi nuovi e si tolgono quelle degli esercizi eliminati.
+function aggiornaBozza(){
+  if (!stato.bozza) return;
+  const g = stato.scheda.giorni.find(x => x.id === stato.bozza.giornoId);
+  if (!g){ stato.bozza = null; return; }
+  if (!contaFatte()){ stato.bozza = creaBozza(g.id); return; }
+  const nuova = creaBozza(g.id);
+  Object.keys(stato.bozza.sets).forEach(k => { if (!nuova.sets[k]) delete stato.bozza.sets[k]; });
+  g.esercizi.forEach(e => { if (!stato.bozza.sets[e.id]) stato.bozza.sets[e.id] = nuova.sets[e.id]; });
 }
 function contaFatte(){
   if (!stato.bozza) return 0;
@@ -752,6 +826,7 @@ function vistaOggi(){
       html += '<div class="sezione"><span class="eyebrow">Post allenamento · ' + (g.post === "addome" ? "addome" : "polpacci") + '</span></div>';
     }
     const o = obiettivo(e);
+    const and = andamento(storicoDi(e.nome));
     const gr = gruppo(e.gruppo);
     const righe = stato.bozza.sets[e.id] || [];
     const prossimo = g.esercizi[i + 1];
@@ -761,11 +836,16 @@ function vistaOggi(){
         '<div class="meta-r">' +
           '<span class="gruppo" style="--g:' + gr.col + '">' + gr.nome + '</span>' +
           (e.tecnica ? '<span class="tec">ultima: ' + esc(e.tecnica) + '</span>' : "") +
-          (e.superset && prossimo ? '<span class="tec">superset ↓ ' + esc(prossimo.nome) + '</span>' : "") +
-          '<span>' + (e.recupero ? "rec " + e.recupero + "s" : "nessun recupero") + '</span>' +
+          (e.superset && prossimo ? '<span class="tec">superserie ↓ ' + esc(prossimo.nome) + '</span>' : "") +
+          '<span>' + (e.superset && prossimo ? "senza pausa" : (e.recupero ? "rec " + mmss(e.recupero) : "nessun recupero")) + '</span>' +
         '</div>' +
         (e.nota ? '<div class="nota-es">' + esc(e.nota) + '</div>' : "") +
-        '<div class="small muted">' + esc(riassuntoUltima(o.ultima)) + '</div>' +
+        (o.ultima
+          ? '<button class="storico-btn" data-storico="' + esc(e.nome) + '" aria-label="Storico di ' + esc(e.nome) + '">' +
+              '<span class="testo">' + esc(riassuntoUltima(o.ultima)) + '</span>' +
+              (and ? '<span class="delta" data-dir="' + and.dir + '">' + and.testo + '</span>' : "") +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>'
+          : '<div class="small muted">Nessuno storico</div>') +
         '<span class="obiettivo">Obiettivo <span class="mono">' + (o.kg ? num(o.kg, 2) + " kg × " + o.reps : "da impostare") + '</span></span>' +
         '<span class="motivo">' + esc(o.motivo) + '</span>' +
       '</div>' +
@@ -819,6 +899,39 @@ function salvaAllenamento(){
   toast("Salvato: " + esercizi.reduce((t, e) => t + e.sets.length, 0) + " serie di " + g.nome);
 }
 
+/* ---------- STORICO DI UN ESERCIZIO ---------- */
+// Sto progredendo? Massimale stimato dell'ultima seduta contro quello di tre sedute prima (meno, se non ce ne sono).
+function andamento(storia){
+  if (storia.length < 2) return null;
+  const ultime = storia.slice(-4);
+  const a = ultime[0].e1rm, z = ultime[ultime.length - 1].e1rm;
+  const pct = a ? (z - a) / a * 100 : 0;
+  const dir = Math.abs(pct) < 1 ? "fermo" : (pct > 0 ? "su" : "giu");
+  return {dir, n: ultime.length, testo: dir === "fermo" ? "= stabile" : (dir === "su" ? "▲ +" : "▼ −") + num(Math.abs(pct), 1) + "%"};
+}
+function apriStorico(nome){
+  const storia = storicoDi(nome);
+  if (!storia.length) return;
+  const d = $("#dlg-storico");
+  const and = andamento(storia);
+  const rec = storia.reduce((a, b) => b.e1rm > a.e1rm ? b : a);
+  $("#st-titolo").textContent = nome;
+  let html = '<div class="tiles">' +
+    tile("Andamento", and ? '<span class="delta" data-dir="' + and.dir + '">' + and.testo + '</span>' : "—", "",
+      and ? "massimale stimato, ultime " + and.n + " sedute" : "serve un'altra seduta per dirlo", "fermo") +
+    tile("Record", num(rec.e1rm, 1), "kg", "massimale stimato · " + dataBreve(rec.data), "fermo") + '</div>';
+  if (storia.length >= 2) html += '<div class="chart-box">' + grafico(storia.slice(-12), Math.min(760, window.innerWidth) - 32) + '</div>';
+  html += '<table class="st"><thead><tr><th>Data</th><th>Serie (kg×rip)</th><th class="num">1RM</th></tr></thead><tbody>' +
+    storia.slice(-6).reverse().map(x =>
+      '<tr><td class="mono" style="font-size:12px">' + esc(dataBreve(x.data)) + '</td>' +
+      '<td class="mono" style="font-size:13px">' + serieGruppi(x.sets).map(g => '<span style="white-space:nowrap">' + g + '</span>').join(" · ") + '</td>' +
+      '<td class="num">' + num(x.e1rm, 1) + (x === rec ? ' <span class="pr">rec</span>' : "") + '</td></tr>').join("") + '</tbody></table>';
+  if (storia.length > 6) html += '<div class="tiny muted">Le ultime 6 volte su ' + storia.length + '. Le altre sono in Progressi.</div>';
+  $("#st-corpo").innerHTML = html;
+  d.dataset.es = chiave(nome);
+  if (!d.open) d.showModal();
+}
+
 /* ---------- SCHEDA ---------- */
 function vistaScheda(){
   const s = stato.scheda;
@@ -854,8 +967,8 @@ function vistaScheda(){
       const gr = gruppo(e.gruppo);
       html += '<div class="ex-row" data-es="' + e.id + '">' +
         '<span class="gruppo" style="--g:' + gr.col + '" title="' + gr.nome + '"></span>' +
-        '<div class="info"><div class="nome">' + esc(e.nome) + (e.superset ? ' <span class="tiny muted">· superset ↓</span>' : "") + '</div>' +
-        '<div class="meta">' + prescrizione(e) + (e.tecnica ? " · " + esc(e.tecnica) : "") + ' · rec ' + e.recupero + 's · +' + num(e.incremento, 2) + ' kg</div></div>' +
+        '<div class="info"><div class="nome">' + esc(e.nome) + (e.superset ? ' <span class="tiny muted">· superserie ↓</span>' : "") + '</div>' +
+        '<div class="meta">' + prescrizione(e) + (e.tecnica ? " · " + esc(e.tecnica) : "") + ' · ' + (e.superset ? "senza pausa" : (e.recupero ? "rec " + mmss(e.recupero) : "nessun recupero")) + ' · +' + num(e.incremento, 2) + ' kg</div></div>' +
         icobtn("es-su", "Sposta su", '<path d="M12 19V5M6 11l6-6 6 6"/>', ei === 0) +
         icobtn("es-giu", "Sposta giù", '<path d="M12 5v14M6 13l6 6 6-6"/>', ei === g.esercizi.length - 1) +
         icobtn("es-mod", "Modifica", '<path d="M4 20h4L19 9l-4-4L4 16v4zM14.5 5.5l4 4"/>') +
@@ -864,7 +977,7 @@ function vistaScheda(){
     html += '<div style="padding:9px 12px"><button class="btn sm" data-add-es="' + g.id + '">+ Esercizio</button></div></div>';
   });
   html += '<button class="btn" id="add-giorno">+ Aggiungi giorno</button>';
-  html += '<div class="tiny muted">I tempi di recupero non erano indicati sulla scheda: quelli che vedi sono una stima, modificali come ti ha detto il coach.</div>';
+  html += '<div class="tiny muted">Recuperi: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio e 2:30 dopo il secondo. Puoi cambiarli esercizio per esercizio.</div>';
   app.innerHTML = html + '</div>';
 }
 function icobtn(azione, titolo, path, off){
@@ -911,15 +1024,14 @@ function vistaProgressi(){
       tile("Massimale stimato", num(ultimo.e1rm, 1), "kg", dir === "fermo" ? "stabile da 4 sett." : segno(delta) + " kg in 4 sett.", dir) +
       tile("Record carico", num(recordKg, 2), "kg", "miglior 1RM " + num(record1rm, 1) + " kg", "fermo") +
       tile("Volume 4 sett.", num(dentro.reduce((t, x) => t + x.volume, 0) / 1000, 1), "t", nSedute(dentro.length), "fermo") +
-      tile("Ultima seduta", num(ultimo.kgMax, 2), "kg", dataBreve(ultimo.data) + " · " + ultimo.lavoro.map(s => s.reps).join("·"), "fermo") + '</div>';
+      tile("Ultima seduta", num(ultimo.kgMax, 2), "kg", dataBreve(ultimo.data) + " · " + serieGruppi(ultimo.sets).join(" · "), "fermo") + '</div>';
     html += '<div class="card" style="padding:13px 11px 9px"><div class="spread" style="padding:0 4px 8px">' +
       '<div class="eyebrow">Massimale stimato (Epley)</div><div class="tiny muted">barre = volume</div></div>' +
-      '<div class="chart-box">' + grafico(storia) + '</div></div>';
-    html += '<div class="card" style="overflow-x:auto"><table class="st"><thead><tr><th>Data</th><th>Serie</th><th class="num">Carico</th><th class="num">1RM</th><th class="num">Volume</th></tr></thead><tbody>' +
+      '<div class="chart-box">' + grafico(storia, app.clientWidth - 50) + '</div></div>';
+    html += '<div class="card" style="overflow-x:auto"><table class="st"><thead><tr><th>Data</th><th>Serie (kg×rip)</th><th class="num">1RM</th><th class="num">Volume</th></tr></thead><tbody>' +
       storia.slice().reverse().slice(0, 14).map(x =>
-        '<tr><td class="mono" style="font-size:12px">' + dataBreve(x.data) + '</td>' +
-        '<td class="mono" style="font-size:12px">' + x.sets.map(s => (s.att ? "(" + s.reps + ")" : s.reps)).join("·") + '</td>' +
-        '<td class="num">' + num(x.kgMax, 2) + '</td>' +
+        '<tr><td class="mono" style="font-size:12px">' + esc(dataBreve(x.data)) + '</td>' +
+        '<td class="mono" style="font-size:12px">' + serieGruppi(x.sets).map(g => '<span style="white-space:nowrap">' + g + '</span>').join(" · ") + '</td>' +
         '<td class="num">' + num(x.e1rm, 1) + (Math.abs(x.e1rm - record1rm) < 0.05 ? ' <span class="pr">rec</span>' : "") + '</td>' +
         '<td class="num">' + num(x.volume / 1000, 2) + ' t</td></tr>').join("") + '</tbody></table></div>';
   }
@@ -944,8 +1056,9 @@ function passoBello(g){
   const r = g / p;
   return (r <= 1 ? 1 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 5 ? 5 : 10) * p;
 }
-function grafico(storia){
-  const W = 680, H = 250, pl = 48, pr = 22, pt = 26, pb = 32;
+// larg = larghezza in px dello spazio disponibile: il grafico si disegna a quella misura, così i numeri restano leggibili
+function grafico(storia, larg){
+  const W = Math.round(Math.max(250, Math.min(680, larg || 680))), H = W < 420 ? 210 : 250, pl = 48, pr = 22, pt = 26, pb = 32;
   const iw = W - pl - pr, ih = H - pt - pb;
   if (storia.length < 2){
     return '<p class="small muted" style="margin:0;padding:26px 14px;text-align:center">Servono almeno due sedute per disegnare la progressione.</p>';
@@ -1133,52 +1246,149 @@ function testoQuestionario(){
 }
 
 /* ============ timer ============ */
+/* Il conto alla rovescia segue l'ora vera di fine, così resta giusto anche se il telefono rallenta la pagina.
+   Finito il tempo la sveglia suona a ripetizione finché non la fermi (al massimo un minuto).
+   Un'app web non può suonare a schermo spento né, su iPhone, vibrare: per questo durante il recupero
+   lo schermo viene tenuto acceso (dove il telefono lo permette). */
 let timer = null;
-function avviaTimer(sec, etichetta){
+let audio = null;    // AudioContext: i browser lo lasciano suonare solo se nasce da un tocco
+let veglia = null;   // blocco che tiene acceso lo schermo
+const CHIAVE_SVEGLIA = "diario-ghisa-sveglia";
+const CHIAVE_TIMER = "diario-ghisa-timer";
+// "forte": suona anche col tasto silenzioso ma mette in pausa la musica; "discreta": si mescola alla musica, tace col silenzioso
+function svegliaForte(){ try { return localStorage.getItem(CHIAVE_SVEGLIA) !== "discreta"; } catch (e) { return true; } }
+function sbloccaSuono(){
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audio){
+      audio = new Ctx();
+      // un campione muto suonato dentro il tocco: senza, su iPhone l'audio resta bloccato
+      const b = audio.createBufferSource();
+      b.buffer = audio.createBuffer(1, 1, 22050);
+      b.connect(audio.destination); b.start(0);
+    }
+    if (audio.state !== "running") audio.resume().catch(() => {});
+  } catch (e) {}
+}
+async function tieniSveglio(si){
+  try {
+    if (!si){
+      if (veglia){ const v = veglia; veglia = null; await v.release(); }
+      return;
+    }
+    if (veglia || !navigator.wakeLock || document.visibilityState !== "visible") return;
+    const v = await navigator.wakeLock.request("screen");
+    if (!timer || veglia){ v.release().catch(() => {}); return; }
+    veglia = v;
+    v.addEventListener("release", () => { if (veglia === v) veglia = null; });
+  } catch (e) { veglia = null; }
+}
+function avviaTimer(sec, etichetta, ripresa){
   fermaTimer();
   if (!sec) return;
   const el = document.createElement("div");
   el.className = "timer";
+  el.setAttribute("role", "timer");
   el.innerHTML = '<span class="t">0:00</span><span class="lbl">' + esc(etichetta || "recupero") + '</span>' +
     '<button data-piu30>+30s</button><button data-stop>Salta</button><span class="prog" style="width:100%"></span>';
   document.body.appendChild(el);
-  document.documentElement.style.setProperty("--timer-h", (el.offsetHeight + 8) + "px");
-  let tot = sec, resta = sec;
+  // Salva e il fondo della pagina stanno sopra il timer: la sua altezza va tenuta aggiornata (etichette lunghe, schermo ruotato)
+  const misura = () => document.documentElement.style.setProperty("--timer-h", (el.offsetHeight + 8) + "px");
+  misura();
+  const oss = window.ResizeObserver ? new ResizeObserver(misura) : null;
+  if (oss) oss.observe(el);
+  let tot = ripresa ? ripresa.tot : sec, fine = ripresa ? ripresa.fine : Date.now() + sec * 1000;
+  const ricorda = () => { try { localStorage.setItem(CHIAVE_TIMER, JSON.stringify({fine, tot, etichetta: etichetta || ""})); } catch (e) {} };
+  ricorda();
   const tick = () => {
-    el.querySelector(".t").textContent = Math.floor(Math.max(0, resta) / 60) + ":" + String(Math.max(0, resta % 60)).padStart(2, "0");
-    el.querySelector(".prog").style.width = Math.max(0, (resta / tot) * 100) + "%";
-    if (resta <= 0){ suona(); fermaTimer(); return; }
-    resta--;
+    if (!timer || timer.suona) return;
+    const resta = Math.max(0, Math.ceil((fine - Date.now()) / 1000));
+    el.querySelector(".t").textContent = mmss(resta);
+    el.querySelector(".prog").style.width = Math.min(100, resta / tot * 100) + "%";
+    if (resta <= 0) sveglia();
   };
+  timer = {el, oss, suona: false, id: setInterval(tick, 250), tick, piu(){ tot += 30; fine += 30000; ricorda(); tick(); }};
   tick();
-  timer = {el, id: setInterval(tick, 1000), piu(){ tot += 30; resta += 30; tick(); }};
+  tieniSveglio(true);
+}
+function sveglia(){
+  if (!timer || timer.suona) return;
+  timer.suona = true;
+  clearInterval(timer.id);
+  const pannello = $("#dlg-storico");
+  if (pannello && pannello.open) pannello.close();
+  const el = timer.el;
+  el.classList.add("suona");
+  el.querySelector(".t").textContent = "0:00";
+  el.querySelector(".lbl").textContent = "Tempo! Riparti";
+  el.querySelector(".prog").style.width = "0%";
+  const piu = el.querySelector("[data-piu30]");
+  if (piu) piu.remove();
+  el.querySelector("[data-stop]").textContent = "Stop";
+  try { if (navigator.audioSession) navigator.audioSession.type = svegliaForte() ? "playback" : "transient"; } catch (e) {}
+  let giri = 0;
+  // gli squilli si contano solo con l'app a schermo: se la lasci in secondo piano, al rientro sta ancora suonando
+  const giro = () => { if (document.visibilityState !== "visible") return; if (++giri > 40){ fermaTimer(); return; } squilla(); };
+  giro();
+  timer.id = setInterval(giro, 1500);
 }
 function fermaTimer(){
   if (!timer) return;
-  clearInterval(timer.id); timer.el.remove(); timer = null;
+  const era = timer;
+  timer = null;
+  try { localStorage.removeItem(CHIAVE_TIMER); } catch (e) {}
+  clearInterval(era.id);
+  if (era.oss) era.oss.disconnect();
+  era.el.remove();
   document.documentElement.style.removeProperty("--timer-h");
+  if (era.suona){
+    try { if (navigator.vibrate) navigator.vibrate(0); } catch (e) {}
+    try { if (navigator.audioSession) navigator.audioSession.type = "auto"; } catch (e) {}
+  }
+  tieniSveglio(false);
 }
-function suona(){
+// uno squillo: tre bip acuti e, dove il telefono lo permette, tre vibrazioni
+function squilla(){
+  try { if (navigator.vibrate) navigator.vibrate([260, 120, 260, 120, 260]); } catch (e) {}
   try {
-    if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (!Ctx) return;
-    const ctx = new Ctx(), o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = "sine"; o.frequency.value = 660;
-    g.gain.setValueAtTime(0.0001, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
-    o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 0.55);
-    setTimeout(() => ctx.close(), 900);
+    if (!audio) return;
+    if (audio.state !== "running") audio.resume().catch(() => {});
+    const t0 = audio.currentTime + 0.03;
+    for (let i = 0; i < 3; i++){
+      const o = audio.createOscillator(), g = audio.createGain(), t = t0 + i * 0.24;
+      o.type = "square"; o.frequency.value = 1976;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.3, t + 0.01);
+      g.gain.setValueAtTime(0.3, t + 0.13);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+      o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + 0.18);
+    }
   } catch (e) {}
 }
+function riprendiTimer(){
+  try {
+    const t = JSON.parse(localStorage.getItem(CHIAVE_TIMER) || "null") || {};
+    const fine = Number(t.fine), tot = Number(t.tot);
+    const resta = fine ? Math.ceil((fine - Date.now()) / 1000) : 0;
+    if (resta > 0 && resta <= 3600 && tot > 0) avviaTimer(resta, String(t.etichetta || ""), {fine, tot});
+    else localStorage.removeItem(CHIAVE_TIMER);
+  } catch (e) { try { localStorage.removeItem(CHIAVE_TIMER); } catch (e2) {} }
+}
+// dopo un ricaricamento il suono va sbloccato di nuovo: basta un tocco qualsiasi mentre il timer corre
+["pointerup", "click"].forEach(ev => document.addEventListener(ev, () => { if (timer) sbloccaSuono(); }, {passive: true}));
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible" || !timer) return;
+  timer.tick();           // rientrando nell'app il tempo si riallinea subito (e se è scaduto parte la sveglia)
+  tieniSveglio(true);     // il blocco dello schermo si perde quando l'app va in secondo piano
+});
 let tst = null;
-function toast(msg){
+function toast(msg, ms){
   clearTimeout(tst);
   let el = $(".toast");
-  if (!el){ el = document.createElement("div"); el.className = "toast"; document.body.appendChild(el); }
+  if (!el){ el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
   el.textContent = msg;
-  tst = setTimeout(() => el.remove(), 2800);
+  tst = setTimeout(() => el.remove(), ms || 2800);
 }
 
 /* ============ dialog esercizio ============ */
@@ -1222,13 +1432,30 @@ $("#form-es").addEventListener("submit", ev => {
     superset: f.superset.checked,
   };
   if (dati.repMax < dati.repMin) dati.repMax = dati.repMin;
-  dati.repsTxt = dati.repMin === dati.repMax ? String(dati.repMax) : dati.repMin + "-" + dati.repMax;
   const g = stato.scheda.giorni.find(x => x.id === ctxEs.giornoId);
   if (!g) return;
-  if (ctxEs.esId) Object.assign(g.esercizi.find(x => x.id === ctxEs.esId), dati);
+  const vecchio = ctxEs.esId ? g.esercizi.find(x => x.id === ctxEs.esId) : null;
+  // se min e max non cambiano resta la scrittura del coach ("8-6")
+  dati.repsTxt = vecchio && vecchio.repsTxt && vecchio.repMin === dati.repMin && vecchio.repMax === dati.repMax
+    ? vecchio.repsTxt
+    : (dati.repMin === dati.repMax ? String(dati.repMax) : dati.repMin + "-" + dati.repMax);
+  // spuntare o togliere "in superserie" sistema i recuperi della coppia (solo se erano ancora quelli della regola)
+  if (!ctxEs.esId || dati.superset !== !!vecchio.superset){
+    const i = vecchio ? g.esercizi.indexOf(vecchio) : g.esercizi.length;
+    const prima = g.esercizi[i - 1], dopo = g.esercizi[i + 1];
+    if (dati.superset && dopo){
+      dati.recupero = 0;
+      if (!dopo.superset && dopo.recupero === 90) dopo.recupero = 150;
+    } else if (vecchio && vecchio.superset && !dati.superset){
+      if (!dati.recupero) dati.recupero = prima && prima.superset ? 150 : 90;
+      if (dopo && !dopo.superset && dopo.recupero === 150) dopo.recupero = 90;
+    }
+  }
+  if (vecchio) Object.assign(vecchio, dati);
   else g.esercizi.push(Object.assign({id: uid(), sezione: "main"}, dati));
   salvaTutto();
-  if (stato.bozza && stato.bozza.giornoId === g.id) stato.bozza = creaBozza(g.id);
+  if (stato.bozza && stato.bozza.giornoId === g.id) aggiornaBozza();
+  salvaLocale();
   render();
 });
 
@@ -1243,10 +1470,19 @@ document.addEventListener("click", ev => {
   if (az){ $("#menu").open = false; azione(az.dataset.azione); return; }
   if (!t.closest("#menu")) $("#menu").open = false;
   if (t.closest("[data-stop]")){ fermaTimer(); return; }
-  if (t.closest("[data-piu30]")){ if (timer) timer.piu(); return; }
+  const sto = t.closest("[data-storico]");
+  if (sto){ apriStorico(sto.dataset.storico); return; }
+  const dst = $("#dlg-storico");
+  if (t.closest("[data-chiudi-storico]") || t === dst){ dst.close(); return; }
+  if (t.closest("[data-storico-progressi]")){ dst.close(); stato.esSel = dst.dataset.es; stato.vista = "progressi"; render(); return; }
+  if (t.closest("[data-piu30]")){ sbloccaSuono(); if (timer) timer.piu(); return; }
 
   const gd = t.closest("[data-giorno][aria-pressed]");
-  if (gd){ stato.bozza = creaBozza(gd.dataset.giorno); fermaTimer(); render(); return; }
+  if (gd){
+    if (stato.bozza && gd.dataset.giorno === stato.bozza.giornoId) return;
+    if (contaFatte() && !confirm("Cambiare giorno? Le serie spuntate e non salvate vanno perse.")) return;
+    stato.bozza = creaBozza(gd.dataset.giorno); salvaLocale(); fermaTimer(); render(); return;
+  }
 
   const tick = t.closest("[data-tick]");
   if (tick){
@@ -1257,10 +1493,11 @@ document.addEventListener("click", ev => {
     sr.dataset.done = r.done ? "1" : "0";
     tick.setAttribute("aria-pressed", String(r.done));
     if (r.done){
+      sbloccaSuono();
       const info = trovaEsercizio(esId);
       if (!Number(r.reps) && info){ r.reps = info.e.repMin; sr.querySelector('[data-campo="reps"]').value = r.reps; }
-      if (info && info.e.superset && info.prossimo){ fermaTimer(); toast("Superset: vai subito a " + info.prossimo.nome); }
-      else if (info) avviaTimer(info.e.recupero, "recupero · " + info.e.nome);
+      if (info && info.e.superset && info.prossimo){ fermaTimer(); toast("Superserie: vai subito a " + info.prossimo.nome, 4500); }
+      else if (info) avviaTimer(info.e.recupero || (info.e.superset ? 90 : 0), (info.precedente && info.precedente.superset ? "recupero superserie · " : "recupero · ") + info.e.nome);
     }
     salvaLocale();
     aggiornaSalva();
@@ -1269,7 +1506,7 @@ document.addEventListener("click", ev => {
   const piu = t.closest("[data-piu]");
   if (piu){
     const esId = piu.dataset.piu;
-    const righe = stato.bozza.sets[esId];
+    const righe = stato.bozza.sets[esId] || (stato.bozza.sets[esId] = []);
     const u = righe[righe.length - 1] || {kg: "", reps: ""};
     righe.push({kg: u.kg, reps: u.reps, done: false});
     $('[data-serie="' + esId + '"]').insertAdjacentHTML("beforeend", rigaHTML(esId, righe.length - 1, righe[righe.length - 1]));
@@ -1369,7 +1606,8 @@ document.addEventListener("click", ev => {
       }
     }
     salvaTutto();
-    if (stato.bozza) stato.bozza = creaBozza(stato.bozza.giornoId);
+    aggiornaBozza();
+    salvaLocale();
     render();
   }
 });
@@ -1377,7 +1615,7 @@ document.addEventListener("click", ev => {
 function trovaEsercizio(id){
   for (const g of stato.scheda.giorni){
     const i = g.esercizi.findIndex(x => x.id === id);
-    if (i >= 0) return {e: g.esercizi[i], g, prossimo: g.esercizi[i + 1] || null};
+    if (i >= 0) return {e: g.esercizi[i], g, prossimo: g.esercizi[i + 1] || null, precedente: g.esercizi[i - 1] || null};
   }
   return null;
 }
@@ -1426,10 +1664,41 @@ async function scarica(nome, testo){
     try { await dl.save({filename: nome, data: testo}); toast("File salvato"); return; }
     catch (err){ if (err && err.code === "declined") return; }
   }
+  // fuori da claude.ai: sul telefono il foglio di condivisione ("Salva su File"), altrimenti un normale download
+  try {
+    const file = new File([testo], nome, {type: /\.json$/.test(nome) ? "application/json" : "text/plain"});
+    if (matchMedia("(pointer:coarse)").matches && navigator.canShare && navigator.canShare({files: [file]})){
+      await navigator.share({files: [file], title: nome});
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(file);
+    a.download = nome;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    toast("File salvato");
+    return;
+  } catch (err){ if (err && err.name === "AbortError") return; }
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(testo).then(() => toast("Download non disponibile: contenuto copiato negli appunti"), () => toast("Non riesco a salvare il file"));
   else toast("Download non disponibile qui");
 }
+function scriviVoceSveglia(){
+  $("#voce-silenzioso").textContent = "Sveglia col silenzioso: " + (svegliaForte() ? "sì" : "no");
+}
 async function azione(a){
+  if (a === "prova-sveglia"){
+    if (timer && !timer.suona){ toast("C'è un recupero in corso: prova la sveglia quando è finito"); return; }
+    sbloccaSuono();
+    avviaTimer(3, "prova della sveglia");
+    return;
+  }
+  if (a === "silenzioso"){
+    const forte = !svegliaForte();
+    try { localStorage.setItem(CHIAVE_SVEGLIA, forte ? "forte" : "discreta"); } catch (e) {}
+    scriviVoceSveglia();
+    toast(forte ? "La sveglia suona anche col silenzioso (mette in pausa la musica)" : "La sveglia si mescola alla musica (col silenzioso tace)", 4500);
+    return;
+  }
   if (a === "esporta"){
     const dati = JSON.stringify({app:"diario-di-ghisa", versione: REV, esportato: new Date().toISOString(), scheda: stato.scheda, sessioni: stato.sessioni, questionario: stato.questionario, pesi: stato.pesi}, null, 2);
     scarica("diario-di-ghisa-" + oggiISO() + ".json", dati);
@@ -1472,7 +1741,7 @@ $("#file-import").addEventListener("change", ev => {
       const d = JSON.parse(String(fr.result));
       if (!d || !d.scheda || !Array.isArray(d.sessioni)) throw new Error("formato");
       if (!confirm("Sostituire tutto con il backup del " + String(d.esportato || "").slice(0, 10) + "?")) return;
-      stato.scheda = d.scheda;
+      stato.scheda = sistemaRecuperi(d.scheda);
       stato.sessioni = d.sessioni.slice().sort((a, b) => a.data.localeCompare(b.data));
       stato.questionario = d.questionario || {};
       stato.pesi = d.pesi || [];
@@ -1488,12 +1757,14 @@ $("#file-import").addEventListener("change", ev => {
 
 /* ============ avvio ============ */
 const salvato = caricaLocale();
-stato.scheda = salvato.scheda;
+stato.scheda = sistemaRecuperi(salvato.scheda);
 stato.sessioni = (salvato.sessioni || []).slice().sort((a, b) => a.data.localeCompare(b.data));
 stato.questionario = salvato.questionario || {};
 stato.pesi = salvato.pesi || [];
 stato.bozza = salvato.bozza && salvato.bozza.data === oggiISO() ? salvato.bozza : null;
 render();
+scriviVoceSveglia();
+riprendiTimer();
 salvaLocale();
 avviaSync();
 })();

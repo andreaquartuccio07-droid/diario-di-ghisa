@@ -48,5 +48,9 @@ Spariscono dopo il commit. Finché non faccio commit e push, il telefono non ved
 
 ## Cose da ricordare
 
+- Nel menu ⋯ c'è "Prova la sveglia": fa suonare il fine recupero dopo 3 secondi, per controllare volume e silenzioso.
+- "Sveglia col silenzioso: sì" la fa sentire anche col tasto silenzioso ma mette in pausa la musica; "no" la mescola alla musica ma col silenzioso tace.
+- Su iPhone la sveglia suona solo con l'app aperta e lo schermo acceso (l'app prova a tenerlo acceso da sola durante il recupero). Non vibra: Apple non lo permette alle app web.
+
 - I miei dati di allenamento stanno **solo sul telefono**, non in questi file. Prima di modifiche grosse: menu ⋯ → Esporta backup (.json).
 - Dopo una modifica pubblicata, sul telefono compare "Nuova versione disponibile": va toccato "Aggiorna".

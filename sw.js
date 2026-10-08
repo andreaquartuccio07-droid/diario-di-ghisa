@@ -1,7 +1,7 @@
 /* Service worker del Diario di Ghisa.
    Tiene l'app in cache cosi' parte subito e funziona anche senza campo in palestra.
    Alzare VERSIONE a ogni rilascio: la cache vecchia viene buttata e l'app avvisa di aggiornare. */
-const VERSIONE = "ghisa-v3";
+const VERSIONE = "ghisa-v4";
 const CACHE_APP = VERSIONE + "-app";
 
 const GUSCIO = [

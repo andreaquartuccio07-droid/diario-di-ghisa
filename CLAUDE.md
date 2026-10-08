@@ -32,7 +32,19 @@ service worker e mostra la striscia "Nuova versione disponibile"):
 - `storicoDi(nome)` — storico di un esercizio, **indicizzato per nome normalizzato** (`chiave()`),
   non per id: così lo stesso esercizio in giorni diversi ha una progressione unica.
 - `obiettivo(es)` — regola del sovraccarico progressivo (tutte le serie a rep max → +incremento).
-  Le serie di attivazione (`att`) sono escluse dalla regola ma contano per l'1RM stimato.
+  Si calcola sull'ultima seduta che ha serie di lavoro. La serie iniziale (`att`, il "1×5" di
+  "1×5 + 3×8") è esclusa dalla regola ma conta per l'1RM stimato, e **ha un carico suo**: per l'utente
+  è una serie pesante, non un riscaldamento. Ovunque si mostrino le serie si usa `serieGruppi()`
+  (`100×5 · 80×8·7·6`): mai un solo "kg" accanto alle ripetizioni di serie diverse.
+- `sistemaRecuperi(scheda)` — regola dei recuperi, applicata una volta sola a ogni scheda
+  (marcatore `scheda.recuperi = 2`): 90 s ovunque, 0 sul primo esercizio di una superserie, 150 su
+  quello dopo. Poi i valori restano modificabili da Scheda.
+- Timer: `avviaTimer()` conta sull'ora vera di fine e si salva in `diario-ghisa-timer` (sopravvive al
+  ricaricamento); a zero `sveglia()` squilla finché non si tocca Stop. `sbloccaSuono()` va chiamata
+  dentro un tocco. La preferenza "Sveglia col silenzioso" sta in `diario-ghisa-sveglia`.
+- `andamento()` / `apriStorico()` — indicatore di progresso e pannello dal basso (`#dlg-storico`).
+- `aggiornaBozza()` — da usare dopo ogni modifica alla scheda: a metà allenamento non butta via le
+  serie spuntate. Non chiamare `creaBozza()` direttamente in quei punti.
 - `blocco()` / `progressioniBlocco()` — stato del blocco di 6 settimane e delta dei carichi.
 - `vistaOggi()`, `vistaScheda()`, `vistaProgressi()`, `vistaReport()` — le quattro schermate.
 - Persistenza: `localStorage`, chiave `diario-ghisa-v2`. Resta il codice che usa `claude.use("db")`
@@ -72,9 +84,12 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 
 - I dati stanno **solo sul dispositivo**. Prima di modifiche rischiose alla struttura dei dati,
   ricordare all'utente di fare Esporta backup (.json) dal menu ⋯.
-- I tempi di recupero non erano sulla scheda del coach: sono stime, l'utente li corregge dall'app.
-- Gli esercizi in superset hanno `recupero: 0` e al posto del timer mostrano l'avviso di passare
-  all'esercizio successivo.
+- Recuperi voluti dall'utente: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio
+  (`recupero: 0`, solo l'avviso di passare al successivo) e 2:30 dopo il secondo.
+- L'utente ha un **iPhone**: un'app web lì non può vibrare, né suonare a schermo spento o in secondo
+  piano. Per questo durante il recupero si tiene acceso lo schermo (`navigator.wakeLock`). Suono,
+  silenzioso e schermo acceso si possono verificare solo sul telefono vero ("Prova la sveglia" nel menu ⋯).
+- Fuori da claude.ai "Esporta backup" usa il foglio di condivisione sul telefono e un download sul computer.
 - Esiste una vecchia copia come Artifact su claude.ai
   (`https://claude.ai/code/artifact/b3e22f10-69b3-4072-8ef5-94c23e2c5705`), non più allineata.
   Per ripubblicarla andrebbe tolto l'involucro `<!doctype html>`/`<head>`/`<body>` da `index.html`,

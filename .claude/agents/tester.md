@@ -21,8 +21,24 @@ veri dell'utente, che stanno sul suo telefono.
 2. Porta la finestra a **375 × 812** (`browser_resize`).
 3. Apri `http://localhost:5188/` e parti da zero: con `browser_evaluate` cancella `localStorage`,
    togli le registrazioni dei service worker e svuota `caches`, poi ricarica. Così non provi
-   avanzi di una sessione precedente.
+   avanzi di una sessione precedente (il service worker serve prima la copia in cache: senza
+   questo passo rischi di provare un `index.html` vecchio). Al primo avvio da zero la pagina si
+   ricarica da sola quando il service worker prende il controllo: aspetta circa 1,5 secondi prima
+   di usare `page.evaluate`, altrimenti ottieni "Execution context was destroyed".
 4. Tieni d'occhio la console (`browser_console_messages`) per tutta la prova: ogni errore va nel resoconto.
+
+Accorgimenti che fanno risparmiare tempo:
+- Le conferme native (`confirm`) bloccano gli script lunghi: gestiscile con `browser_handle_dialog`
+  oppure sostituisci `window.confirm` con una funzione finta (va rifatto dopo ogni ricaricamento).
+- La barra di scorrimento del browser di prova ruba 15px: per le misure a 375 e 320 nascondila con
+  `html{scrollbar-width:none}`.
+- Per uno storico realistico scrivi le sessioni in `localStorage` con date diverse e ricarica
+  (forma: `{id, data, giornoId, giornoNome, note, esercizi: [{esId, nome, gruppo, sets: [{kg, reps, att?}]}]}`).
+- Per non aspettare i recuperi: "Prova la sveglia" nel menu ⋯ (3 secondi), un recupero di 15 s
+  impostato da Scheda, oppure l'orologio finto di Playwright (`page.clock`).
+- Suono e vibrazione non si sentono: metti delle spie su `AudioContext.prototype.createOscillator`
+  e su `navigator.vibrate` prima di far partire il timer.
+- Tema scuro: `page.emulateMedia({colorScheme: "dark"})`.
 
 Per trovare gli elementi usa `browser_snapshot` e i nomi accessibili, come farebbe l'utente.
 Riferimenti utili: schermata **Oggi**; in ogni esercizio le righe delle serie hanno i campi
@@ -78,6 +94,48 @@ Per ognuna delle quattro schermate (Oggi, Scheda, Progressi, Report):
 Misura con `getBoundingClientRect()` l'altezza di ciò che si tocca fra una serie e l'altra
 (spunta, `+ serie`, `− serie`, Salva, voci della barra in basso) e segnala ciò che sta sotto i 44px.
 Ripeti il controllo dello scroll orizzontale a 320px.
+
+### 8. Schema misto 1×5 + 3×8
+Su "Stacco rumeno" (1° giorno) compila le quattro righe con valori tutti diversi, spuntale (anche in
+ordine sparso) e salva. Le `sets` salvate devono avere lo stesso ordine e gli stessi valori delle
+righe, la prima con `att: true`. Tornando sul 1° giorno la riga "Ultima gg/mm: …" deve riportare ogni
+carico accanto alle sue ripetizioni (es. `100×5 · 80×8·7·6`) e la riga att deve essere precompilata
+col proprio carico. Dopo una seduta con la sola riga att, l'obiettivo e le righe 1-3 non devono
+prendere il carico della att.
+
+### 9. Recupero normale
+Spuntando una serie di un esercizio normale il timer parte da 1:30 con etichetta "recupero · nome",
+conta giusto, "+30s" aggiunge 30 secondi, "Salta" lo toglie. Il timer sopravvive al ricaricamento
+della pagina col tempo giusto. Un recupero cambiato a mano da Scheda resta dopo i ricaricamenti.
+
+### 10. Recupero in superserie
+1° giorno, "Alzate laterali cavo basso avanti" → "Leg extension": spuntando una serie del primo non
+parte nessun timer e compare l'avviso "Superserie: vai subito a …"; spuntando il secondo parte un
+timer da 2:30 con etichetta "recupero superserie · nome". In Oggi e in Scheda il primo dice
+"senza pausa", il secondo "rec 2:30".
+
+### 11. Fine timer
+A zero la barra diventa gialla con "0:00", "Tempo! Riparti" e il solo bottone "Stop"; la sveglia
+squilla ogni 1,5 secondi (tre bip e una vibrazione, viste dalle spie) finché non tocchi Stop, e si
+chiude da sola dopo 40 squilli. Con Stop squilli e vibrazione si fermano davvero e Salva torna al
+suo posto. Durante il recupero viene chiesto di tenere acceso lo schermo (`navigator.wakeLock`).
+Se la sveglia scatta col pannello dello storico aperto, il pannello si chiude e Stop si tocca.
+L'app non deve dare errori se `vibrate`, `wakeLock` o `AudioContext` mancano (iPhone non vibra).
+
+### 12. Storico in un tocco
+In Oggi la riga "Ultima …" è un bottone con l'indicatore dell'andamento ("▲ +x%", "▼ −x%",
+"= stabile"; nessun indicatore con una sola seduta; "Nessuno storico" non toccabile). Rifai a mano
+il conto di almeno un indicatore (massimale stimato = kg × (1 + rip/30) della serie migliore;
+ultima seduta contro tre sedute prima). Toccandolo si apre dal basso il pannello con tessere,
+grafico e ultime 6 volte; si chiude con Chiudi, ×, tocco fuori ed Esc; "Apri in Progressi" porta
+all'esercizio giusto. Bozza e timer restano intatti. Controlla il pannello a 375 e 320, chiaro e
+scuro: niente scroll orizzontale, grafico dentro la sua scatola, bottoni in fondo sempre visibili.
+
+### 13. Bozza al sicuro
+Con serie spuntate: cambiare giorno chiede conferma e, dopo un ricaricamento, le spunte vecchie non
+tornano; aggiungere, spostare o eliminare esercizi da Scheda non fa perdere le serie spuntate degli
+altri esercizi; un esercizio aggiunto a metà allenamento ha le sue righe e `+ serie` funziona.
+"Esporta backup" fa partire un download vero e lo stesso file, reimportato, riporta gli stessi dati.
 
 ## Chiusura
 
