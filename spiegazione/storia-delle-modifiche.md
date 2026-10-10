@@ -6,6 +6,31 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v8 — 10 ottobre 2026
+
+**Esercizi da scegliere in una lista, invece di scrivere il nome a mano.**
+
+- In Scheda, "+ Esercizio" apre un pannello con 159 esercizi di palestra già pronti dentro l'app
+  (funziona senza campo): per ognuno nome, gruppo muscolare e attrezzo (bilanciere, manubri,
+  macchina, cavi, corpo libero).
+- In alto c'è la ricerca per nome (non bada a maiuscole e accenti, bastano pezzi di parola: "lat pro").
+  Sotto, i filtri: Tutti, I miei, Petto, Schiena, Spalle, Gambe, Polpacci, Bicipiti, Tricipiti, Addome.
+- Toccando un esercizio si apre la finestra di sempre con nome e gruppo già compilati: restano da
+  controllare serie, ripetizioni e recupero.
+- Se l'esercizio non c'è, "Crea «nome»" lo aggiunge come esercizio tuo. Resta salvato e lo ritrovi
+  sotto "I miei"; da lì la × lo toglie dall'elenco (scheda e storico non cambiano).
+  La × c'è solo sugli esercizi tuoi che non sono più né in scheda né nello storico.
+- Creando un esercizio tuo il gruppo va scelto (non parte più da Petto senza chiederlo).
+- Sotto "I miei" compaiono da soli anche gli esercizi della scheda e dello storico che non sono in lista.
+- Un esercizio nuovo finisce in coda a quelli dell'allenamento, prima del blocco "Post allenamento"
+  (prima finiva in fondo, sotto il post).
+- Se il recupero scade mentre il pannello di scelta è aperto, il pannello si chiude da solo, così
+  Stop si può toccare. Aprire il pannello mentre la sveglia suona la ferma.
+- I filtri sono più fini dei gruppi dell'app: un esercizio per i bicipiti o i tricipiti viene salvato
+  nel gruppo Braccia, i polpacci in Gambe, l'addome in Core. Colori, Progressi e Report sono quelli di prima.
+- Dati: si aggiunge solo l'elenco "i miei esercizi", che entra anche nel backup. Scheda e allenamenti
+  salvati non vengono toccati; un backup vecchio si importa come prima e non cancella i tuoi esercizi.
+
 ## ghisa-v7 — 8 ottobre 2026
 
 **Icona della Home con un nome nuovo.**
@@ -124,12 +149,27 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 - Schermo che resta acceso durante un recupero vero.
 - Uscire dall'app e rientrare a recupero in corso: il tempo deve essere giusto.
 - Pannello dello storico: i bottoni in fondo non devono finire sotto la barra dell'iPhone.
+- Scelta dell'esercizio: toccando il campo di ricerca si apre la tastiera. La lista e il bottone
+  "Crea…" devono restare visibili sopra la tastiera, e il pannello non deve saltare o finire tagliato.
+- Scelta dell'esercizio: la striscia dei filtri scorre bene col dito, e in alto il titolo non finisce
+  sotto l'ora e la batteria.
 
 ## Lasciato così apposta
 
 - I quattro bottoni piccoli (32px) nelle righe di Scheda: più grandi schiaccerebbero il nome
   dell'esercizio.
 - Una fessura di circa 10px fra Salva e la barra del timer.
+- Gli esercizi già in scheda non sono stati rinominati con i nomi della lista: lo storico va per nome
+  e la progressione sarebbe ripartita da zero.
+- Degli esercizi tuoi l'app conosce solo il gruppo: per i filtri Bicipiti, Tricipiti e Polpacci
+  indovina dal nome (curl, pushdown, calf…). Un esercizio di Braccia dal nome che non dice niente
+  compare in entrambi i filtri.
+- Se il recupero scade mentre è aperta la finestra "Nuovo/Modifica esercizio", la sveglia suona ma
+  Stop resta coperto finché non salvi o annulli: chiuderla da sola farebbe perdere quello che stavi
+  scrivendo. Era così anche prima.
+- Alcuni esercizi della lista somigliano a quelli della tua scheda ma hanno un nome diverso
+  ("Pulley basso" / "Pulley", "Pendulum squat" / "Pendlum squat", "Croci ai cavi alti" / "Croci cavi
+  alti"): sono storici separati. Per continuare la progressione scegli il tuo, sotto "I miei".
 - Eliminando da Scheda un esercizio con una serie già spuntata, la conferma non avvisa della spunta.
 - In Progressi la tessera "Record carico" mostra un numero solo: il carico più pesante mai sollevato,
   serie pesante compresa.

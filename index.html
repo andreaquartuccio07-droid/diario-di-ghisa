@@ -300,6 +300,33 @@ dialog.foglio[open]{display:flex;flex-direction:column}
 .foglio .tile{background:var(--surface-3);border-color:var(--line);box-shadow:none}
 .foglio .tile .v .delta{font-size:19px}
 @media(min-width:760px){dialog.foglio{margin:auto;width:min(620px,calc(100vw - 24px));border-bottom:1px solid var(--line);border-radius:var(--r)}}
+/* Scelta dell'esercizio: alto quanto lo schermo che si vede (--vvh e --vvt li scrive misuraScelta()),
+   cosi' con la tastiera aperta la lista resta sopra i tasti invece di finirci sotto. */
+dialog.foglio.scegli{height:calc(var(--vvh,100dvh) - 10px - env(safe-area-inset-top));max-height:none;margin:calc(10px + env(safe-area-inset-top) + var(--vvt,0px)) auto auto}
+/* tastiera aperta: via il bottone in fondo (c'e' gia' la riga "Crea" in cima alla lista) e lo spazio per la barra dell'iPhone */
+dialog.foglio.scegli.tastiera{padding-bottom:0}
+.scegli.tastiera .dlg-foot{display:none}
+.cerca{position:relative;flex:0 0 auto;padding:11px 15px 0}
+.cerca svg{position:absolute;left:28px;top:25px;width:20px;height:20px;color:var(--ink-3);pointer-events:none}
+.cerca input::-webkit-search-cancel-button{-webkit-appearance:none}
+.cerca input{-webkit-appearance:none;appearance:none;width:100%;min-height:48px;border:1px solid var(--line-2);background:var(--surface-3);border-radius:14px;padding:10px 12px 10px 42px;font-size:16px;font-weight:500;color:var(--ink)}
+.filtri{display:flex;gap:6px;flex:0 0 auto;overflow-x:auto;padding:10px 15px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.filtri::-webkit-scrollbar{display:none}
+.filtro{flex:0 0 auto;min-height:48px;padding:8px 18px;border:1px solid var(--line-2);background:var(--surface);border-radius:100px;font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap;transition:background-color .15s ease-out}
+.filtro[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent-ink);color:var(--accent-ink)}
+.scegli .dlg-body{padding:0 0 8px;gap:0;overscroll-behavior:contain}
+.voci-tit{padding:13px 15px 5px}
+.voce{display:flex;align-items:stretch;border-bottom:1px solid var(--line)}
+.voce-btn{flex:1;min-width:0;display:flex;align-items:center;gap:11px;min-height:54px;padding:8px 15px;background:none;border:0;text-align:left}
+.voce-btn:hover,.voce-btn:active,.voce-x:hover,.voce-x:active{background:var(--surface-2)}
+.voce-btn .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.voce-btn .nome{font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.voce-btn .meta{font-size:12px;color:var(--ink-2)}
+.voce-btn .piu{flex:0 0 auto;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);margin-left:-8px}
+.voce-btn .piu svg,.voce-x svg{width:16px;height:16px}
+.voce.crea .nome{color:var(--accent-ink)}
+.voce-x{flex:0 0 52px;display:grid;place-items:center;background:none;border:0;border-left:1px solid var(--line);color:var(--ink-2)}
+@media(min-width:760px){dialog.foglio.scegli{height:min(680px,calc(var(--vvh,100dvh) - 24px));margin:calc(12px + var(--vvt,0px)) auto auto}}
 dialog::backdrop{background:var(--scrim)}
 .dlg-head{padding:13px 15px;border-bottom:1px solid var(--line)}
 .dlg-body{padding:13px 15px;display:flex;flex-direction:column;gap:11px;max-height:66vh;overflow:auto}
@@ -333,7 +360,7 @@ header.top{padding-top:env(safe-area-inset-top)}
 
 /* Chi ha chiesto meno movimento non vede ne' transizioni ne' l'effetto di pressione */
 @media(prefers-reduced-motion:reduce){
-  .btn,.tick,.gday,.tab,.fld input{transition:none}
+  .btn,.tick,.gday,.tab,.fld input,.filtro{transition:none}
   .btn:active,.tick:active,.gday:active{transform:none}
   .timer .prog{transition:none}
 }
@@ -392,7 +419,7 @@ header.top{padding-top:env(safe-area-inset-top)}
     <div class="dlg-head"><h2 id="dlg-es-titolo">Esercizio</h2></div>
     <div class="dlg-body">
       <label class="f">Nome<input name="nome" required maxlength="90"></label>
-      <label class="f">Gruppo<select name="gruppo" id="sel-gruppo"></select></label>
+      <label class="f">Gruppo<select name="gruppo" id="sel-gruppo" required></select></label>
       <div class="grid3">
         <label class="f">Attivaz. (rip)<input name="att" type="number" min="0" max="20" step="1" placeholder="0"></label>
         <label class="f">Serie<input name="serie" type="number" min="1" max="12" step="1" required></label>
@@ -425,6 +452,22 @@ header.top{padding-top:env(safe-area-inset-top)}
   <div class="dlg-foot">
     <button class="btn" data-storico-progressi>Apri in Progressi</button>
     <button class="btn" data-chiudi-storico>Chiudi</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-scegli" class="foglio scegli" aria-labelledby="sc-titolo">
+  <div class="dlg-head">
+    <h2 id="sc-titolo">Scegli esercizio</h2>
+    <button class="icobtn" data-chiudi-scelta aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="cerca">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+    <input id="sc-cerca" type="search" placeholder="Cerca per nome" aria-label="Cerca un esercizio" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="search" maxlength="90">
+  </div>
+  <div class="filtri" id="sc-filtri" role="group" aria-label="Filtra per gruppo muscolare"></div>
+  <div class="dlg-body" id="sc-lista"></div>
+  <div class="dlg-foot">
+    <button class="btn" data-crea-mio>Crea un esercizio mio</button>
   </div>
 </dialog>
 
@@ -466,6 +509,65 @@ const arrotonda = (v, passo) => Math.max(passo, Math.round(v / passo) * passo);
 const e1rm = (kg, reps) => kg > 0 && reps > 0 ? kg * (1 + reps / 30) : 0;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const chiave = nome => String(nome).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+
+/* ============ catalogo degli esercizi ============ */
+/* La lista pronta da cui si sceglie in "+ Esercizio". Sta nel codice: funziona senza campo.
+   Il muscolo (m) serve solo da filtro nella scelta; sull'esercizio si salva il gruppo (g), uno dei 6 di GRUPPI. */
+const MUSCOLI = [
+  {id:"petto",     nome:"Petto",     g:"petto"},
+  {id:"schiena",   nome:"Schiena",   g:"dorso"},
+  {id:"spalle",    nome:"Spalle",    g:"spalle"},
+  {id:"gambe",     nome:"Gambe",     g:"gambe"},
+  {id:"polpacci",  nome:"Polpacci",  g:"gambe"},
+  {id:"bicipiti",  nome:"Bicipiti",  g:"braccia"},
+  {id:"tricipiti", nome:"Tricipiti", g:"braccia"},
+  {id:"addome",    nome:"Addome",    g:"core"},
+];
+const ATTREZZI = {bil:"Bilanciere", man:"Manubri", mac:"Macchina", cav:"Cavi", lib:"Corpo libero"};
+const CATALOGO = [];
+const cat = (m, a, nomi) => {
+  const mu = MUSCOLI.find(x => x.id === m);
+  nomi.split("|").forEach(nome => CATALOGO.push({nome, m, a, g: mu.g, k: chiave(nome), cerca: chiave(nome + " " + mu.nome + " " + gruppo(mu.g).nome + " " + ATTREZZI[a])}));
+};
+cat("petto", "bil", "Panca piana bilanciere|Panca inclinata bilanciere|Panca declinata bilanciere");
+cat("petto", "man", "Panca piana manubri|Panca inclinata manubri|Panca declinata manubri|Croci manubri panca piana|Croci manubri panca inclinata|Pullover manubrio");
+cat("petto", "mac", "Chest press|Chest press inclinata|Pectoral machine|Panca piana multipower|Panca inclinata multipower");
+cat("petto", "cav", "Croci ai cavi alti|Croci ai cavi bassi|Croci ai cavi su panca");
+cat("petto", "lib", "Piegamenti sulle braccia|Dip alle parallele");
+cat("schiena", "bil", "Stacco da terra|Rematore bilanciere|Rematore T-bar|Rack pull|Scrollate bilanciere|Good morning");
+cat("schiena", "man", "Rematore manubrio|Rematore manubri su panca inclinata|Scrollate manubri");
+cat("schiena", "mac", "Lat machine avanti|Lat machine presa stretta|Lat machine presa inversa|Pulley basso|Low row|Rematore alla macchina|Pulldown machine|Trazioni assistite");
+cat("schiena", "cav", "Pulldown a braccia tese al cavo|Rematore al cavo a un braccio|Pullover al cavo alto");
+cat("schiena", "lib", "Trazioni alla sbarra presa prona|Trazioni alla sbarra presa supina|Trazioni alla sbarra presa neutra|Rematore inverso|Iperestensioni");
+cat("spalle", "bil", "Military press|Lento avanti bilanciere seduto|Push press|Tirate al mento bilanciere");
+cat("spalle", "man", "Lento avanti manubri|Arnold press|Alzate laterali manubri|Alzate frontali manubri|Alzate a 90° manubri|Alzate laterali su panca inclinata");
+cat("spalle", "mac", "Shoulder press|Alzate laterali alla macchina|Reverse fly machine|Lento avanti multipower");
+cat("spalle", "cav", "Alzate laterali al cavo|Alzate frontali al cavo|Face pull|Croci inverse ai cavi|Tirate al mento al cavo");
+cat("spalle", "lib", "Piegamenti in verticale");
+cat("gambe", "bil", "Squat bilanciere|Front squat|Stacco rumeno|Stacco a gambe tese|Stacco sumo|Hip thrust bilanciere|Affondi bilanciere|Squat bulgaro bilanciere");
+cat("gambe", "man", "Goblet squat|Affondi manubri|Affondi in camminata|Squat bulgaro manubri|Stacco rumeno manubri|Step-up manubri");
+cat("gambe", "mac", "Leg press 45°|Pressa orizzontale|Hack squat|Pendulum squat|Squat multipower|Leg extension|Leg curl sdraiato|Leg curl seduto|Adductor machine|Abductor machine|Hip thrust machine|Glute machine");
+cat("gambe", "cav", "Slanci posteriori al cavo|Pull through al cavo");
+cat("gambe", "lib", "Squat a corpo libero|Affondi a corpo libero|Sissy squat|Nordic curl|Ponte glutei|Pistol squat");
+cat("polpacci", "bil", "Calf in piedi bilanciere");
+cat("polpacci", "man", "Calf in piedi manubri|Calf a una gamba manubrio");
+cat("polpacci", "mac", "Calf in piedi alla macchina|Calf seduto|Calf alla pressa|Calf al multipower|Donkey calf");
+cat("polpacci", "lib", "Calf a corpo libero su gradino");
+cat("bicipiti", "bil", "Curl bilanciere|Curl bilanciere EZ|Curl panca Scott bilanciere EZ|Curl presa inversa bilanciere");
+cat("bicipiti", "man", "Curl manubri alternato|Curl a martello|Curl manubri panca inclinata|Curl di concentrazione|Curl panca Scott manubrio|Spider curl|Zottman curl");
+cat("bicipiti", "mac", "Curl alla macchina");
+cat("bicipiti", "cav", "Curl al cavo basso|Curl a martello al cavo con corda|Curl ai cavi alti|Bayesian curl");
+cat("tricipiti", "bil", "French press bilanciere EZ|Panca presa stretta");
+cat("tricipiti", "man", "French press manubri|Estensioni sopra la testa manubrio|Kickback manubrio");
+cat("tricipiti", "mac", "Dip machine|Estensioni tricipiti alla macchina");
+cat("tricipiti", "cav", "Pushdown barra|Pushdown corda|Pushdown presa inversa|Pushdown a un braccio|Estensioni sopra la testa al cavo|Kickback al cavo");
+cat("tricipiti", "lib", "Dip tra due panche|Piegamenti a diamante");
+cat("addome", "man", "Russian twist con peso|Flessioni laterali manubrio");
+cat("addome", "mac", "Crunch machine|Rotary torso");
+cat("addome", "cav", "Crunch al cavo|Woodchopper al cavo|Pallof press");
+cat("addome", "lib", "Crunch|Crunch inverso|Sit-up|Plank|Plank laterale|Sollevamento gambe alla sbarra|Sollevamento ginocchia alle parallele|Sollevamento gambe a terra|Ab wheel|Mountain climber|Bicycle crunch|Hollow hold|Dragon flag|V-up");
+CATALOGO.sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+const NEL_CATALOGO = new Set(CATALOGO.map(x => x.k));
 
 /* ============ la scheda del coach ============ */
 /* Recuperi: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio e 2:30 dopo l'ultimo.
@@ -562,12 +664,16 @@ const DOMANDE = [
 
 /* ============ stato ============ */
 const CHIAVE = "diario-ghisa-v2";
-let stato = {scheda:null, sessioni:[], bozza:null, questionario:{}, pesi:[], vista:"oggi", esSel:null};
+// miei: gli esercizi creati dall'utente che non sono nel catalogo ({nome, gruppo})
+let stato = {scheda:null, sessioni:[], bozza:null, questionario:{}, pesi:[], miei:[], vista:"oggi", esSel:null};
 let db = null;
 
 function nuovoStato(){
-  return {scheda: schedaCoach(), sessioni: [], bozza: null, questionario: {}, pesi: []};
+  return {scheda: schedaCoach(), sessioni: [], bozza: null, questionario: {}, pesi: [], miei: []};
 }
+// Tiene solo le voci scritte bene: un backup o una copia vecchia possono non averle affatto.
+const mieiValidi = v => (Array.isArray(v) ? v : []).filter(x => x && typeof x.nome === "string" && chiave(x.nome))
+  .map(x => ({nome: x.nome, gruppo: gruppo(x.gruppo).id}));
 function caricaLocale(){
   try {
     const raw = localStorage.getItem(CHIAVE);
@@ -588,7 +694,7 @@ function caricaLocale(){
 }
 function salvaLocale(){
   try {
-    localStorage.setItem(CHIAVE, JSON.stringify({scheda: stato.scheda, sessioni: stato.sessioni, bozza: stato.bozza, questionario: stato.questionario, pesi: stato.pesi}));
+    localStorage.setItem(CHIAVE, JSON.stringify({scheda: stato.scheda, sessioni: stato.sessioni, bozza: stato.bozza, questionario: stato.questionario, pesi: stato.pesi, miei: stato.miei}));
   } catch (e) {}
 }
 
@@ -598,7 +704,7 @@ function salvaTutto(){
   if (!db) return;
   clearTimeout(coda);
   coda = setTimeout(() => {
-    db.doc("stato/corrente").set({rev: REV, scheda: stato.scheda, questionario: stato.questionario, pesi: stato.pesi, agg: new Date().toISOString()}).catch(() => {});
+    db.doc("stato/corrente").set({rev: REV, scheda: stato.scheda, questionario: stato.questionario, pesi: stato.pesi, miei: stato.miei, agg: new Date().toISOString()}).catch(() => {});
   }, 800);
 }
 function salvaSessione(s){
@@ -622,8 +728,10 @@ async function avviaSync(){
       stato.scheda = sistemaRecuperi(remoto.scheda);
       stato.questionario = remoto.questionario || {};
       stato.pesi = remoto.pesi || [];
+      // una copia scritta dalla versione vecchia non ha "miei": in quel caso restano quelli del telefono
+      if (Array.isArray(remoto.miei)) stato.miei = mieiValidi(remoto.miei);
     } else {
-      await db.doc("stato/corrente").set({rev: REV, scheda: stato.scheda, questionario: stato.questionario, pesi: stato.pesi, agg: new Date().toISOString()});
+      await db.doc("stato/corrente").set({rev: REV, scheda: stato.scheda, questionario: stato.questionario, pesi: stato.pesi, miei: stato.miei, agg: new Date().toISOString()});
     }
     const snap = await db.collection("sessioni").orderBy("data").limit(900).get();
     const remote = snap.docs.map(x => x.data()).filter(Boolean);
@@ -1365,8 +1473,8 @@ function sveglia(){
   if (!timer || timer.suona) return;
   timer.suona = true;
   clearInterval(timer.id);
-  const pannello = $("#dlg-storico");
-  if (pannello && pannello.open) pannello.close();
+  // un pannello aperto renderebbe Stop intoccabile: storico e scelta dell'esercizio si chiudono
+  ["#dlg-storico", "#dlg-scegli"].forEach(s => { const pannello = $(s); if (pannello && pannello.open) pannello.close(); });
   const el = timer.el;
   el.classList.add("suona");
   el.querySelector(".t").textContent = "0:00";
@@ -1442,16 +1550,18 @@ function toast(msg, ms){
 
 /* ============ dialog esercizio ============ */
 const dlg = $("#dlg-es");
-$("#sel-gruppo").innerHTML = GRUPPI.map(g => '<option value="' + g.id + '">' + g.nome + '</option>').join("");
+$("#sel-gruppo").innerHTML = '<option value="" disabled hidden>Scegli…</option>' + GRUPPI.map(g => '<option value="' + g.id + '">' + g.nome + '</option>').join("");
 let ctxEs = null;
-function apriEsercizio(giornoId, esId){
+// pre: nome e gruppo gia' scelti dalla lista ({nome, gruppo}), solo per un esercizio nuovo
+function apriEsercizio(giornoId, esId, pre){
   const g = stato.scheda.giorni.find(x => x.id === giornoId);
+  if (!g) return;
   const e = esId ? g.esercizi.find(x => x.id === esId) : null;
   ctxEs = {giornoId, esId};
   $("#dlg-es-titolo").textContent = e ? "Modifica esercizio" : "Nuovo esercizio";
   const f = $("#form-es");
-  f.nome.value = e ? e.nome : "";
-  f.gruppo.value = e ? e.gruppo : "petto";
+  f.nome.value = e ? e.nome : (pre && pre.nome || "");
+  f.gruppo.value = e ? gruppo(e.gruppo).id : (pre && pre.gruppo ? gruppo(pre.gruppo).id : "");
   f.att.value = e ? (e.att || 0) : 0;
   f.serie.value = e ? e.serie : 4;
   f.repMin.value = e ? e.repMin : 8;
@@ -1462,14 +1572,16 @@ function apriEsercizio(giornoId, esId){
   f.nota.value = e ? (e.nota || "") : "";
   f.superset.checked = !!(e && e.superset);
   dlg.showModal();
-  setTimeout(() => f.nome.focus(), 30);
+  // col nome gia' scritto non si apre la tastiera: restano da controllare solo i numeri
+  if (!f.nome.value) setTimeout(() => f.nome.focus(), 30);
+  else if (document.activeElement && dlg.contains(document.activeElement)) document.activeElement.blur();
 }
 $("#form-es").addEventListener("submit", ev => {
   if (ev.submitter && ev.submitter.value === "annulla") return;
   const f = ev.target;
   const dati = {
     nome: f.nome.value.trim() || "Esercizio",
-    gruppo: f.gruppo.value,
+    gruppo: gruppo(f.gruppo.value).id,
     att: Math.max(0, Number(f.att.value) || 0),
     serie: Math.max(1, Number(f.serie.value) || 4),
     repMin: Math.max(1, Number(f.repMin.value) || 8),
@@ -1484,14 +1596,17 @@ $("#form-es").addEventListener("submit", ev => {
   const g = stato.scheda.giorni.find(x => x.id === ctxEs.giornoId);
   if (!g) return;
   const vecchio = ctxEs.esId ? g.esercizi.find(x => x.id === ctxEs.esId) : null;
+  // un esercizio nuovo va in coda a quelli dell'allenamento, prima del blocco "Post allenamento"
+  const primoPost = g.esercizi.findIndex(x => x.sezione === "post");
+  const posto = primoPost < 0 ? g.esercizi.length : primoPost;
   // se min e max non cambiano resta la scrittura del coach ("8-6")
   dati.repsTxt = vecchio && vecchio.repsTxt && vecchio.repMin === dati.repMin && vecchio.repMax === dati.repMax
     ? vecchio.repsTxt
     : (dati.repMin === dati.repMax ? String(dati.repMax) : dati.repMin + "-" + dati.repMax);
   // spuntare o togliere "in superserie" sistema i recuperi della coppia (solo se erano ancora quelli della regola)
   if (!ctxEs.esId || dati.superset !== !!vecchio.superset){
-    const i = vecchio ? g.esercizi.indexOf(vecchio) : g.esercizi.length;
-    const prima = g.esercizi[i - 1], dopo = g.esercizi[i + 1];
+    const i = vecchio ? g.esercizi.indexOf(vecchio) : posto;
+    const prima = g.esercizi[i - 1], dopo = vecchio ? g.esercizi[i + 1] : undefined;
     if (dati.superset && dopo){
       dati.recupero = 0;
       if (!dopo.superset && dopo.recupero === 90) dopo.recupero = 150;
@@ -1501,11 +1616,148 @@ $("#form-es").addEventListener("submit", ev => {
     }
   }
   if (vecchio) Object.assign(vecchio, dati);
-  else g.esercizi.push(Object.assign({id: uid(), sezione: "main"}, dati));
+  else g.esercizi.splice(posto, 0, Object.assign({id: uid(), sezione: "main"}, dati));
+  // un esercizio che non e' nel catalogo resta fra "I miei", per ritrovarlo le volte dopo
+  const k = chiave(dati.nome);
+  if (k && !NEL_CATALOGO.has(k)){
+    const mio = stato.miei.find(x => chiave(x.nome) === k);
+    if (mio) mio.gruppo = dati.gruppo;
+    else stato.miei.push({nome: dati.nome, gruppo: dati.gruppo});
+  }
   salvaTutto();
   if (stato.bozza && stato.bozza.giornoId === g.id) aggiornaBozza();
   salvaLocale();
   render();
+});
+
+/* ============ scelta dell'esercizio ============ */
+const dlgSc = $("#dlg-scegli");
+const ICO_PIU = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+const ICO_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+let sc = {giornoId: null, filtro: "tutti", q: ""};
+
+// Gli esercizi dell'utente: quelli salvati in stato.miei, piu' quelli della scheda e dello storico
+// che non sono nel catalogo (questi si leggono al volo, non vengono scritti da nessuna parte).
+function mieiEsercizi(){
+  const m = new Map();
+  // in uso = in scheda o nello storico: resta fra i miei comunque, quindi non ha la × per toglierlo
+  const agg = e => {
+    const k = chiave(e.nome || "");
+    if (k && !m.has(k) && !NEL_CATALOGO.has(k)) m.set(k, {nome: e.nome, gruppo: e.gruppo, k, togli: false});
+  };
+  tuttiGliEsercizi().forEach(({e}) => agg(e));
+  stato.sessioni.forEach(s => (s.esercizi || []).forEach(agg));
+  stato.miei.forEach(x => {
+    const k = chiave(x.nome);
+    if (!m.has(k) && !NEL_CATALOGO.has(k)) m.set(k, {nome: x.nome, gruppo: x.gruppo, k, togli: true});
+  });
+  return Array.from(m.values()).sort((a, b) => a.nome.localeCompare(b.nome, "it"));
+}
+// Degli esercizi dell'utente si conosce solo il gruppo: per i filtri fini (bicipiti/tricipiti, polpacci)
+// il muscolo si indovina dal nome; se non si capisce, l'esercizio compare in tutti i filtri del suo gruppo.
+function nelMuscolo(x, mus){
+  if (gruppo(x.gruppo).id !== mus.g) return false;
+  const bic = /curl|bicip|scott/.test(x.k), tri = /pus+h ?down|french|tricip|kickback|dip|estension/.test(x.k), pol = /calf|polpacc/.test(x.k);
+  if (mus.id === "bicipiti") return bic || !tri;
+  if (mus.id === "tricipiti") return tri || !bic;
+  if (mus.id === "polpacci") return pol;
+  if (mus.id === "gambe") return !pol;
+  return true;
+}
+function misuraScelta(){
+  const vv = window.visualViewport;
+  if (!vv || !dlgSc.open) return;
+  dlgSc.style.setProperty("--vvh", Math.round(vv.height) + "px");
+  dlgSc.style.setProperty("--vvt", Math.round(vv.offsetTop) + "px");
+  dlgSc.classList.toggle("tastiera", window.innerHeight - vv.height > 150);
+}
+if (window.visualViewport){
+  window.visualViewport.addEventListener("resize", misuraScelta);
+  window.visualViewport.addEventListener("scroll", misuraScelta);
+}
+function apriScelta(giornoId){
+  // se la sveglia sta suonando il pannello coprirebbe Stop: aprirlo la ferma
+  if (timer && timer.suona) fermaTimer();
+  sc = {giornoId, filtro: "tutti", q: ""};
+  $("#sc-cerca").value = "";
+  dlgSc.classList.remove("tastiera");
+  disegnaFiltri();
+  disegnaScelta();
+  dlgSc.showModal();
+  misuraScelta();
+  $("#sc-lista").scrollTop = 0;
+}
+function disegnaFiltri(){
+  const voci = [{id:"tutti", nome:"Tutti"}, {id:"miei", nome:"I miei"}].concat(MUSCOLI);
+  $("#sc-filtri").innerHTML = voci.map(v =>
+    '<button type="button" class="filtro" data-filtro="' + v.id + '" aria-pressed="' + (sc.filtro === v.id) + '">' + v.nome + '</button>').join("");
+}
+function disegnaScelta(){
+  const q = sc.q.trim();
+  const kq = chiave(q);
+  const parole = kq.split(" ").filter(Boolean);
+  const passa = testo => parole.every(p => testo.includes(p));
+  // con una ricerca, prima i nomi che cominciano con quello che si e' scritto
+  const ordina = l => kq ? l.slice().sort((a, b) => (a.k.startsWith(kq) ? 0 : 1) - (b.k.startsWith(kq) ? 0 : 1)) : l;
+  const mus = MUSCOLI.find(x => x.id === sc.filtro);
+  const tuttiMiei = mieiEsercizi();
+  const miei = ordina(tuttiMiei.filter(x => (!mus || nelMuscolo(x, mus)) && passa(x.k + " " + chiave(gruppo(x.gruppo).nome))));
+  const lista = sc.filtro === "miei" ? [] : ordina(CATALOGO.filter(x => (!mus || x.m === mus.id) && passa(x.cerca)));
+
+  const voce = (x, meta, togli) => {
+    const gr = gruppo(x.gruppo || x.g);
+    return '<div class="voce"><button type="button" class="voce-btn" data-scegli="' + esc(x.nome) + '" data-gruppo="' + gr.id + '">' +
+      '<span class="gruppo" style="--g:' + gr.col + '"></span>' +
+      '<span class="info"><span class="nome">' + esc(x.nome) + '</span><span class="meta">' + meta + '</span></span></button>' +
+      (togli ? '<button type="button" class="voce-x" data-togli-mio="' + esc(x.k) + '" aria-label="Togli ' + esc(x.nome) + ' dai miei esercizi">' + ICO_X + '</button>' : "") +
+      '</div>';
+  };
+  let html = "";
+  const nuovo = !!kq && !NEL_CATALOGO.has(kq) && !tuttiMiei.some(x => x.k === kq);
+  if (nuovo){
+    html += '<div class="voce crea"><button type="button" class="voce-btn" data-crea-mio><span class="piu">' + ICO_PIU + '</span>' +
+      '<span class="info"><span class="nome">Crea «' + esc(q) + '»</span><span class="meta">Esercizio tuo: lo ritrovi qui le volte dopo</span></span></button></div>';
+  }
+  if (miei.length){
+    html += '<div class="eyebrow voci-tit">I miei</div>' + miei.map(x => voce(x, gruppo(x.gruppo).nome + " · mio", x.togli)).join("");
+  }
+  if (lista.length){
+    html += '<div class="eyebrow voci-tit">Dalla lista</div>' +
+      lista.map(x => voce(x, MUSCOLI.find(m => m.id === x.m).nome + " · " + ATTREZZI[x.a])).join("");
+  }
+  if (!miei.length && !lista.length){
+    html += '<div class="vuoto"><h3>' + (q ? "Nessun esercizio trovato" : "Ancora nessun esercizio tuo") + '</h3>' +
+      '<div class="small">' + (q ? "Non è in lista? Crealo tu: resta fra i tuoi esercizi." : "Quelli che crei tu compaiono qui.") + '</div></div>';
+  }
+  $("#sc-lista").innerHTML = html;
+  $("[data-crea-mio]", $(".dlg-foot", dlgSc)).textContent = nuovo ? "Crea «" + (q.length > 22 ? q.slice(0, 21) + "…" : q) + "»" : "Crea un esercizio mio";
+}
+$("#sc-cerca").addEventListener("input", ev => { sc.q = ev.target.value; disegnaScelta(); $("#sc-lista").scrollTop = 0; });
+$("#sc-cerca").addEventListener("keydown", ev => { if (ev.key === "Enter"){ ev.preventDefault(); ev.target.blur(); } });
+dlgSc.addEventListener("click", ev => {
+  const t = ev.target;
+  if (t === dlgSc || t.closest("[data-chiudi-scelta]")){ dlgSc.close(); return; }
+  const fi = t.closest("[data-filtro]");
+  if (fi){ sc.filtro = fi.dataset.filtro; $$(".filtro", dlgSc).forEach(b => b.setAttribute("aria-pressed", String(b === fi))); disegnaScelta(); $("#sc-lista").scrollTop = 0; return; }
+  const tg = t.closest("[data-togli-mio]");
+  if (tg){
+    const mio = stato.miei.find(x => chiave(x.nome) === tg.dataset.togliMio);
+    if (!mio || !confirm("Togliere «" + mio.nome + "» dai tuoi esercizi? Scheda e storico degli allenamenti restano come sono.")) return;
+    stato.miei = stato.miei.filter(x => x !== mio);
+    salvaTutto();
+    disegnaScelta();
+    return;
+  }
+  const sg = t.closest("[data-scegli]");
+  if (sg){ dlgSc.close(); apriEsercizio(sc.giornoId, null, {nome: sg.dataset.scegli, gruppo: sg.dataset.gruppo}); return; }
+  if (t.closest("[data-crea-mio]")){
+    // il nome scritto esiste gia' (in lista o fra i miei): si usa quello, non se ne crea un doppione
+    const kq = chiave(sc.q);
+    const gia = kq && (CATALOGO.find(x => x.k === kq) || mieiEsercizi().find(x => x.k === kq));
+    const mus = MUSCOLI.find(x => x.id === sc.filtro);
+    dlgSc.close();
+    apriEsercizio(sc.giornoId, null, gia ? {nome: gia.nome, gruppo: gia.g || gia.gruppo} : {nome: kq ? sc.q.trim().slice(0, 90) : "", gruppo: mus ? mus.g : ""});
+  }
 });
 
 /* ============ eventi ============ */
@@ -1580,7 +1832,7 @@ document.addEventListener("click", ev => {
     salvaTutto(); render(); return;
   }
   const addE = t.closest("[data-add-es]");
-  if (addE){ apriEsercizio(addE.dataset.addEs, null); return; }
+  if (addE){ apriScelta(addE.dataset.addEs); return; }
 
   if (t.closest("#peso-add")){
     const v = Number(String($("#peso-kg").value).replace(",", "."));
@@ -1749,7 +2001,7 @@ async function azione(a){
     return;
   }
   if (a === "esporta"){
-    const dati = JSON.stringify({app:"diario-di-ghisa", versione: REV, esportato: new Date().toISOString(), scheda: stato.scheda, sessioni: stato.sessioni, questionario: stato.questionario, pesi: stato.pesi}, null, 2);
+    const dati = JSON.stringify({app:"diario-di-ghisa", versione: REV, esportato: new Date().toISOString(), scheda: stato.scheda, sessioni: stato.sessioni, questionario: stato.questionario, pesi: stato.pesi, miei: stato.miei}, null, 2);
     scarica("diario-di-ghisa-" + oggiISO() + ".json", dati);
     return;
   }
@@ -1773,9 +2025,9 @@ async function azione(a){
     return;
   }
   if (a === "azzera"){
-    if (!confirm("Cancellare scheda, storico, pesi e questionario? Non si torna indietro.")) return;
+    if (!confirm("Cancellare scheda, storico, pesi, questionario e i tuoi esercizi? Non si torna indietro.")) return;
     const n = nuovoStato();
-    stato.scheda = n.scheda; stato.sessioni = []; stato.bozza = null; stato.questionario = {}; stato.pesi = [];
+    stato.scheda = n.scheda; stato.sessioni = []; stato.bozza = null; stato.questionario = {}; stato.pesi = []; stato.miei = [];
     salvaTutto();
     if (db) db.collection("sessioni").limit(900).get().then(s => s.docs.forEach(d => db.doc("sessioni/" + d.id).delete().catch(() => {}))).catch(() => {});
     render(); toast("Azzerato");
@@ -1794,6 +2046,8 @@ $("#file-import").addEventListener("change", ev => {
       stato.sessioni = d.sessioni.slice().sort((a, b) => a.data.localeCompare(b.data));
       stato.questionario = d.questionario || {};
       stato.pesi = d.pesi || [];
+      // un backup fatto prima della v8 non ha "miei": si tengono quelli che ci sono
+      if (Array.isArray(d.miei)) stato.miei = mieiValidi(d.miei);
       stato.bozza = null;
       salvaTutto();
       stato.sessioni.forEach(s => { if (db) db.doc("sessioni/" + s.id).set(s).catch(() => {}); });
@@ -1810,6 +2064,7 @@ stato.scheda = sistemaRecuperi(salvato.scheda);
 stato.sessioni = (salvato.sessioni || []).slice().sort((a, b) => a.data.localeCompare(b.data));
 stato.questionario = salvato.questionario || {};
 stato.pesi = salvato.pesi || [];
+stato.miei = mieiValidi(salvato.miei);
 stato.bozza = salvato.bozza && salvato.bozza.data === oggiISO() ? salvato.bozza : null;
 render();
 scriviVoceSveglia();

@@ -168,6 +168,10 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
 - **Pannello dal basso** `dialog.foglio`: attaccato al fondo su telefono, centrato da 760px in su;
   testata con titolo e × da 44px, corpo che scorre, due bottoni da 48px in fondo. Nessun `.btn.primary`
   dentro: quello della schermata resta Salva.
+- **Scelta dell'esercizio** `dialog.foglio.scegli`: pannello alto quanto lo schermo visibile (segue la
+  tastiera con `--vvh`), ricerca `.cerca` in alto (48px, testo 16px), striscia di filtri `.filtro` a
+  pillola da 48px che scorre (scelto: `--accent-soft` con testo `--accent-ink`), righe `.voce` da 54px
+  con pallino del gruppo, nome e sotto "muscolo · attrezzo". Niente vetro scuro né `.btn.primary`.
 - **Grafici**: `grafico(storia, larghezza)` si disegna alla larghezza vera dello spazio, così i numeri
   restano a 11-13px anche a 320px. Linea e punti in `--dato`, area in `--accent-soft`, barre in `--vol`.
   Mai un SVG largo rimpicciolito con `viewBox`.

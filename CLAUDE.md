@@ -54,6 +54,11 @@ service worker e mostra la striscia "Nuova versione disponibile"):
 - `andamento()` / `apriStorico()` — indicatore di progresso e pannello dal basso (`#dlg-storico`).
 - `aggiornaBozza()` — da usare dopo ogni modifica alla scheda: a metà allenamento non butta via le
   serie spuntate. Non chiamare `creaBozza()` direttamente in quei punti.
+- `CATALOGO` (costruito con `cat()`) — la lista pronta degli esercizi, dentro il codice. `MUSCOLI` sono i
+  filtri della scelta, più fini dei 6 `GRUPPI`: sull'esercizio si salva sempre il gruppo (`g`), mai il muscolo.
+  `apriScelta()` / `disegnaScelta()` gestiscono il pannello `#dlg-scegli`, che poi apre `apriEsercizio()`
+  con nome e gruppo compilati. Gli esercizi fuori catalogo stanno in `stato.miei` (`[{nome, gruppo}]`):
+  è l'unico campo aggiunto dalla v8, e sync e Importa lo sostituiscono solo se trovano un array.
 - `blocco()` / `progressioniBlocco()` — stato del blocco di 6 settimane e delta dei carichi. Nel Report
   e nel testo per il coach ogni esercizio riporta le serie intere di prima e ultima seduta
   (`serieDa` / `serieA`): il coach deve vedere "80×5 · 70×8·8·8", non un solo carico.
