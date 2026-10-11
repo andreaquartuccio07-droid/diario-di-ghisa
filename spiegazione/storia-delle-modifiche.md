@@ -6,6 +6,50 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v9 — 11 ottobre 2026
+
+**Oggi: esercizi in righe che si aprono, andamento accanto al nome, figura che mostra il movimento.**
+
+Righe
+- Ogni esercizio è una riga compatta: cerchio, nome, andamento, sotto schema e recupero, freccina.
+- Toccando la riga si apre sotto la sua finestra; ritoccandola si chiude. Se ne apre una alla volta.
+  All'inizio è aperta la prima che ha ancora serie da fare.
+- Il cerchio non si tocca: si riempie man mano che spunti le serie e diventa verde con la spunta
+  quando le hai fatte tutte. La riga lo dice anche a parole ("2 di 4 fatte", "fatto").
+- Una superserie è un riquadro solo con i due esercizi legati da un filo; aperta, li mostra uno sotto
+  l'altro.
+- Nella finestra aperta, dall'alto: obiettivo, serie, figura. La riga "Ultima …" che apre lo storico
+  è subito sotto l'obiettivo.
+
+Andamento
+- Accanto al nome: freccia verde in su e percentuale se sei migliorato, freccia rossa in giù se sei
+  peggiorato, "=" se è uguale (meno dell'1% di differenza), niente se non ci sono ancora due sedute.
+- Come si calcola: massimale stimato della migliore serie di lavoro, ultima seduta contro quella
+  prima dello stesso esercizio. Il massimale stimato sale sia con più kg sia con più ripetizioni.
+- La serie pesante iniziale (l'1×5) non entra nel conto: essendo la più pesante, avrebbe nascosto
+  una ripetizione persa o guadagnata nelle serie da 8.
+- Quando sali di carico e riparti da meno ripetizioni (80×8 → 82,5×6) la freccia è verde e la
+  percentuale è quella del carico in più (+3,1%). Vale finché il calo del massimale è piccolo (entro
+  il 5%): se sali di carico ma perdi molte ripetizioni (80×8 → 82,5×3) la freccia è rossa.
+- Prima il confronto era con tre sedute prima. Anche il pannello dello storico ora usa la regola nuova,
+  così riga e pannello danno lo stesso numero.
+
+Figura dell'esercizio
+- Sotto le serie c'è un omino piccolo che ripete il movimento. È disegnato dentro l'app: funziona
+  senza campo e non scarica niente.
+- 15 movimenti: squat, stacco, affondi, leg extension, leg curl, polpacci, spinta orizzontale, croci,
+  spinta verticale, alzate laterali, trazione verticale, rematore, curl, estensione tricipiti, addome.
+- Il movimento viene riconosciuto dal nome dell'esercizio. Se non lo riconosce non mostra nessuna
+  figura. Dal menu "Movimento" lì accanto lo scegli a mano; la scelta vale per quell'esercizio in
+  tutti i giorni ed entra nel backup.
+- Con "riduci movimento" attivo sul telefono la figura resta ferma (partenza piena, arrivo in trasparenza).
+- Il bottone con l'occhio barrato la nasconde in tutti gli esercizi; si riattiva dal menu ⋯,
+  "Figura dell'esercizio: sì / no". La scelta viene ricordata.
+
+Dati
+- Scheda e allenamenti salvati non sono stati toccati. Si aggiunge solo l'elenco dei movimenti scelti
+  a mano, che entra nel backup; un backup vecchio si importa come prima.
+
 ## ghisa-v8 — 10 ottobre 2026
 
 **Esercizi da scegliere in una lista, invece di scrivere il nome a mano.**
@@ -140,6 +184,12 @@ Altre correzioni
 
 Sono cose che al computer non si possono verificare. Quando le hai provate, cancellale da qui.
 
+- Figura dell'esercizio: sull'iPhone si muove? (Al computer sì, ma Safari va visto dal vero.) È fluida
+  e non rallenta lo scorrimento? Con Impostazioni → Accessibilità → Movimento → "Riduci movimento"
+  attivo deve restare ferma.
+- Righe di Oggi: si aprono e si chiudono bene col pollice, e la riga toccata resta sotto il dito
+  quando se ne chiude un'altra più in alto? Il menu "Movimento" si apre con la rotella dell'iPhone?
+- Le frecce dell'andamento si leggono a colpo d'occhio sotto le luci della palestra?
 - Grafica nuova: i numeri si leggono sotto le luci della palestra? La barra in alto dell'iPhone (ora,
   batteria) ha lo stesso azzurro dell'intestazione, senza una fascia bianca sopra?
 - Lo scorrimento della pagina è fluido come prima, anche col timer a schermo?
@@ -156,6 +206,20 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 
 ## Lasciato così apposta
 
+- Il cerchio delle righe non si tocca: con un tocco sbagliato avrebbe segnato serie mai fatte.
+- 28 esercizi della lista non hanno figura (dip, scrollate, tirate al mento, alzate frontali, hip
+  thrust, plank, pullover, adduttori, rotazioni del busto): meglio nessuna figura che una sbagliata.
+  Si può sempre sceglierne una a mano dal menu "Movimento".
+- I piegamenti mostrano la figura della panca e le croci inverse quella delle croci: il gesto è lo
+  stesso, cambia il verso.
+- L'andamento confronta con la volta prima dello stesso esercizio anche se era in un altro giorno
+  della scheda. Se lo stesso esercizio ha schemi diversi nei due giorni (alzate laterali 8-10 il 1°
+  giorno e 10-12 il 3°, panca 30° nel 1° e nel 3°) la freccia può andare su e giù senza un vero
+  cambiamento. L'alternativa sarebbe confrontare solo con lo stesso giorno: da decidere.
+- Un esercizio "in superserie" che è l'ultimo prima del post allenamento non si lega al primo
+  esercizio del post: ha il suo timer normale.
+- Nell'andamento la serie pesante iniziale non conta: se migliori solo quella, la riga resta "=".
+  Il suo progresso si vede nello storico (massimale stimato e grafico).
 - I quattro bottoni piccoli (32px) nelle righe di Scheda: più grandi schiaccerebbero il nome
   dell'esercizio.
 - Una fessura di circa 10px fra Salva e la barra del timer.

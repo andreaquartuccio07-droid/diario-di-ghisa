@@ -18,8 +18,8 @@ L'idea dello stile (scelto dall'utente l'8 ottobre 2026, dalla v6):
 - Il tema **chiaro è quello principale** (l'utente usa sempre quello); lo scuro deve funzionare e restare curato.
 
 Tutto lo stile sta nel `<style>` di `index.html`. Prima di aggiungere una classe, cerca se esiste già:
-`.card`, `.btn`, `.icobtn`, `.tile`, `.es`, `.sr`, `.fld`, `.eyebrow`, `.muted`, `.small`, `.tiny`,
-`.stack`, `.row`, `.spread`, `.vuoto`, `.pr`, `.delta`.
+`.card`, `.btn`, `.icobtn`, `.tile`, `.es`, `.riga`, `.and`, `.sr`, `.fld`, `.eyebrow`, `.muted`,
+`.small`, `.tiny`, `.stack`, `.row`, `.spread`, `.vuoto`, `.pr`, `.delta`.
 
 ## Regola d'oro
 
@@ -142,10 +142,30 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
   Azione principale in fondo allo schermo: `.btn.primary.block` dentro `.salva-bar` (52px).
 - **Bottone a icona** `.icobtn`: sempre con `aria-label`.
 - **Eliminare dati**: chiede sempre conferma in un `dialog` e ricorda che i dati stanno solo sul telefono.
-- **Card esercizio** `.es`: testata `.es-head` (nome + prescrizione `.prescr`), righe delle serie `.sr`.
-  Superset: `.es.ss`, bordo sinistro 3px `--dato`.
+- **Riga esercizio** `.es` (dalla v9, in Oggi): chiusa è una riga `.riga` alta almeno 64px con cerchio
+  `.cerchio`, nome in Barlow 20px su una riga sola (puntini se non ci sta), indicatore `.and` accanto al
+  nome, sotto schema `.prescr` e recupero in 12.5px, freccina `.frec` a destra. Tutta la riga è un bottone
+  (`.apri`, `aria-expanded`): toccandola si apre il corpo `.corpo`, ritoccandola si chiude. **Una sola
+  aperta alla volta**: la schermata resta corta e la figura che si muove è una sola.
+  Il nome può accorciarsi, l'indicatore mai (`flex:0 0 auto`).
+- **Cerchio** `.cerchio`: solo un indicatore, non si tocca (scelta dell'utente: un tocco sbagliato
+  segnerebbe serie mai fatte). Vuoto, poi un arco `--up` che cresce con le serie spuntate, poi pieno
+  `--up` con la spunta. La riga lo dice anche a parole: "2 di 4 fatte", "fatto".
+- **Superserie** `.es.ss`: un riquadro solo con le due righe, bordo sinistro 3px `--dato` e un filo
+  `--dato` fra i due cerchi; una sola freccina. Aperta, mostra i due esercizi uno sotto l'altro,
+  ognuno col suo nome (`.sub`), obiettivo, serie e figura.
+- **Dentro la riga aperta**, sempre in quest'ordine: obiettivo, motivo, "Ultima …", gruppo/tecnica/nota,
+  serie, `+ serie` / `− serie`, figura. Niente va messo fra l'obiettivo e le serie se non serve a
+  decidere il carico.
 - **Obiettivo** `.obiettivo`: riquadro in vetro scuro largo quanto la card, etichetta in `--glow`,
   carico × ripetizioni in grande in `--deep-ink`.
+- **Andamento** `.and[data-dir]`: pillola con freccia disegnata (SVG) + segno + percentuale in mono
+  12.5px. `su`: testo `--up` su `--up-soft`; `giu`: testo `--down` su `--down` al 12%; `fermo`: "=" in
+  `--ink-2` su `--surface-2`. Senza dati non compare. Ha sempre un `aria-label` a parole.
+- **Figura dell'esercizio** `.omino` / `svg.fig`: in fondo alla riga aperta, 68px (60px sotto i 360px),
+  fondo `--surface-3`, corpo in `--ink`, attrezzo in `--dato`. Accanto il menu "Movimento" (48px, testo
+  16px) e il bottone con l'occhio barrato che la nasconde. Non va ingrandita né spostata sopra le
+  serie. Come sono fatte le pose: skill `figura-esercizio`.
 - **Riga serie** `.sr`: numero, kg, ripetizioni, spunta `.tick` (52×50). Numeri centrati nei campi.
   Fatta: `data-done="1"` (campi su `--up-soft`, spunta piena `--up` con segno `--on-up`).
   Serie iniziale: `data-att="1"`.
@@ -163,8 +183,8 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
 - **Timer** `.timer`: vetro scuro, tempo in `--glow`, filo di avanzamento `--accent`.
   **Sveglia** `.timer.suona`: a tempo scaduto la barra diventa `--accent` con testo `--on-accent`,
   scritta grande e un solo bottone "Stop".
-- **Storico** `.storico-btn`: la riga "Ultima …" in cima alla card è un bottone alto almeno 48px, con i
-  numeri in mono, l'indicatore `.delta` (▲ / ▼ / =) e una freccia a destra.
+- **Storico** `.storico-btn`: la riga "Ultima …" sotto l'obiettivo è un bottone alto almeno 48px, con i
+  numeri in mono e una freccia a destra. L'andamento non sta più qui ma nella riga chiusa (`.and`).
 - **Pannello dal basso** `dialog.foglio`: attaccato al fondo su telefono, centrato da 760px in su;
   testata con titolo e × da 44px, corpo che scorre, due bottoni da 48px in fondo. Nessun `.btn.primary`
   dentro: quello della schermata resta Salva.
@@ -180,7 +200,8 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
 
 Tutto ciò che si tocca fra una serie e l'altra è alto almeno **48px** (minimo assoluto 44px).
 Spunta, campi, `+ serie` / `− serie`, Salva, le voci della barra in basso e i bottoni del timer sono
-a 48px o più. Menu ⋯ e le sue voci, `.btn`, `.btn.sm`, "Elimina allenamento" e i cursori del
+a 48px o più; le righe degli esercizi sono alte almeno 64px, il menu "Movimento" e il bottone che
+nasconde la figura 48px. Menu ⋯ e le sue voci, `.btn`, `.btn.sm`, "Elimina allenamento" e i cursori del
 questionario sono a 44px. Restano a 32px solo i `.icobtn` nelle righe di Scheda (quattro per riga: a
 44px schiaccerebbero il nome dell'esercizio): non usarli come misura per elementi nuovi.
 
@@ -201,8 +222,10 @@ basso deve fare lo stesso.
 
 ## Movimento
 
-- Transizioni brevi, 150ms, `ease-out`, solo su colore di fondo e pressione (`transform:scale(.97)`).
-  Niente animazioni decorative.
+- Transizioni brevi, 150ms, `ease-out`, solo su colore di fondo, pressione (`transform:scale(.97)`) e
+  rotazione della freccina delle righe. Niente animazioni decorative.
+- Unica animazione che gira da sola: la figura dell'esercizio (3 secondi, lenta, solo nella riga
+  aperta). Con "riduci movimento" resta ferma: partenza piena e arrivo in trasparenza.
 - Ogni transizione nuova va aggiunta alla regola `@media (prefers-reduced-motion:reduce)` in fondo
   allo `<style>`, che le spegne tutte.
 

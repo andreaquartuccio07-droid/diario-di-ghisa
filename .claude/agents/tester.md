@@ -41,7 +41,9 @@ Accorgimenti che fanno risparmiare tempo:
 - Tema scuro: `page.emulateMedia({colorScheme: "dark"})`.
 
 Per trovare gli elementi usa `browser_snapshot` e i nomi accessibili, come farebbe l'utente.
-Riferimenti utili: schermata **Oggi**; in ogni esercizio le righe delle serie hanno i campi
+Riferimenti utili: schermata **Oggi**; ogni esercizio è una riga chiusa (un bottone col nome, `aria-expanded`)
+che si apre toccandola, una alla volta: all'avvio è aperta la prima con serie da fare, le altre vanno
+aperte prima di cercare le loro serie. Dentro la riga aperta le righe delle serie hanno i campi
 "Carico" e "Ripetizioni" e la spunta "Serie completata"; sotto ci sono `+ serie` e `− serie`;
 in fondo `Salva allenamento · N serie`. Gli allenamenti salvati stanno in **Progressi**, sotto
 "Ultimi allenamenti", con il bottone "Elimina allenamento" (apre una conferma del browser:
@@ -123,19 +125,59 @@ Se la sveglia scatta col pannello dello storico aperto, il pannello si chiude e 
 L'app non deve dare errori se `vibrate`, `wakeLock` o `AudioContext` mancano (iPhone non vibra).
 
 ### 12. Storico in un tocco
-In Oggi la riga "Ultima …" è un bottone con l'indicatore dell'andamento ("▲ +x%", "▼ −x%",
-"= stabile"; nessun indicatore con una sola seduta; "Nessuno storico" non toccabile). Rifai a mano
-il conto di almeno un indicatore (massimale stimato = kg × (1 + rip/30) della serie migliore;
-ultima seduta contro tre sedute prima). Toccandolo si apre dal basso il pannello con tessere,
-grafico e ultime 6 volte; si chiude con Chiudi, ×, tocco fuori ed Esc; "Apri in Progressi" porta
-all'esercizio giusto. Bozza e timer restano intatti. Controlla il pannello a 375 e 320, chiaro e
-scuro: niente scroll orizzontale, grafico dentro la sua scatola, bottoni in fondo sempre visibili.
+Nella riga aperta, sotto l'obiettivo, "Ultima …" è un bottone (senza indicatore: quello sta nella riga
+chiusa, prova 14; con nessuna seduta il bottone non c'è). Toccandolo si apre dal basso il pannello con
+tessere, grafico e ultime 6 volte; la tessera "Andamento" riporta lo stesso numero della riga chiusa
+("▲ +x%", "▼ −x%", "= stabile") e dice se è sul massimale stimato o sul carico. Si chiude con Chiudi,
+×, tocco fuori ed Esc; "Apri in Progressi" porta all'esercizio giusto. Bozza e timer restano intatti.
+Controlla il pannello a 375 e 320, chiaro e scuro: niente scroll orizzontale, grafico dentro la sua
+scatola, bottoni in fondo sempre visibili.
 
 ### 13. Bozza al sicuro
 Con serie spuntate: cambiare giorno chiede conferma e, dopo un ricaricamento, le spunte vecchie non
 tornano; aggiungere, spostare o eliminare esercizi da Scheda non fa perdere le serie spuntate degli
 altri esercizi; un esercizio aggiunto a metà allenamento ha le sue righe e `+ serie` funziona.
 "Esporta backup" fa partire un download vero e lo stesso file, reimportato, riporta gli stessi dati.
+
+### 14. Righe degli esercizi
+Prepara uno storico con almeno due sedute dello stesso giorno, così da avere nella stessa schermata i
+quattro casi. A 375 e a 320, in chiaro e in scuro:
+- **Righe chiuse**: cerchio, nome, indicatore accanto al nome, sotto schema e recupero, freccina.
+  Indicatore: freccia in su e "+x%" verde se migliorato, freccia in giù e "−x%" rosso se peggiorato,
+  "=" se la differenza è sotto l'1%, niente con meno di due sedute. Rifai a mano almeno tre conti:
+  massimale stimato = kg × (1 + rip/30) della migliore **serie di lavoro** (la serie att non conta),
+  ultima seduta contro quella prima. Caso a parte: se il carico delle serie di lavoro è salito e il
+  massimale no (80×8 → 85×6) la freccia è verde con la percentuale di carico in più (+6,3%).
+- **Nome lungo**: finisce coi puntini e l'indicatore resta intero dentro la riga (confronta i
+  `getBoundingClientRect()` di indicatore e bottone).
+- **Superserie**: un riquadro solo con le due righe, ognuna col suo cerchio e il suo indicatore, una
+  sola freccina; aperta, mostra i due esercizi uno sotto l'altro.
+- **Apertura e chiusura**: toccando una riga si apre, ritoccandola si chiude, aprendone un'altra la
+  prima si chiude (mai più di una aperta; `aria-expanded` coerente). La riga toccata non salta via da
+  sotto il dito e la pagina non torna in cima.
+- **Ordine nella riga aperta**, dall'alto: obiettivo, serie, figura.
+- **Cerchio**: non si tocca. Spuntando le serie si riempie, la riga dice "2 di 4 fatte" e poi
+  "fatto" con la spunta verde; `+ serie` e `− serie` aggiornano il conto. Dopo un ricaricamento è uguale.
+- Riga e bottoni alti almeno 48px; niente scroll orizzontale.
+
+### 15. Figura dell'esercizio
+- Sotto le serie c'è una figura piccola che si muove (`svg.fig` con elementi `animate`) e il menu
+  "Movimento". Controlla che il movimento riconosciuto sia sensato per almeno sei esercizi della scheda
+  (es. "Stacco rumeno" → Stacco, "Panca Scott macchina" → Curl, "Calf alla pressa orizzontale" → Polpacci).
+- Un esercizio creato a mano con un nome che non somiglia a nessun movimento (es. "Giro del mondo
+  con disco"; non "Trazioni…", che viene riconosciuto come trazione verticale) non ha figura,
+  il menu dice "Nessuna figura", nessun errore in console. Scegliendo un movimento dal menu la figura
+  compare; resta dopo il ricaricamento e vale per lo stesso esercizio negli altri giorni.
+- Con `page.emulateMedia({reducedMotion: "reduce"})` la figura non ha `animate` (posa ferma con
+  l'arrivo in trasparenza); tornando a `no-preference` riparte senza ricaricare.
+- Il bottone con l'occhio barrato nasconde figura e menu in tutti gli esercizi; dal menu ⋯ la voce
+  "Figura dell'esercizio: sì / no" la riporta. La scelta resta dopo il ricaricamento.
+- Senza rete la figura c'è lo stesso (nessuna richiesta di rete: è disegnata dentro la pagina).
+
+### 16. Dati vecchi
+Scrivi in `localStorage` uno stato senza i campi `miei` e `movimenti` (com'era prima della v8) e
+ricarica: l'app parte, scheda e sedute sono quelle. Importa un backup senza `movimenti` dopo aver
+scelto a mano un movimento: la scelta resta. Un backup con `movimenti` la sostituisce.
 
 ## Chiusura
 

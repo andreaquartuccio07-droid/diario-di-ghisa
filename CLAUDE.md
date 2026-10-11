@@ -52,13 +52,28 @@ service worker e mostra la striscia "Nuova versione disponibile"):
   ricaricamento); a zero `sveglia()` squilla finché non si tocca Stop. `sbloccaSuono()` va chiamata
   dentro un tocco. La preferenza "Sveglia col silenzioso" sta in `diario-ghisa-sveglia`.
 - `andamento()` / `apriStorico()` — indicatore di progresso e pannello dal basso (`#dlg-storico`).
+  Regola dalla v9: ultima seduta contro la precedente, sul massimale stimato della migliore **serie di lavoro**
+  (la `att` è più pesante e nasconderebbe le altre); sotto l'1% è "fermo". Se il carico di lavoro è salito e il
+  massimale no (80×8 → 82,5×6) è comunque "su", con la percentuale di carico in più: scelta dell'utente
+  (vale solo se il massimale cala meno del 5%).
+  `pillolaAndamento()` la disegna nella riga chiusa; riga e pannello devono dare lo stesso numero.
+- Righe di Oggi (dalla v9): `rigaChiusaHTML()` + `corpoHTML()` dentro `vistaOggi()`. Una sola riga aperta:
+  `aperto` è l'id del primo esercizio del riquadro (`null` = scegli tu la prima da fare, `""` = tutte chiuse),
+  è solo di schermo e non si salva. `apriRiga()` apre e chiude senza `render()` (che riporta la pagina in cima);
+  `aggiornaRiga(esId)` va chiamata dopo ogni spunta, `+ serie` e `− serie` per cerchio e conteggio.
+  Il cerchio è solo un indicatore: l'utente non lo vuole toccabile.
+- Figura dell'esercizio (dalla v9): `MOV` (15 movimenti, due pose l'uno), `REGOLE_MOV` / `movimentoDalNome()`,
+  `movimentoDi()`, `figura()`, `figuraHTML()`, `ridisegnaFigure()`. SVG animato con SMIL, fermo con "riduci
+  movimento". Le scelte a mano stanno in `stato.movimenti` (`{nome normalizzato: id | "nessuna"}`), trattato
+  come `stato.miei`; la preferenza mostra/nascondi in `diario-ghisa-figura`. Dettagli nella skill `figura-esercizio`.
 - `aggiornaBozza()` — da usare dopo ogni modifica alla scheda: a metà allenamento non butta via le
   serie spuntate. Non chiamare `creaBozza()` direttamente in quei punti.
 - `CATALOGO` (costruito con `cat()`) — la lista pronta degli esercizi, dentro il codice. `MUSCOLI` sono i
   filtri della scelta, più fini dei 6 `GRUPPI`: sull'esercizio si salva sempre il gruppo (`g`), mai il muscolo.
   `apriScelta()` / `disegnaScelta()` gestiscono il pannello `#dlg-scegli`, che poi apre `apriEsercizio()`
   con nome e gruppo compilati. Gli esercizi fuori catalogo stanno in `stato.miei` (`[{nome, gruppo}]`):
-  è l'unico campo aggiunto dalla v8, e sync e Importa lo sostituiscono solo se trovano un array.
+  aggiunto dalla v8; sync e Importa lo sostituiscono solo se trovano un array (lo stesso vale per
+  `stato.movimenti`, aggiunto dalla v9, se trovano un oggetto).
 - `blocco()` / `progressioniBlocco()` — stato del blocco di 6 settimane e delta dei carichi. Nel Report
   e nel testo per il coach ogni esercizio riporta le serie intere di prima e ultima seduta
   (`serieDa` / `serieA`): il coach deve vedere "80×5 · 70×8·8·8", non un solo carico.
@@ -78,6 +93,7 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 | Grafici e numeri in `vistaProgressi()` / `vistaReport()` | skill `dataviz` (SVG a mano, niente librerie) |
 | Qualsiasi modifica grafica: colori, font, misure, componenti | skill `stile-ghisa` (`.claude/skills/`), prima delle altre |
 | Token nuovi, tema chiaro/scuro | skill `design-system` |
+| Figura dell'esercizio: movimento nuovo, sbagliato o non riconosciuto | skill `figura-esercizio` (`.claude/skills/`), con la sua tavola di controllo |
 | Modifica alla forma dei dati salvati | agente `Plan` prima di scrivere codice, e backup dell'utente |
 | Dopo una modifica consistente | agente `revisore-pwa` (`.claude/agents/`): rilegge il codice |
 | Dopo una modifica all'app, prima del rilascio | agente `tester` (`.claude/agents/`): prova l'app in un browser vero con Playwright |
