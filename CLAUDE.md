@@ -128,6 +128,9 @@ sull'account. Usali senza aspettare che l'utente li nomini:
 - **Storia e stato del progetto**: `spiegazione/storia-delle-modifiche.md` elenca cosa è cambiato a ogni
   versione, cosa resta da provare sull'iPhone, cosa è stato lasciato così apposta e i limiti noti.
   Leggilo prima di lavorare su un problema e aggiungi una voce in cima a ogni rilascio.
+- **L'app è pubblica** (GitHub Pages) e l'utente può averla data a un amico: chi la apre parte con la
+  scheda di `schedaCoach()` e riceve ogni rilascio. Per questo niente va sovrascritto in automatico
+  sui dati già salvati: una scheda nuova arriva solo con un tocco dal menu ⋯.
 - I dati stanno **solo sul dispositivo**. Prima di modifiche rischiose alla struttura dei dati,
   ricordare all'utente di fare Esporta backup (.json) dal menu ⋯.
 - Recuperi voluti dall'utente: 1:30 fra le serie; in superserie nessuna pausa dopo il primo esercizio

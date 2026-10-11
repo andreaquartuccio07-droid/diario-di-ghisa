@@ -55,7 +55,8 @@ Esegui tutte le prove anche se una fallisce, a meno che l'app non parta proprio.
 
 ### 1. Aggiungere una serie
 Sul primo esercizio di Oggi conta le righe, tocca `+ serie`, verifica che ce ne sia una in più.
-Scrivi un carico e delle ripetizioni nella riga nuova (es. 42,5 kg × 8) e spuntala.
+Il primo esercizio ("Stacco rumeno", 3×5 + 1×8) ha in fondo la riga "FIN": la riga nuova deve comparire
+prima di quella, non dopo. Scrivi un carico e delle ripetizioni nella riga nuova (es. 42,5 kg × 8) e spuntala.
 Il bottone in fondo deve diventare "Salva allenamento · 1 serie".
 
 ### 2. Modificare una serie
@@ -66,8 +67,8 @@ nuovi e la riga deve restare spuntata.
 Ricarica la pagina. La riga aggiunta deve esserci ancora, con i valori modificati e la spunta.
 
 ### 4. Cancellare una serie
-Tocca `− serie` sullo stesso esercizio: le righe tornano al numero di partenza. Controlla quale
-riga è sparita e se il conteggio sul bottone Salva è coerente. Ricarica e verifica che resti cancellata.
+Tocca `− serie` sullo stesso esercizio: le righe tornano al numero di partenza. Deve sparire l'ultima
+serie di lavoro (quella aggiunta), non la riga "FIN". Controlla che il conteggio sul bottone Salva sia coerente. Ricarica e verifica che resti cancellata.
 
 ### 5. Salvare e ritrovare l'allenamento
 Spunta una serie con carico e ripetizioni, tocca Salva. Vai in Progressi: l'allenamento di oggi
@@ -97,13 +98,18 @@ Misura con `getBoundingClientRect()` l'altezza di ciò che si tocca fra una seri
 (spunta, `+ serie`, `− serie`, Salva, voci della barra in basso) e segnala ciò che sta sotto i 44px.
 Ripeti il controllo dello scroll orizzontale a 320px.
 
-### 8. Schema misto 1×5 + 3×8
-Su "Stacco rumeno" (1° giorno) compila le quattro righe con valori tutti diversi, spuntale (anche in
-ordine sparso) e salva. Le `sets` salvate devono avere lo stesso ordine e gli stessi valori delle
-righe, la prima con `att: true`. Tornando sul 1° giorno la riga "Ultima gg/mm: …" deve riportare ogni
-carico accanto alle sue ripetizioni (es. `100×5 · 80×8·7·6`) e la riga att deve essere precompilata
-col proprio carico. Dopo una seduta con la sola riga att, l'obiettivo e le righe 1-3 non devono
-prendere il carico della att.
+### 8. Schema misto 3×5 + 1×8 (serie finale)
+Su "Stacco rumeno" (1° giorno) ci sono tre righe da 5 e una riga "FIN" da 8. Compilale (es. 100×5 tre
+volte e 85×8), spuntale anche in ordine sparso e salva. Le `sets` salvate devono avere lo stesso ordine
+e gli stessi valori delle righe, l'ultima con `coda: true`. Tornando sul 1° giorno: la riga "Ultima
+gg/mm: …" riporta `100×5·5·5 · 85×8`; l'obiettivo è 105 kg × 5 ("Tutte le serie chiuse a 5"); le tre
+righe sono precompilate a 105 e la riga FIN a 85, il suo carico. Con una delle tre serie a 4 ripetizioni
+l'obiettivo resta a 100 ("Consolida"). Dopo una seduta con la sola riga FIN, obiettivo e righe 1-3 non
+devono prendere il suo carico. Spuntando la riga FIN con le ripetizioni vuote si scrive 8, non 5.
+
+Lo schema vecchio "1×5 + 3×8" (serie iniziale `att`) non è più nella scheda del coach ma il codice
+c'è ancora: scrivi in `localStorage` una seduta con la prima serie `att: true` e controlla che storico
+e "Ultima …" la mostrino come gruppo a sé (`100×5 · 80×8·7·6`).
 
 ### 9. Recupero normale
 Spuntando una serie di un esercizio normale il timer parte da 1:30 con etichetta "recupero · nome",
@@ -123,6 +129,20 @@ chiude da sola dopo 40 squilli. Con Stop squilli e vibrazione si fermano davvero
 suo posto. Durante il recupero viene chiesto di tenere acceso lo schermo (`navigator.wakeLock`).
 Se la sveglia scatta col pannello dello storico aperto, il pannello si chiude e Stop si tocca.
 L'app non deve dare errori se `vibrate`, `wakeLock` o `AudioContext` mancano (iPhone non vibra).
+
+### 11b. Timer dell'iPhone (campanella)
+La voce di menu "Timer dell'iPhone" c'è solo se `navigator.userAgent` contiene "iPhone": su un browser
+normale non deve vedersi. Per provarla fingi un iPhone prima di caricare la pagina:
+`page.addInitScript(() => Object.defineProperty(navigator, "userAgent", {get: () => "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)"}))`.
+- Voce spenta: il timer ha solo "+30s" e "Salta". Accendendola si apre la guida (`#dlg-iphone`) e sul
+  timer compare la campanella fra "+30s" e "Salta", anche a recupero già partito; spegnendola sparisce.
+- Toccando la campanella il browser prova ad aprire
+  `shortcuts://run-shortcut?name=Recupero%20Ghisa&input=text&text=<secondi rimasti>`: al computer
+  fallisce con un messaggio in console che riporta l'indirizzo. Controlla i secondi. L'app non deve cambiare pagina.
+- Dopo la campanella, a zero compare "Tempo! Riparti" senza squilli; se il tempo è scaduto da più di
+  3 secondi la barra si chiude da sola. Senza campanella la sveglia squilla come nella prova 11.
+- A 320px i tre bottoni stanno dentro la barra (l'etichetta sparisce sotto i 360px), tutti alti 48px.
+Che il comando rapido parta davvero si vede solo su un iPhone vero: dillo nel resoconto.
 
 ### 12. Storico in un tocco
 Nella riga aperta, sotto l'obiettivo, "Ultima …" è un bottone (senza indicatore: quello sta nella riga

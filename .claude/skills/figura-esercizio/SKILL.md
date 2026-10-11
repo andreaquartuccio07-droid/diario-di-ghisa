@@ -83,8 +83,8 @@ diversa dal riconoscimento automatico; "Nessuna figura" si salva come `"nessuna"
    ferma e in movimento; avvisa se due pose hanno un numero di punti diverso. Fai uno screenshot con
    Playwright e guardalo davvero. La tavola non fa parte dell'app e non va in `GUSCIO`.
 3. Se hai toccato le regole, ricontrolla che gli esercizi della scheda dell'utente (`schedaCoach()`)
-   cadano ancora nel movimento giusto: i nomi li ha scritti lui ("Pusshdown con voulchen", "Pendlum
-   squat", "Pulley barra lat focus upper back").
+   cadano ancora nel movimento giusto: i nomi li ha scritti lui ("Pusshdown con voulchen su panca 30°", "Lat
+   machine singola su panca 75°", "Pulley barra lat focus upper back").
 4. Un id tolto da `MOV` non rompe niente: `movimentiValidi()` scarta le scelte che non esistono più.
 5. Chiudi con la skill `rilascio`.
 

@@ -62,6 +62,13 @@ Dal menu (⋯) dell'app:
 - **Esporta backup (.json)** — salva tutto in un file. Fallo a fine blocco e prima di cambiare telefono.
 - **Importa backup** — rimette tutto da quel file, anche su un altro dispositivo.
 
+## Timer che suona fuori dall'app (iPhone)
+
+Su iPhone un'app web non può suonare quando non è a schermo. Dal menu (⋯) si accende "Timer
+dell'iPhone": sul timer di recupero compare una campanella che passa i secondi rimasti a un comando
+rapido chiamato "Recupero Ghisa" (un'azione "Avvia timer" che prende la durata in ingresso), e a
+squillare è il timer dell'Orologio. La guida per crearlo si apre accendendo la voce.
+
 ## Versione su Claude
 
 Esiste anche una copia pubblicata come Artifact:

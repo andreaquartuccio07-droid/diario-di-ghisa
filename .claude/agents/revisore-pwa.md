@@ -22,8 +22,8 @@ quanto basta per capire chi lo chiama e con quali dati.
    salvati da versioni precedenti. Un dato vecchio senza un campo nuovo non deve far crollare l'app.
 2. **Offline rotto.** Risorse esterne nuove non cacheate, file nuovi non messi in `GUSCIO`,
    `VERSIONE` non alzata a fronte di modifiche all'app.
-3. **Bug di logica.** Soprattutto in `obiettivo()` (le serie `att` sono escluse dalla regola del
-   sovraccarico ma contano per l'1RM stimato), `blocco()` / `progressioniBlocco()`, timer di
+3. **Bug di logica.** Soprattutto in `obiettivo()` (la serie iniziale `att` e la serie finale
+   `coda` sono escluse dalla regola del sovraccarico ma contano per l'1RM stimato), `blocco()` / `progressioniBlocco()`, timer di
    recupero (i superset hanno `recupero: 0` e mostrano l'avviso, non il timer), date e settimane.
 4. **Regole di stile del progetto.** Colori letterali fuori dai token, token nuovi non definiti in
    tutti e tre i blocchi di tema, librerie esterne, app spezzata in più file.

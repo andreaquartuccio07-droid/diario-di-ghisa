@@ -29,6 +29,8 @@ Schema "3×5 + 1×8"
   si legge "100×5·5·5 · 85×8".
 - "+ serie" aggiunge una serie da 5 prima della finale; "− serie" toglie l'ultima da 5.
 - Nei dati salvati c'è un campo in più (`coda`). Gli allenamenti vecchi si leggono come prima.
+- Il primo allenamento vero con questa scheda è previsto per il 12 ottobre 2026: quelli salvati prima
+  erano prove.
 
 ## ghisa-v11 — 11 ottobre 2026
 
