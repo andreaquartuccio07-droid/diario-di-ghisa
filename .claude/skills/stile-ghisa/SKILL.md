@@ -183,6 +183,8 @@ Non esiste una scala di spaziature a token: le misure sono in px nel CSS. Resta 
 - **Timer** `.timer`: vetro scuro, tempo in `--glow`, filo di avanzamento `--accent`.
   **Sveglia** `.timer.suona`: a tempo scaduto la barra diventa `--accent` con testo `--on-accent`,
   scritta grande e un solo bottone "Stop".
+  **Campanella** `.timer.campana`: con "Timer dell'iPhone" acceso c'è un terzo bottone a icona da 48px
+  fra "+30s" e "Salta"; i bottoni si stringono e sotto i 360px l'etichetta sparisce.
 - **Storico** `.storico-btn`: la riga "Ultima …" sotto l'obiettivo è un bottone alto almeno 48px, con i
   numeri in mono e una freccia a destra. L'andamento non sta più qui ma nella riga chiusa (`.and`).
 - **Pannello dal basso** `dialog.foglio`: attaccato al fondo su telefono, centrato da 760px in su;

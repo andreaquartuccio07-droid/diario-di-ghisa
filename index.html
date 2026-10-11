@@ -99,6 +99,7 @@ header.top{position:sticky;top:0;z-index:40;background:var(--aurora-top);backgro
 .menu-pop{position:absolute;right:0;top:50px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-alta);padding:6px;min-width:232px;z-index:50}
 .menu-pop button{display:block;width:100%;min-height:44px;text-align:left;background:none;border:0;padding:9px 11px;border-radius:11px;font-size:14.5px}
 .menu-pop button:hover{background:var(--surface-2)}
+.menu-pop button[hidden]{display:none}
 .menu-pop hr{border:0;border-top:1px solid var(--line);margin:5px 2px}
 
 main{padding:15px 0 calc(130px + env(safe-area-inset-bottom) + var(--timer-h,0px))}
@@ -278,6 +279,13 @@ h3{font-size:20px;font-weight:700;line-height:1.2}
 .timer .lbl{font-size:12.5px;color:var(--deep-ink-2);margin-right:auto;line-height:1.25}
 .timer .lbl::first-letter{text-transform:uppercase}
 .timer button{background:var(--deep-fill);border:0;color:inherit;border-radius:14px;min-height:48px;padding:6px 13px;font-size:14px;font-weight:600}
+.timer button[data-iphone]{flex:0 0 48px;padding:0;display:grid;place-items:center}
+.timer button[data-iphone] svg{width:21px;height:21px}
+/* con la campanella i bottoni sono tre: si stringono, e sotto i 360px l'etichetta lascia il posto */
+.timer.campana{gap:8px}
+.timer.campana button{padding:6px 10px}
+.timer.campana .lbl{flex:1 1 0;min-width:0;overflow-wrap:anywhere}
+@media(max-width:359px){.timer.campana .lbl{visibility:hidden;height:0}}
 .timer .prog{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);border-radius:0 3px 3px 0;transition:width .95s linear}
 .timer.suona{background:var(--accent);color:var(--on-accent);border-color:transparent}
 .timer.suona .t{color:inherit}
@@ -353,6 +361,8 @@ dialog.foglio[open]{display:flex;flex-direction:column}
 .foglio .tiles{grid-template-columns:1fr 1fr}
 .foglio .tile{background:var(--surface-3);border-color:var(--line);box-shadow:none}
 .foglio .tile .v .delta{font-size:19px}
+.passi{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:9px;line-height:1.45}
+.passi b{font-weight:600}
 @media(min-width:760px){dialog.foglio{margin:auto;width:min(620px,calc(100vw - 24px));border-bottom:1px solid var(--line);border-radius:var(--r)}}
 /* Scelta dell'esercizio: alto quanto lo schermo che si vede (--vvh e --vvt li scrive misuraScelta()),
    cosi' con la tastiera aperta la lista resta sopra i tasti invece di finirci sotto. */
@@ -437,6 +447,7 @@ header.top{padding-top:env(safe-area-inset-top)}
         <button data-azione="prova-sveglia">Prova la sveglia</button>
         <button data-azione="silenzioso" id="voce-silenzioso">Sveglia col silenzioso</button>
         <button data-azione="figura" id="voce-figura">Figura dell'esercizio</button>
+        <button data-azione="iphone" id="voce-iphone" hidden>Timer dell'iPhone</button>
         <hr>
         <button data-azione="nuovo-blocco">Inizia un nuovo blocco</button>
         <button data-azione="ripristina">Ripristina la scheda del coach</button>
@@ -507,6 +518,29 @@ header.top{padding-top:env(safe-area-inset-top)}
   <div class="dlg-foot">
     <button class="btn" data-storico-progressi>Apri in Progressi</button>
     <button class="btn" data-chiudi-storico>Chiudi</button>
+  </div>
+</dialog>
+
+<dialog id="dlg-iphone" class="foglio" aria-labelledby="ip-titolo">
+  <div class="dlg-head">
+    <div><div class="eyebrow">Suona anche fuori dall'app</div><h2 id="ip-titolo">Timer dell'iPhone</h2></div>
+    <button class="icobtn" data-chiudi-iphone aria-label="Chiudi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="dlg-body">
+    <p class="muted">Durante il recupero, sul timer compare una campanella. Toccala prima di passare a un'altra app: parte il timer dell'Orologio con i secondi che restano, e quello suona sempre. Serve un comando rapido, da creare una volta sola:</p>
+    <ol class="passi">
+      <li>Apri l'app <b>Comandi</b> e tocca <b>+</b> in alto a destra.</li>
+      <li>Tocca il nome in alto, scegli Rinomina e scrivi esattamente <b>Recupero Ghisa</b>.</li>
+      <li>Cerca l'azione <b>Avvia timer</b> e aggiungila.</li>
+      <li>Nell'azione tocca il numero, e sopra la tastiera scegli <b>Input comando rapido</b>.</li>
+      <li>Tocca l'unità di tempo e scegli <b>secondi</b>.</li>
+      <li>Tocca <b>Fine</b>, torna qui e fai la prova.</li>
+    </ol>
+    <p class="small muted">Dopo che il timer è partito torni nel Diario a mano. Per quel recupero il Diario non squilla più: suona l'iPhone. Salta e +30s del Diario non comandano il timer dell'iPhone.</p>
+  </div>
+  <div class="dlg-foot">
+    <button class="btn" data-prova-iphone>Prova con 10 secondi</button>
+    <button class="btn" data-chiudi-iphone>Chiudi</button>
   </div>
 </dialog>
 
@@ -1687,6 +1721,24 @@ let veglia = null;   // blocco che tiene acceso lo schermo
 const CHIAVE_SVEGLIA = "diario-ghisa-sveglia";
 const CHIAVE_TIMER = "diario-ghisa-timer";
 // "forte": suona anche col tasto silenzioso ma mette in pausa la musica; "discreta": si mescola alla musica, tace col silenzioso
+// "Timer dell'iPhone": una campanella sul timer passa i secondi rimasti a un comando rapido, che avvia il timer dell'Orologio
+// (quello suona anche da un'altra app o a schermo spento, cosa che un'app web non può fare). Spento se non lo accendi dal menu.
+const CHIAVE_IPHONE = "diario-ghisa-timer-iphone";
+const COMANDO_IPHONE = "Recupero Ghisa";
+const E_IPHONE = /iPhone|iPod/.test(navigator.userAgent);
+function timerIphoneAttivo(){ try { return E_IPHONE && localStorage.getItem(CHIAVE_IPHONE) === "si"; } catch (e) { return false; } }
+const CAMPANA_HTML = '<button data-iphone aria-label="Fai suonare il timer del telefono" title="Timer del telefono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 16.5v-5.5a5.5 5.5 0 0111 0v5.5l1.5 2h-14zM10 21h4"/></svg></button>';
+// accendendo o spegnendo la voce a recupero in corso, la barra già a schermo si adegua subito
+function aggiornaCampana(){
+  if (!timer || timer.suona) return;
+  const el = timer.el, c = el.querySelector("[data-iphone]"), on = timerIphoneAttivo();
+  if (c && !on) c.remove();
+  if (!c && on) el.querySelector("[data-stop]").insertAdjacentHTML("beforebegin", CAMPANA_HTML);
+  el.classList.toggle("campana", on);
+}
+function avviaTimerIphone(sec){
+  location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(COMANDO_IPHONE) + "&input=text&text=" + Math.max(1, Math.round(sec));
+}
 function svegliaForte(){ try { return localStorage.getItem(CHIAVE_SVEGLIA) !== "discreta"; } catch (e) { return true; } }
 function sbloccaSuono(){
   try {
@@ -1719,10 +1771,12 @@ function avviaTimer(sec, etichetta, ripresa){
   fermaTimer();
   if (!sec) return;
   const el = document.createElement("div");
-  el.className = "timer";
+  el.className = "timer" + (timerIphoneAttivo() ? " campana" : "");
   el.setAttribute("role", "timer");
   el.innerHTML = '<span class="t">0:00</span><span class="lbl">' + esc(etichetta || "recupero") + '</span>' +
-    '<button data-piu30>+30s</button><button data-stop>Salta</button><span class="prog" style="width:100%"></span>';
+    '<button data-piu30>+30s</button>' +
+    (timerIphoneAttivo() ? CAMPANA_HTML : '') +
+    '<button data-stop>Salta</button><span class="prog" style="width:100%"></span>';
   document.body.appendChild(el);
   // Salva e il fondo della pagina stanno sopra il timer: la sua altezza va tenuta aggiornata (etichette lunghe, schermo ruotato)
   const misura = () => document.documentElement.style.setProperty("--timer-h", (el.offsetHeight + 8) + "px");
@@ -1739,28 +1793,32 @@ function avviaTimer(sec, etichetta, ripresa){
     el.querySelector(".prog").style.width = Math.min(100, resta / tot * 100) + "%";
     if (resta <= 0) sveglia();
   };
-  timer = {el, oss, suona: false, id: setInterval(tick, 250), tick, piu(){ tot += 30; fine += 30000; ricorda(); tick(); }};
+  timer = {el, oss, suona: false, id: setInterval(tick, 250), tick, piu(){ tot += 30; fine += 30000; ricorda(); tick(); }, resta(){ return Math.max(0, Math.ceil((fine - Date.now()) / 1000)); }, oltre(){ return Date.now() - fine; }};
   tick();
   tieniSveglio(true);
 }
 function sveglia(){
   if (!timer || timer.suona) return;
+  // recupero passato al timer dell'iPhone: a squillare è lui. Se rientri a tempo già scaduto la barra si chiude da sola,
+  // se sei ancora qui compare "Tempo! Riparti" senza suono
+  const muta = !!timer.passato;
+  if (muta && timer.oltre() > 3000){ fermaTimer(); return; }
   timer.suona = true;
   clearInterval(timer.id);
   // un pannello aperto renderebbe Stop intoccabile: storico e scelta dell'esercizio si chiudono
-  ["#dlg-storico", "#dlg-scegli"].forEach(s => { const pannello = $(s); if (pannello && pannello.open) pannello.close(); });
+  ["#dlg-storico", "#dlg-scegli", "#dlg-iphone"].forEach(s => { const pannello = $(s); if (pannello && pannello.open) pannello.close(); });
   const el = timer.el;
   el.classList.add("suona");
   el.querySelector(".t").textContent = "0:00";
   el.querySelector(".lbl").textContent = "Tempo! Riparti";
   el.querySelector(".prog").style.width = "0%";
-  const piu = el.querySelector("[data-piu30]");
-  if (piu) piu.remove();
+  el.querySelectorAll("[data-piu30],[data-iphone]").forEach(b => b.remove());
+  el.classList.remove("campana");
   el.querySelector("[data-stop]").textContent = "Stop";
   try { if (navigator.audioSession) navigator.audioSession.type = svegliaForte() ? "playback" : "transient"; } catch (e) {}
   let giri = 0;
   // gli squilli si contano solo con l'app a schermo: se la lasci in secondo piano, al rientro sta ancora suonando
-  const giro = () => { if (document.visibilityState !== "visible") return; if (++giri > 40){ fermaTimer(); return; } squilla(); };
+  const giro = () => { if (document.visibilityState !== "visible") return; if (++giri > 40){ fermaTimer(); return; } if (!muta) squilla(); };
   giro();
   timer.id = setInterval(giro, 1500);
 }
@@ -2051,6 +2109,10 @@ document.addEventListener("click", ev => {
   if (t.closest("[data-chiudi-storico]") || t === dst){ dst.close(); return; }
   if (t.closest("[data-storico-progressi]")){ dst.close(); stato.esSel = dst.dataset.es; stato.vista = "progressi"; render(); return; }
   if (t.closest("[data-piu30]")){ sbloccaSuono(); if (timer) timer.piu(); return; }
+  if (t.closest("[data-iphone]")){ if (timer && !timer.suona){ timer.passato = true; avviaTimerIphone(timer.resta()); } return; }
+  const dip = $("#dlg-iphone");
+  if (t.closest("[data-chiudi-iphone]") || t === dip){ dip.close(); return; }
+  if (t.closest("[data-prova-iphone]")){ avviaTimerIphone(10); return; }
 
   const gd = t.closest("[data-giorno][aria-pressed]");
   if (gd){
@@ -2285,7 +2347,20 @@ function scriviVoceSveglia(){
 function scriviVoceFigura(){
   $("#voce-figura").textContent = "Figura dell'esercizio: " + (figuraAttiva() ? "sì" : "no");
 }
+function scriviVoceIphone(){
+  const v = $("#voce-iphone");
+  v.hidden = !E_IPHONE;
+  v.textContent = "Timer dell'iPhone: " + (timerIphoneAttivo() ? "sì" : "no");
+}
 async function azione(a){
+  if (a === "iphone"){
+    const on = !timerIphoneAttivo();
+    try { localStorage.setItem(CHIAVE_IPHONE, on ? "si" : "no"); } catch (e) {}
+    scriviVoceIphone(); aggiornaCampana();
+    if (on) $("#dlg-iphone").showModal();
+    else toast("Campanella tolta dal timer");
+    return;
+  }
   if (a === "prova-sveglia"){
     if (timer && !timer.suona){ toast("C'è un recupero in corso: prova la sveglia quando è finito"); return; }
     sbloccaSuono();
@@ -2378,6 +2453,7 @@ stato.bozza = salvato.bozza && salvato.bozza.data === oggiISO() ? salvato.bozza 
 render();
 scriviVoceSveglia();
 scriviVoceFigura();
+scriviVoceIphone();
 // "riduci movimento" cambiato a pagina aperta: le figure si fermano (o ripartono) subito
 if (pocoMovimento.addEventListener) pocoMovimento.addEventListener("change", ridisegnaFigure);
 riprendiTimer();

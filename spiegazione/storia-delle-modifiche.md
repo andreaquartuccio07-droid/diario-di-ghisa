@@ -6,6 +6,22 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v11 — 11 ottobre 2026
+
+**Timer dell'iPhone: il recupero può suonare anche se sei in un'altra app.**
+
+- Menu ⋯ → "Timer dell'iPhone" (c'è solo su iPhone, spento finché non lo accendi). Accendendolo si
+  apre la guida per creare, una volta sola, il comando rapido "Recupero Ghisa" nell'app Comandi.
+- Con la voce accesa, sul timer di recupero compare una campanella fra "+30s" e "Salta". Toccandola
+  il Diario passa i secondi che restano al comando rapido, che fa partire il timer dell'Orologio:
+  quello suona sempre, anche da un'altra app o a schermo spento.
+- Dopo la campanella, per quel recupero il Diario non squilla più (suona l'iPhone): se sei ancora
+  nell'app compare "Tempo! Riparti" senza suono, se rientri a tempo scaduto la barra si chiude da sola.
+- Nella guida c'è "Prova con 10 secondi" per controllare che il comando rapido funzioni.
+- Con la campanella il timer ha tre bottoni: sono un po' più stretti e, sui telefoni sotto i 360px,
+  la scritta "Recupero · nome" lascia il posto.
+- Con la voce spenta l'app è identica a prima. Nessun cambiamento ai dati salvati.
+
 ## ghisa-v10 — 11 ottobre 2026
 
 **Bordi e righe di separazione un po' più scuri, per far staccare meglio i riquadri.**
@@ -195,6 +211,9 @@ Altre correzioni
 
 Sono cose che al computer non si possono verificare. Quando le hai provate, cancellale da qui.
 
+- Timer dell'iPhone (v11): mai provato su un telefono vero. Toccando la campanella si apre l'app
+  Comandi e parte il timer dell'Orologio con i secondi giusti? Funziona anche dall'icona sulla Home
+  e non solo da Safari? "Prova con 10 secondi" nella guida fa partire un timer da 10 secondi?
 - Figura dell'esercizio: sull'iPhone si muove? (Al computer sì, ma Safari va visto dal vero.) È fluida
   e non rallenta lo scorrimento? Con Impostazioni → Accessibilità → Movimento → "Riduci movimento"
   attivo deve restare ferma.
@@ -217,6 +236,10 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 
 ## Lasciato così apposta
 
+- Timer dell'iPhone: dopo la campanella si torna nel Diario a mano (un comando rapido non può
+  riaprirlo). "Salta" e "+30s" del Diario non comandano il timer dell'Orologio. Se il comando
+  rapido non esiste o ha un altro nome, l'errore lo mostra l'app Comandi e per quel recupero non suona
+  niente. Se ricarichi la pagina dopo la campanella, il Diario torna a squillare anche lui.
 - Il cerchio delle righe non si tocca: con un tocco sbagliato avrebbe segnato serie mai fatte.
 - 28 esercizi della lista non hanno figura (dip, scrollate, tirate al mento, alzate frontali, hip
   thrust, plank, pullover, adduttori, rotazioni del busto): meglio nessuna figura che una sbagliata.
@@ -262,8 +285,9 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
   l'app. Per cambiarla bisogna aggiungere di nuovo l'app da Safari. Ogni icona sulla Home ha i suoi
   dati separati, quindi: Esporta backup dalla vecchia, aggiungi la nuova, Importa backup, controlla
   in Progressi, e solo alla fine elimina la vecchia.
-- Su iPhone la sveglia suona solo con l'app aperta e lo schermo acceso: non a schermo spento, non
-  con un'altra app davanti.
+- Su iPhone la sveglia del Diario suona solo con l'app aperta e lo schermo acceso: non a schermo
+  spento, non con un'altra app davanti. Per quello c'è "Timer dell'iPhone" (v11), che usa il timer
+  dell'Orologio.
 - Gli schemi misti riconosciuti sono solo "1×N + M×R" (una serie iniziale più le serie di lavoro).
   Altri, come "2×10 + 1×6", non sono previsti.
 - I dati stanno solo sul telefono. Gli allenamenti fatti nella vecchia versione su claude.ai non

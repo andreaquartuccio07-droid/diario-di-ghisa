@@ -51,6 +51,11 @@ service worker e mostra la striscia "Nuova versione disponibile"):
 - Timer: `avviaTimer()` conta sull'ora vera di fine e si salva in `diario-ghisa-timer` (sopravvive al
   ricaricamento); a zero `sveglia()` squilla finché non si tocca Stop. `sbloccaSuono()` va chiamata
   dentro un tocco. La preferenza "Sveglia col silenzioso" sta in `diario-ghisa-sveglia`.
+- Timer dell'iPhone (dalla v11): con la preferenza `diario-ghisa-timer-iphone` accesa (menu ⋯, voce
+  visibile solo su iPhone: `E_IPHONE`) il timer ha una campanella `[data-iphone]` che chiama
+  `avviaTimerIphone(sec)`: apre `shortcuts://run-shortcut` col comando rapido "Recupero Ghisa"
+  (`COMANDO_IPHONE`), che l'utente crea a mano seguendo `#dlg-iphone`. Se il nome cambia, va cambiato
+  anche nella guida. Si può provare solo sul telefono vero.
 - `andamento()` / `apriStorico()` — indicatore di progresso e pannello dal basso (`#dlg-storico`).
   Regola dalla v9: ultima seduta contro la precedente, sul massimale stimato della migliore **serie di lavoro**
   (la `att` è più pesante e nasconderebbe le altre); sotto l'1% è "fermo". Se il carico di lavoro è salito e il
