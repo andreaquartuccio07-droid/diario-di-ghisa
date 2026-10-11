@@ -11,7 +11,7 @@ le mani sudate e il telefono a mezzo metro. Prima la chiarezza dei numeri, poi t
 L'idea dello stile (scelto dall'utente l'8 ottobre 2026, dalla v6):
 
 - **Fondo chiaro** con una fascia di luce ciano in alto che sfuma verso il basso.
-- **Vetro chiaro** per i riquadri normali (card, tessere): bianco semitrasparente, bordo chiaro, ombra morbida.
+- **Vetro chiaro** per i riquadri normali (card, tessere): bianco semitrasparente, bordo grigio-azzurro tenue, ombra morbida.
 - **Vetro scuro** solo per ciò che conta davvero: obiettivo dell'esercizio, timer di recupero, barra in
   basso, giorno scelto, avvisi. Lì dentro i numeri importanti si accendono di ciano (`--glow`).
 - **Ciano elettrico** come colore dell'azione principale. Niente viola, fucsia o rosa: l'utente non li vuole.
@@ -42,12 +42,12 @@ valore nuovo.
 | `--surface-2` | `#E3EAED` | `#1B2A32` | hover, barre vuote, Salva disattivato |
 | `--surface-3` | `#F6F9FA` | `#16242B` | testata dei riquadri, campi nei dialog |
 | `--glass` | bianco 80% | bianco 6% | **vetro chiaro**: card, tessere, giorni, domande |
-| `--edge` | `#FFFFFF` | bianco 13% | bordo del vetro chiaro |
+| `--edge` | blu notte 30% | bianco 22% | bordo del vetro chiaro: grigio-azzurro tenue, stacca i riquadri dal fondo (dalla v10, prima era bianco) |
 | `--ink` | `#06202B` | `#E8F6FA` | testo principale |
 | `--ink-2` | `#3E5560` | `#A3BEC8` | testo secondario (`.muted`) |
 | `--ink-3` | `#5E747E` | `#7C98A3` | unità e dettagli **dentro** card e campi; mai sulla fascia di luce in alto (lì `--ink-2`) |
-| `--line` | `#D9E2E6` | `#1F2E36` | separatori |
-| `--line-2` | `#C2CFD5` | `#2D3F48` | bordi di bottoni e input |
+| `--line` | `#AEBDC5` | `#34474F` | separatori |
+| `--line-2` | `#90A3AD` | `#475D68` | bordi di bottoni e input |
 | `--accent` | `#19D3F3` | `#2BD9F5` | ciano: **riempimento** dell'azione principale, settimana in corso, record |
 | `--accent-soft` | 16% | 15% | sfondo tenue di tecnica, settimane fatte, numero della domanda |
 | `--accent-ink` | `#00697F` | `#5FE3F8` | **testo** e icone color accento (in chiaro il ciano puro non si legge) |

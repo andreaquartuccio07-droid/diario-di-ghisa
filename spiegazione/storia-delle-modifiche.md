@@ -6,6 +6,17 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v10 — 11 ottobre 2026
+
+**Bordi e righe di separazione un po' più scuri, per far staccare meglio i riquadri.**
+
+- Il bordo dei riquadri (esercizi, tessere, giorni, domande) era bianco e sul fondo chiaro spariva:
+  ora è un grigio-azzurro tenue, così si vede dove finisce un esercizio e comincia l'altro.
+- Le righe sottili dentro i riquadri (sotto il nome, sopra la figura, nelle tabelle) e i bordi di
+  campi e bottoni sono un gradino più scuri.
+- Ritocco uguale, più leggero, nel tema scuro. Cambiati solo tre colori (`--edge`, `--line`,
+  `--line-2`): misure, ombre e tutto il resto sono come prima.
+
 ## ghisa-v9 — 11 ottobre 2026
 
 **Oggi: esercizi in righe che si aprono, andamento accanto al nome, figura che mostra il movimento.**
