@@ -35,7 +35,9 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
 Tutto dentro una IIFE in fondo a `index.html` (più un secondo `<script>` che registra il
 service worker e mostra la striscia "Nuova versione disponibile"):
 
-- `schedaCoach()` — la scheda vera dell'utente (4 giorni + blocchi post-allenamento).
+- `schedaCoach()` — la scheda vera dell'utente (4 giorni + blocchi post-allenamento), oggi la 8.0.
+  Cambiarla non tocca la scheda già salvata sui telefoni: arriva solo con "Ripristina la scheda del
+  coach" o "Azzera tutto" dal menu ⋯.
   `REV` va alzato solo per sovrascrivere la scheda già salvata sul dispositivo.
 - `DOMANDE` — le 17 domande del questionario di fine programma del coach.
 - `storicoDi(nome)` — storico di un esercizio, **indicizzato per nome normalizzato** (`chiave()`),
@@ -45,6 +47,10 @@ service worker e mostra la striscia "Nuova versione disponibile"):
   "1×5 + 3×8") è esclusa dalla regola ma conta per l'1RM stimato, e **ha un carico suo**: per l'utente
   è una serie pesante, non un riscaldamento. Ovunque si mostrino le serie si usa `serieGruppi()`
   (`100×5 · 80×8·7·6`): mai un solo "kg" accanto alle ripetizioni di serie diverse.
+  Dalla v12 c'è anche la serie finale (`coda`, l'"1×8" di "3×5 + 1×8"): una sola, più leggera, trattata
+  come la `att` (fuori dalla regola e dall'andamento, carico suo, gruppo a sé, etichetta "fin"). Sull'esercizio
+  `coda` è il numero di ripetizioni (0 = non c'è), sulla serie salvata è `coda:true`. Non ha un campo nel
+  dialog di Scheda: si imposta solo in `schedaCoach()`.
 - `sistemaRecuperi(scheda)` — regola dei recuperi, applicata una volta sola a ogni scheda
   (marcatore `scheda.recuperi = 2`): 90 s ovunque, 0 sul primo esercizio di una superserie, 150 su
   quello dopo. Poi i valori restano modificabili da Scheda.

@@ -789,7 +789,7 @@ function sistemaRecuperi(scheda){
   return scheda;
 }
 function schedaCoach(){
-  const e = o => Object.assign({id: uid(), gruppo:"petto", att:0, serie:4, repMin:8, repMax:8, repsTxt:"", recupero:90, incremento:2.5, tecnica:"", nota:"", superset:false, sezione:"main"}, o);
+  const e = o => Object.assign({id: uid(), gruppo:"petto", att:0, coda:0, serie:4, repMin:8, repMax:8, repsTxt:"", recupero:90, incremento:2.5, tecnica:"", nota:"", superset:false, sezione:"main"}, o);
   const ADDOME = [
     e({nome:"Crunch al cavo", gruppo:"core", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, sezione:"post"}),
     e({nome:"Ab wheel (con elastico se riesci)", gruppo:"core", serie:3, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, sezione:"post"}),
@@ -804,45 +804,46 @@ function schedaCoach(){
   });
   return sistemaRecuperi({
     rev: REV,
-    nome: "Scheda Andrea 7.0",
-    sottotitolo: "7° blocco — 3 full body + 1 seduta focus petto/dorso, gambe a volume di mantenimento",
-    blocco: {numero: 7, settimane: 6, inizio: oggiISO(), sedutePerSettimana: 4},
+    nome: "Scheda Andrea 8.0",
+    sottotitolo: "8° blocco — 3 full body + 1 allenamento focus petto/dorso, gambe a volume di mantenimento",
+    blocco: {numero: 8, settimane: 6, inizio: oggiISO(), sedutePerSettimana: 4},
     giorni: [
       g("1° giorno", "Full body", "addome", [
-        e({nome:"Stacco rumeno", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5}),
-        e({nome:"Panca 30° multipower", gruppo:"petto", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
-        e({nome:"Lat machine presa prona", gruppo:"dorso", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Stacco rumeno", gruppo:"gambe", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:5, nota:"oppure hyperextension: valutare dolore lombare"}),
+        e({nome:"Chest press incline", gruppo:"petto", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
+        e({nome:"Lat machine presa prona", gruppo:"dorso", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
         e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25, superset:true}),
         e({nome:"Leg extension", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
         e({nome:"Panca Scott macchina", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, superset:true}),
         e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, nota:"sdraiato su panca, spalle al cavo"}),
       ]),
       g("2° giorno", "Full body", "polpacci", [
-        e({nome:"Piegamenti zavorrati", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"rest-pause ×2"}),
-        e({nome:"Pulley", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Piegamenti zavorrati", gruppo:"petto", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Pulley", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
         e({nome:"Leg curl sdraiato", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
-        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25}),
-        e({nome:"Face pull", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", incremento:1.25, nota:"seduto a terra, cavo altezza spalle con voulchen, piedi piantati"}),
-        e({nome:"Curl cavo basso barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
-        e({nome:"Pusshdown con voulchen", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25}),
+        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25}),
+        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", incremento:1.25, nota:"deltoidi posteriori; cavo o macchina"}),
+        e({nome:"Panca Scott libera", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
+        e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, nota:"voulchen o corda, cavo dietro di te"}),
       ]),
       g("3° giorno", "Upper", "addome", [
-        e({nome:"Panca 30° multipower", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Panca inclinata bilanciere", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
         e({nome:"Croci cavi alti", gruppo:"petto", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
         e({nome:"Pulley barra lat focus upper back", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
         e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
-        e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25, superset:true}),
-        e({nome:"French press manubri", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25}),
-        e({nome:"Pusshdown barra dritta", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
-        e({nome:"Curl cavo basso barra dritta spalle al cavo", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, nota:"focus allungamento"}),
+        e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, superset:true}),
+        e({nome:"French press manubri", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25}),
+        e({nome:"Pusshdown barra dritta", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, superset:true}),
+        e({nome:"Curl cavo basso barra dritta spalle al cavo", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, nota:"focus allungamento"}),
       ]),
       g("4° giorno", "Full body", "polpacci", [
-        e({nome:"Lento avanti manubri", gruppo:"spalle", att:5, serie:3, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
-        e({nome:"Pendlum squat", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5}),
+        e({nome:"Lento avanti manubri", gruppo:"spalle", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
+        e({nome:"Pressa 45°", gruppo:"gambe", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:5}),
         e({nome:"T-bar machine", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
-        e({nome:"Lat machine presa triangolo", gruppo:"dorso", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:2.5, tecnica:"stripping ×1"}),
-        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25, tecnica:"rest-pause ×2", nota:"cavo o macchina"}),
-        e({nome:"Croci manubri panca 30°", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25}),
+        e({nome:"Lat machine singola su panca 75°", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"stripping ×1"}),
+        e({nome:"Rematore manubrio poggiato su panca 30°", gruppo:"dorso", serie:3, repMin:8, repMax:8, repsTxt:"8", incremento:2.5, nota:"focus upper back"}),
+        e({nome:"Chest press rettilinea", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Croci manubri panca 30°", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25, tecnica:"rest-pause ×2"}),
       ]),
     ],
   });
@@ -970,7 +971,8 @@ function storicoDi(nome){
       if (!e) return null;
       const sets = e.sets.filter(x => Number(x.kg) > 0 && Number(x.reps) > 0);
       if (!sets.length) return null;
-      const lavoro = sets.filter(x => !x.att);
+      // serie di lavoro: né la serie iniziale (att) né quella finale più leggera (coda, l'"1×8" di "3×5 + 1×8")
+      const lavoro = sets.filter(x => !x.att && !x.coda);
       const migliore = sets.reduce((a, b) => e1rm(b.kg, b.reps) > e1rm(a.kg, a.reps) ? b : a);
       return {
         data: s.data, giornoNome: s.giornoNome, sets, lavoro,
@@ -1008,16 +1010,17 @@ function obiettivo(es){
 
 function prescrizione(e){
   const reps = e.repsTxt || (e.repMin === e.repMax ? String(e.repMax) : e.repMin + "-" + e.repMax);
-  return (e.att ? "1×" + e.att + " + " : "") + e.serie + "×" + reps;
+  return (e.att ? "1×" + e.att + " + " : "") + e.serie + "×" + reps + (e.coda ? " + 1×" + e.coda : "");
 }
 // ["100×5", "80×8·7·6"]: ogni serie col suo carico, unendo quelle consecutive allo stesso peso.
-// La serie iniziale (att) resta sempre un gruppo a sé, anche se ha lo stesso carico delle altre.
+// La serie iniziale (att) e quella finale (coda) restano sempre un gruppo a sé, anche se hanno lo stesso carico delle altre.
 function serieGruppi(sets){
   const gruppi = [];
   sets.forEach(s => {
     const u = gruppi[gruppi.length - 1];
-    if (u && u.kg === s.kg && u.att === !!s.att) u.reps.push(s.reps);
-    else gruppi.push({kg: s.kg, att: !!s.att, reps: [s.reps]});
+    const tipo = s.att ? "att" : (s.coda ? "coda" : "");
+    if (u && u.kg === s.kg && u.tipo === tipo) u.reps.push(s.reps);
+    else gruppi.push({kg: s.kg, tipo, reps: [s.reps]});
   });
   return gruppi.map(g => num(g.kg, 2) + "×" + g.reps.join("·"));
 }
@@ -1108,6 +1111,9 @@ function creaBozza(giornoId){
     const attUltima = e.att ? storicoDi(e.nome).map(x => x.sets.find(y => y.att)).filter(Boolean).pop() : null;
     if (e.att) righe.push({kg: attUltima ? attUltima.kg : "", reps: e.att, done: false, att: true});
     for (let i = 0; i < e.serie; i++) righe.push({kg: o.kg || "", reps: o.reps || "", done: false});
+    // anche la serie finale ha un carico suo (più leggero), ripreso dall'ultima volta
+    const codaUltima = e.coda ? storicoDi(e.nome).map(x => x.sets.find(y => y.coda)).filter(Boolean).pop() : null;
+    if (e.coda) righe.push({kg: codaUltima ? codaUltima.kg : "", reps: e.coda, done: false, coda: true});
     sets[e.id] = righe;
   });
   return {giornoId, data: oggiISO(), sets, note: ""};
@@ -1318,8 +1324,8 @@ function vistaOggi(){
 }
 
 function rigaHTML(esId, j, r){
-  return '<div class="sr" data-riga="' + j + '" data-es="' + esId + '" data-done="' + (r.done ? 1 : 0) + '" data-att="' + (r.att ? 1 : 0) + '">' +
-    '<div class="sr-n">' + (r.att ? "att" : j + (stato.bozza.sets[esId][0] && stato.bozza.sets[esId][0].att ? 0 : 1)) + '</div>' +
+  return '<div class="sr" data-riga="' + j + '" data-es="' + esId + '" data-done="' + (r.done ? 1 : 0) + '" data-att="' + (r.att || r.coda ? 1 : 0) + '">' +
+    '<div class="sr-n">' + (r.att ? "att" : r.coda ? "fin" : j + (stato.bozza.sets[esId][0] && stato.bozza.sets[esId][0].att ? 0 : 1)) + '</div>' +
     '<div class="fld"><input type="number" inputmode="decimal" step="0.5" min="0" max="999" value="' + (r.kg === "" ? "" : r.kg) + '" data-campo="kg" aria-label="Carico"><u>kg</u></div>' +
     '<div class="fld"><input type="number" inputmode="numeric" step="1" min="0" max="99" value="' + (r.reps === "" ? "" : r.reps) + '" data-campo="reps" aria-label="Ripetizioni"><u>rip</u></div>' +
     '<button class="tick" data-tick aria-label="Serie completata" aria-pressed="' + (r.done ? "true" : "false") + '">' +
@@ -1339,7 +1345,7 @@ function salvaAllenamento(){
   const esercizi = [];
   g.esercizi.forEach(e => {
     const sets = (b.sets[e.id] || []).filter(r => r.done && Number(r.reps) > 0)
-      .map(r => { const o = {kg: Number(r.kg) || 0, reps: Number(r.reps)}; if (r.att) o.att = true; return o; });
+      .map(r => { const o = {kg: Number(r.kg) || 0, reps: Number(r.reps)}; if (r.att) o.att = true; if (r.coda) o.coda = true; return o; });
     if (sets.length) esercizi.push({esId: e.id, nome: e.nome, gruppo: e.gruppo, sets});
   });
   if (!esercizi.length) return;
@@ -2140,7 +2146,7 @@ document.addEventListener("click", ev => {
     if (r.done){
       sbloccaSuono();
       const info = trovaEsercizio(esId);
-      if (!Number(r.reps) && info){ r.reps = info.e.repMin; sr.querySelector('[data-campo="reps"]').value = r.reps; }
+      if (!Number(r.reps) && info){ r.reps = (r.coda && info.e.coda) || (r.att && info.e.att) || info.e.repMin; sr.querySelector('[data-campo="reps"]').value = r.reps; }
       if (info && legati(info.e, info.prossimo)){ fermaTimer(); toast("Superserie: vai subito a " + info.prossimo.nome, 4500); }
       else if (info) avviaTimer(info.e.recupero || (info.e.superset ? 90 : 0), (legati(info.precedente, info.e) ? "recupero superserie · " : "recupero · ") + info.e.nome);
     }
@@ -2153,9 +2159,11 @@ document.addEventListener("click", ev => {
   if (piu){
     const esId = piu.dataset.piu;
     const righe = stato.bozza.sets[esId] || (stato.bozza.sets[esId] = []);
-    const u = righe[righe.length - 1] || {kg: "", reps: ""};
-    righe.push({kg: u.kg, reps: u.reps, done: false});
-    $('[data-serie="' + esId + '"]').insertAdjacentHTML("beforeend", rigaHTML(esId, righe.length - 1, righe[righe.length - 1]));
+    // la serie nuova va prima di quella finale (coda), e copia l'ultima serie di lavoro
+    const fin = righe.length && righe[righe.length - 1].coda ? 1 : 0;
+    const u = righe[righe.length - 1 - fin] || {kg: "", reps: ""};
+    righe.splice(righe.length - fin, 0, {kg: u.kg, reps: u.reps, done: false});
+    $('[data-serie="' + esId + '"]').innerHTML = righe.map((r, j) => rigaHTML(esId, j, r)).join("");
     salvaLocale();
     aggiornaRiga(esId);
     return;
@@ -2164,9 +2172,12 @@ document.addEventListener("click", ev => {
   if (meno){
     const righe = stato.bozza.sets[meno.dataset.meno];
     if (righe.length > 1){
-      if (righe[righe.length - 1].done && !confirm("Togliere l'ultima serie? L'hai già spuntata.")) return;
-      righe.pop();
-      $('[data-serie="' + meno.dataset.meno + '"]').lastElementChild.remove();
+      // si toglie l'ultima serie di lavoro; quella finale (coda) va via solo quando è rimasta sola con la serie iniziale
+      const fin = righe[righe.length - 1].coda && !righe[righe.length - 2].att && !righe[righe.length - 2].coda ? 1 : 0;
+      const i = righe.length - 1 - fin;
+      if (righe[i].done && !confirm("Togliere l'ultima serie? L'hai già spuntata.")) return;
+      righe.splice(i, 1);
+      $('[data-serie="' + meno.dataset.meno + '"]').innerHTML = righe.map((r, j) => rigaHTML(meno.dataset.meno, j, r)).join("");
       salvaLocale(); aggiornaSalva(); aggiornaRiga(meno.dataset.meno);
     }
     return;

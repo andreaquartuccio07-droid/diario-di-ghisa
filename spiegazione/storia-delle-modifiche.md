@@ -6,6 +6,30 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v12 — 11 ottobre 2026
+
+**Scheda Andrea 8.0 (8° blocco) e schema nuovo "3×5 + 1×8".**
+
+Scheda
+- Dentro l'app c'è la scheda nuova del coach: 1° giorno con chest press incline, 2° con croci inverse
+  e panca Scott libera, 3° con panca inclinata bilanciere, 4° con pressa 45°, lat machine singola,
+  rematore manubrio e chest press rettilinea. Serie, ripetizioni e tecniche come le ha scritte il coach.
+- La scheda già salvata sul telefono non viene sostituita da sola. Per metterla: menu ⋯ → "Azzera
+  tutto" (cancella anche gli allenamenti di prova) oppure "Ripristina la scheda del coach" (tiene lo
+  storico) e poi "Inizia un nuovo blocco".
+- Gli esercizi rimasti hanno lo stesso nome di prima. Il pushdown su panca 30° del 1° e del 2° giorno
+  è lo stesso esercizio, con uno storico solo.
+
+Schema "3×5 + 1×8"
+- Stacco rumeno, chest press incline, lat machine, lento avanti e pressa 45°: tre serie pesanti da 5 e
+  una serie finale più leggera da 8, segnata "FIN" nella riga.
+- L'Obiettivo e la freccia dell'andamento guardano solo le tre serie da 5: chiuse tutte e tre a 5,
+  l'app dice di salire di carico.
+- La serie finale ha un carico suo, ripreso dall'ultima volta. Nello storico e nel report per il coach
+  si legge "100×5·5·5 · 85×8".
+- "+ serie" aggiunge una serie da 5 prima della finale; "− serie" toglie l'ultima da 5.
+- Nei dati salvati c'è un campo in più (`coda`). Gli allenamenti vecchi si leggono come prima.
+
 ## ghisa-v11 — 11 ottobre 2026
 
 **Timer dell'iPhone: il recupero può suonare anche se sei in un'altra app.**
@@ -21,6 +45,7 @@ Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 - Con la campanella il timer ha tre bottoni: sono un po' più stretti e, sui telefoni sotto i 360px,
   la scritta "Recupero · nome" lascia il posto.
 - Con la voce spenta l'app è identica a prima. Nessun cambiamento ai dati salvati.
+- Provato da Andrea sull'iPhone l'11 ottobre 2026: comando rapido creato, funziona.
 
 ## ghisa-v10 — 11 ottobre 2026
 
@@ -211,9 +236,6 @@ Altre correzioni
 
 Sono cose che al computer non si possono verificare. Quando le hai provate, cancellale da qui.
 
-- Timer dell'iPhone (v11): mai provato su un telefono vero. Toccando la campanella si apre l'app
-  Comandi e parte il timer dell'Orologio con i secondi giusti? Funziona anche dall'icona sulla Home
-  e non solo da Safari? "Prova con 10 secondi" nella guida fa partire un timer da 10 secondi?
 - Figura dell'esercizio: sull'iPhone si muove? (Al computer sì, ma Safari va visto dal vero.) È fluida
   e non rallenta lo scorrimento? Con Impostazioni → Accessibilità → Movimento → "Riduci movimento"
   attivo deve restare ferma.
@@ -240,6 +262,8 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
   riaprirlo). "Salta" e "+30s" del Diario non comandano il timer dell'Orologio. Se il comando
   rapido non esiste o ha un altro nome, l'errore lo mostra l'app Comandi e per quel recupero non suona
   niente. Se ricarichi la pagina dopo la campanella, il Diario torna a squillare anche lui.
+- La serie finale ("+ 1×8") non si può aggiungere, togliere o cambiare da Scheda → Modifica esercizio:
+  c'è solo sugli esercizi della scheda del coach. Modificando l'esercizio resta com'è.
 - Il cerchio delle righe non si tocca: con un tocco sbagliato avrebbe segnato serie mai fatte.
 - 28 esercizi della lista non hanno figura (dip, scrollate, tirate al mento, alzate frontali, hip
   thrust, plank, pullover, adduttori, rotazioni del busto): meglio nessuna figura che una sbagliata.
@@ -288,7 +312,7 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 - Su iPhone la sveglia del Diario suona solo con l'app aperta e lo schermo acceso: non a schermo
   spento, non con un'altra app davanti. Per quello c'è "Timer dell'iPhone" (v11), che usa il timer
   dell'Orologio.
-- Gli schemi misti riconosciuti sono solo "1×N + M×R" (una serie iniziale più le serie di lavoro).
-  Altri, come "2×10 + 1×6", non sono previsti.
+- Gli schemi misti riconosciuti sono "1×N + M×R" (una serie iniziale più le serie di lavoro) e, dalla
+  v12, "M×R + 1×N" (le serie di lavoro più una serie finale). Altri non sono previsti.
 - I dati stanno solo sul telefono. Gli allenamenti fatti nella vecchia versione su claude.ai non
   sono stati recuperati.
