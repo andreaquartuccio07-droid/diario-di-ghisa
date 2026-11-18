@@ -40,8 +40,17 @@ service worker e mostra la striscia "Nuova versione disponibile"):
   coach" o "Azzera tutto" dal menu ⋯.
   `REV` va alzato solo per sovrascrivere la scheda già salvata sul dispositivo.
 - `DOMANDE` — le 17 domande del questionario di fine programma del coach.
-- `storicoDi(nome)` — storico di un esercizio, **indicizzato per nome normalizzato** (`chiave()`),
-  non per id: così lo stesso esercizio in giorni diversi ha una progressione unica.
+- `storicoDi(nome, fascia)` — storico di un esercizio, **indicizzato per nome normalizzato** (`chiave()`)
+  **e fascia di ripetizioni** (dalla v13, `fasciaEs(e)` = `"6-8"`), non per id: lo stesso esercizio in giorni
+  diversi con le stesse ripetizioni ha una progressione unica; con ripetizioni diverse (pushdown 6-8 il lunedì,
+  10-12 il mercoledì) sono due storici, con obiettivo, record, andamento e riga del Report separati. Ogni
+  esercizio salvato ha il campo `fascia`; quelli di prima della v13 lo ricevono da `timbraFasce()` (avvio,
+  import, prima di "Ripristina la scheda"): dalla scheda se il loro `esId` c'è, altrimenti dedotto dalle
+  ripetizioni fatte (`fasciaVoce()`), e poi resta fisso. Cambiando le ripetizioni da Scheda → Modifica, un
+  `confirm` chiede se è lo stesso lavoro (le sedute di quell'esercizio passano alla fascia nuova) o un lavoro diverso. Senza `fascia` `storicoDi` dà tutto lo storico del nome. Nelle liste la chiave è
+  `"nome normalizzato|fascia"` e il nome mostra la fascia solo se ce n'è più d'una (`nomeConFascia()`).
+  Prima volta in una fascia nuova ma con storico in un'altra: `stimaDaAltraFascia()` propone il carico dal
+  massimale stimato con 2 ripetizioni di margine, come farebbe un allenatore.
 - `obiettivo(es)` — regola del sovraccarico progressivo (tutte le serie a rep max → +incremento).
   Si calcola sull'ultima seduta che ha serie di lavoro. La serie iniziale (`att`, il "1×5" di
   "1×5 + 3×8") è esclusa dalla regola ma conta per l'1RM stimato, e **ha un carico suo**: per l'utente

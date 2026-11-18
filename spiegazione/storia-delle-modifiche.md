@@ -6,6 +6,31 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v13 — 18 novembre 2026
+
+**Due difetti segnalati da Andrea dopo le sei settimane della scheda 8.0.**
+
+Stesso esercizio, ripetizioni diverse
+- Il pushdown con V-bar su panca 30° era al 1° giorno da 6-8 ripetizioni e al 2° da 10-12, ma aveva
+  uno storico solo: il lunedì l'app proponeva il peso del mercoledì, e record e frecce si sfalsavano.
+- Ora lo stesso esercizio con ripetizioni diverse ha due storici: peso proposto, record, andamento,
+  voce in Progressi e riga del Report per conto suo ("· 6-8 rip.", "· 10-12 rip."). Con le stesse
+  ripetizioni in giorni diversi (crunch al cavo) resta uno solo, come prima.
+- Prima volta con ripetizioni nuove, ma l'esercizio l'hai già fatto con altre: l'app propone un carico
+  di partenza stimato dal massimale dell'ultima volta, con 2 ripetizioni di margine, e lo dice.
+- Se cambi le ripetizioni di un esercizio da Scheda → Modifica, l'app chiede: "OK" se è lo stesso
+  lavoro con un ritocco (lo storico continua), "Annulla" se è un lavoro diverso (riparte con la stima).
+- Nei dati salvati c'è un campo in più (`fascia`) su ogni esercizio degli allenamenti. Gli allenamenti
+  vecchi lo ricevono da soli al primo avvio della v13: kg e ripetizioni non cambiano.
+
+Sveglia con la musica
+- Con la musica accesa, a fine recupero la musica si fermava ma la sveglia non si sentiva.
+- Ora la sveglia suona con un file audio preparato al tocco della serie, e solo se il telefono lo
+  rifiuta torna al suono di prima. Con "Sveglia col silenzioso: no" la sveglia suona sopra la musica
+  senza fermarla (col tasto silenzioso tace); con "sì" suona anche col silenzioso, ma la musica si ferma.
+- Da provare sull'iPhone vero, con la musica accesa: menu ⋯ → "Prova la sveglia", con la voce
+  "Sveglia col silenzioso" su sì e su no.
+
 ## ghisa-v12 — 11 ottobre 2026
 
 **Scheda Andrea 8.0 (8° blocco) e schema nuovo "3×5 + 1×8".**
@@ -273,9 +298,7 @@ Sono cose che al computer non si possono verificare. Quando le hai provate, canc
 - I piegamenti mostrano la figura della panca e le croci inverse quella delle croci: il gesto è lo
   stesso, cambia il verso.
 - L'andamento confronta con la volta prima dello stesso esercizio anche se era in un altro giorno
-  della scheda. Se lo stesso esercizio ha schemi diversi nei due giorni (alzate laterali 8-10 il 1°
-  giorno e 10-12 il 3°, panca 30° nel 1° e nel 3°) la freccia può andare su e giù senza un vero
-  cambiamento. L'alternativa sarebbe confrontare solo con lo stesso giorno: da decidere.
+  della scheda, ma solo con le stesse ripetizioni (dalla v13): con ripetizioni diverse sono due storici.
 - Un esercizio "in superserie" che è l'ultimo prima del post allenamento non si lega al primo
   esercizio del post: ha il suo timer normale.
 - Nell'andamento la serie pesante iniziale non conta: se migliori solo quella, la riga resta "=".

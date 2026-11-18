@@ -948,6 +948,7 @@ async function avviaSync(){
     const mappa = new Map(remote.map(s => [s.id, s]));
     stato.sessioni.forEach(s => { if (!mappa.has(s.id)){ mappa.set(s.id, s); db.doc("sessioni/" + s.id).set(s).catch(() => {}); } });
     stato.sessioni = Array.from(mappa.values()).sort((a, b) => a.data.localeCompare(b.data));
+    timbraFasce();
     const chip = $("#sync");
     chip.textContent = "sincronizzato";
     chip.dataset.on = "1";
@@ -963,11 +964,60 @@ function tuttiGliEsercizi(){
   stato.scheda.giorni.forEach(g => g.esercizi.forEach(e => out.push({e, g})));
   return out;
 }
-function storicoDi(nome){
+/* Fascia di ripetizioni (dalla v13). Lo stesso esercizio fatto in due giorni con ripetizioni diverse (4×6-8 il lunedì,
+   4×10-12 il mercoledì) sono due lavori diversi: ognuno ha peso proposto, record e andamento suoi. Con la stessa fascia
+   in giorni diversi resta un solo storico. Ogni esercizio salvato porta la sua fascia ("6-8"): quelli salvati prima la
+   ricevono all'avvio da timbraFasce(), finché la scheda che li conteneva è ancora quella sul telefono. */
+function fasciaEs(e){
+  const a = Number(e.repMin) || 0, b = Number(e.repMax) || a;
+  return Math.min(a, b) + "-" + Math.max(a, b);
+}
+function etichettaFascia(f){
+  if (!f) return "";
+  const p = f.split("-");
+  return (p[0] === p[1] ? p[0] : f) + " rip.";
+}
+function fasciaVoce(x){
+  if (x.fascia) return x.fascia;
+  const info = trovaEsercizio(x.esId);
+  if (info && chiave(info.e.nome) === chiave(x.nome)) return fasciaEs(info.e);
+  // allenamento di una scheda che non c'è più: la fascia della scheda attuale più vicina alle ripetizioni fatte
+  const k = chiave(x.nome);
+  const fasce = Array.from(new Set(tuttiGliEsercizi().filter(({e}) => chiave(e.nome) === k).map(({e}) => fasciaEs(e))));
+  if (fasce.length < 2) return fasce[0] || "";
+  const rep = (x.sets || []).filter(s => !s.att && !s.coda && Number(s.reps) > 0).map(s => Number(s.reps)).sort((a, b) => a - b);
+  const r = rep.length ? rep[Math.floor(rep.length / 2)] : 0;
+  const dist = f => { const p = f.split("-").map(Number); return r < p[0] ? p[0] - r : (r > p[1] ? r - p[1] : 0); };
+  return fasce.reduce((m, f) => dist(f) < dist(m) ? f : m);
+}
+// Aggiunge la fascia agli esercizi salvati che non ce l'hanno ancora: dalla scheda attuale se il loro id c'è,
+// altrimenti (schede vecchie) quella dedotta dalle ripetizioni fatte, così resta fissa e non cambia con la scheda
+// successiva. Non tocca kg né ripetizioni. Restituisce quanti ne ha completati.
+function timbraFasce(){
+  let n = 0;
+  stato.sessioni.forEach(s => (s.esercizi || []).forEach(x => {
+    if (x.fascia) return;
+    const f = fasciaVoce(x);
+    if (f){ x.fascia = f; n++; }
+  }));
+  return n;
+}
+// Tutte le fasce in cui compare un esercizio (scheda attuale e storico): con più di una, il nome mostra anche la fascia
+function fasceDi(nome){
+  const k = chiave(nome), out = new Set();
+  tuttiGliEsercizi().forEach(({e}) => { if (chiave(e.nome) === k) out.add(fasciaEs(e)); });
+  stato.sessioni.forEach(s => s.esercizi.forEach(x => { if (chiave(x.nome) === k) out.add(fasciaVoce(x)); }));
+  return out;
+}
+function nomeConFascia(nome, fascia){
+  return fascia && fasceDi(nome).size > 1 ? nome + " · " + etichettaFascia(fascia) : nome;
+}
+// Senza fascia: tutto lo storico dell'esercizio, qualunque fossero le ripetizioni
+function storicoDi(nome, fascia){
   const k = chiave(nome);
   return stato.sessioni
     .map(s => {
-      const e = s.esercizi.find(x => chiave(x.nome) === k);
+      const e = s.esercizi.find(x => chiave(x.nome) === k && (fascia === undefined || fasciaVoce(x) === fascia));
       if (!e) return null;
       const sets = e.sets.filter(x => Number(x.kg) > 0 && Number(x.reps) > 0);
       if (!sets.length) return null;
@@ -985,12 +1035,27 @@ function storicoDi(nome){
     .sort((a, b) => a.data.localeCompare(b.data));
 }
 
+// Prima volta in questa fascia, ma l'esercizio l'hai già fatto con altre ripetizioni: come farebbe un allenatore, il carico
+// di partenza si ricava dal massimale stimato dell'ultima volta (Epley), lasciando 2 ripetizioni di margine sul minimo
+// della fascia nuova, arrotondato per difetto. Es.: 37×10 → 1RM 49,3 → per 6 ripetizioni (+2) circa 38,75 kg.
+function stimaDaAltraFascia(es){
+  const altre = storicoDi(es.nome).filter(x => x.lavoro.length);
+  const u = altre[altre.length - 1];
+  if (!u) return null;
+  const m = u.lavoro.reduce((a, b) => e1rm(b.kg, b.reps) > e1rm(a.kg, a.reps) ? b : a);
+  const reps = Number(es.repMin) || Number(es.repMax) || 8;
+  const passo = Number(es.incremento) || 1.25;
+  const kg = Math.max(passo, Math.floor(e1rm(m.kg, m.reps) / (1 + (reps + 2) / 30) / passo) * passo);
+  return {kg, reps, ultima: null, stima: true,
+    motivo: "Prima volta da " + etichettaFascia(fasciaEs(es)) + ": carico stimato da " + num(m.kg, 2) + "×" + m.reps + " del " + dataBreve(u.data) + ", con 2 ripetizioni di margine. Aggiustalo dopo la prima serie."};
+}
 function obiettivo(es){
-  const storia = storicoDi(es.nome);
+  const storia = storicoDi(es.nome, fasciaEs(es));
   const ultima = storia[storia.length - 1];
   // l'obiettivo si calcola sull'ultima seduta che ha serie di lavoro: una seduta con la sola serie iniziale non conta
   const conLavoro = storia.filter(x => x.lavoro.length);
   const rif = conLavoro[conLavoro.length - 1];
+  if (!rif && !ultima){ const s = stimaDaAltraFascia(es); if (s) return s; }
   if (!rif) return {kg: 0, reps: es.repMin, ultima: ultima || null,
     motivo: (ultima ? "Nessuna serie di lavoro registrata finora" : "Prima volta") + ": parti con un carico che ti lascia 1-2 ripetizioni di margine e annotalo."};
   const sets = rif.lavoro;
@@ -1045,13 +1110,13 @@ function progressioniBlocco(){
   const visti = new Set();
   const out = [];
   tuttiGliEsercizi().forEach(({e}) => {
-    const k = chiave(e.nome);
+    const f = fasciaEs(e), k = chiave(e.nome) + "|" + f;
     if (visti.has(k)) return;
     visti.add(k);
-    const storia = storicoDi(e.nome).filter(x => x.data >= b.inizio);
+    const storia = storicoDi(e.nome, f).filter(x => x.data >= b.inizio);
     if (storia.length < 2) return;
     const a = storia[0], z = storia[storia.length - 1];
-    out.push({nome: e.nome, gruppo: e.gruppo, sedute: storia.length, da: a.e1rm, a: z.e1rm, delta: z.e1rm - a.e1rm,
+    out.push({nome: nomeConFascia(e.nome, f), gruppo: e.gruppo, sedute: storia.length, da: a.e1rm, a: z.e1rm, delta: z.e1rm - a.e1rm,
       kgDa: a.kgMax, kgA: z.kgMax, deltaKg: z.kgMax - a.kgMax, serieDa: serieGruppi(a.sets).join(" · "), serieA: serieGruppi(z.sets).join(" · "), pct: a.e1rm ? (z.e1rm - a.e1rm) / a.e1rm * 100 : 0});
   });
   return out.sort((x, y) => y.pct - x.pct);
@@ -1108,11 +1173,11 @@ function creaBozza(giornoId){
     const o = obiettivo(e);
     const righe = [];
     // la serie iniziale ha un carico suo: riparte da quello dell'ultima volta che l'hai fatta, non da quello delle serie di lavoro
-    const attUltima = e.att ? storicoDi(e.nome).map(x => x.sets.find(y => y.att)).filter(Boolean).pop() : null;
+    const attUltima = e.att ? storicoDi(e.nome, fasciaEs(e)).map(x => x.sets.find(y => y.att)).filter(Boolean).pop() : null;
     if (e.att) righe.push({kg: attUltima ? attUltima.kg : "", reps: e.att, done: false, att: true});
     for (let i = 0; i < e.serie; i++) righe.push({kg: o.kg || "", reps: o.reps || "", done: false});
     // anche la serie finale ha un carico suo (più leggero), ripreso dall'ultima volta
-    const codaUltima = e.coda ? storicoDi(e.nome).map(x => x.sets.find(y => y.coda)).filter(Boolean).pop() : null;
+    const codaUltima = e.coda ? storicoDi(e.nome, fasciaEs(e)).map(x => x.sets.find(y => y.coda)).filter(Boolean).pop() : null;
     if (e.coda) righe.push({kg: codaUltima ? codaUltima.kg : "", reps: e.coda, done: false, coda: true});
     sets[e.id] = righe;
   });
@@ -1201,7 +1266,7 @@ function rigaChiusaHTML(e, gruppoId, su, conFreccia, seguente){
   return '<div class="riga">' +
     '<span class="cerchio" data-cerchio="' + e.id + '" data-pieno="' + (f.tot && f.fatte >= f.tot ? 1 : 0) + '" aria-hidden="true">' + cerchioSVG(f) + '</span>' +
     '<button class="apri" data-apri="' + gruppoId + '" aria-expanded="' + su + '" aria-controls="corpo-' + gruppoId + '"><span class="txt">' +
-      '<span class="nome-r"><b>' + esc(e.nome) + '</b>' + pillolaAndamento(andamento(storicoDi(e.nome))) + '</span>' +
+      '<span class="nome-r"><b>' + esc(e.nome) + '</b>' + pillolaAndamento(andamento(storicoDi(e.nome, fasciaEs(e)))) + '</span>' +
       '<span class="sotto"><span class="sch"><span class="prescr">' + prescrizione(e) + '</span> · ' +
         (seguente ? "senza pausa" : (e.recupero ? "rec " + mmss(e.recupero) : (e.superset ? "rec 1:30" : "nessun recupero"))) +
         '</span><span class="fatte" data-fatte="' + e.id + '">' + testoFatte(f) + '</span></span>' +
@@ -1240,7 +1305,7 @@ function corpoHTML(e, inSuperserie, i){
     '<span class="obiettivo">Obiettivo <span class="mono">' + (o.kg ? num(o.kg, 2) + " kg × " + o.reps : "da impostare") + '</span></span>' +
     '<span class="motivo">' + esc(o.motivo) + '</span>' +
     (o.ultima
-      ? '<button class="storico-btn" data-storico="' + esc(e.nome) + '" aria-label="Storico di ' + esc(e.nome) + '">' +
+      ? '<button class="storico-btn" data-storico="' + esc(e.nome) + '" data-fascia="' + fasciaEs(e) + '" aria-label="Storico di ' + esc(e.nome) + '">' +
           '<span class="testo">' + esc(riassuntoUltima(o.ultima)) + '</span>' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>'
       : "") +
@@ -1346,7 +1411,7 @@ function salvaAllenamento(){
   g.esercizi.forEach(e => {
     const sets = (b.sets[e.id] || []).filter(r => r.done && Number(r.reps) > 0)
       .map(r => { const o = {kg: Number(r.kg) || 0, reps: Number(r.reps)}; if (r.att) o.att = true; if (r.coda) o.coda = true; return o; });
-    if (sets.length) esercizi.push({esId: e.id, nome: e.nome, gruppo: e.gruppo, sets});
+    if (sets.length) esercizi.push({esId: e.id, nome: e.nome, gruppo: e.gruppo, fascia: fasciaEs(e), sets});
   });
   if (!esercizi.length) return;
   const nuova = {id: uid(), data: b.data, giornoId: g.id, giornoNome: g.nome, note: (b.note || "").trim(), esercizi};
@@ -1378,13 +1443,13 @@ function andamento(storia){
   if (pct < 1 && pct > -5 && ca && cz > ca) return {dir: "su", pct: (cz - ca) / ca * 100, base: "carico"};
   return {dir: Math.abs(pct) < 1 ? "fermo" : (pct > 0 ? "su" : "giu"), pct: Math.abs(pct), base: "massimale"};
 }
-function apriStorico(nome){
-  const storia = storicoDi(nome);
+function apriStorico(nome, fascia){
+  const storia = storicoDi(nome, fascia);
   if (!storia.length) return;
   const d = $("#dlg-storico");
   const and = andamento(storia);
   const rec = storia.reduce((a, b) => b.e1rm > a.e1rm ? b : a);
-  $("#st-titolo").textContent = nome;
+  $("#st-titolo").textContent = nomeConFascia(nome, fascia);
   let html = '<div class="tiles">' +
     tile("Andamento", and ? '<span class="delta" data-dir="' + and.dir + '">' + (and.dir === "fermo" ? "= stabile" : (and.dir === "su" ? "▲ +" : "▼ −") + num(and.pct, 1) + "%") + '</span>' : "—", "",
       and ? (and.base === "carico" ? "carico delle serie di lavoro" : "massimale stimato") + ", rispetto alla volta prima" : "serve un'altra seduta per dirlo", "fermo") +
@@ -1397,7 +1462,7 @@ function apriStorico(nome){
       '<td class="num">' + num(x.e1rm, 1) + (x === rec ? ' <span class="pr">rec</span>' : "") + '</td></tr>').join("") + '</tbody></table>';
   if (storia.length > 6) html += '<div class="tiny muted">Le ultime 6 volte su ' + storia.length + '. Le altre sono in Progressi.</div>';
   $("#st-corpo").innerHTML = html;
-  d.dataset.es = chiave(nome);
+  d.dataset.es = chiave(nome) + "|" + (fascia || "");
   if (!d.open) d.showModal();
 }
 
@@ -1455,16 +1520,21 @@ function icobtn(azione, titolo, path, off){
 }
 
 /* ---------- PROGRESSI ---------- */
+// Una voce per esercizio e fascia di ripetizioni (chiave "nome normalizzato|6-8"): stesso nome con fasce diverse = due voci
 function elencoEsercizi(){
   const m = new Map();
-  tuttiGliEsercizi().forEach(({e}) => { if (!m.has(chiave(e.nome))) m.set(chiave(e.nome), e.nome); });
-  stato.sessioni.forEach(s => s.esercizi.forEach(e => { if (!m.has(chiave(e.nome))) m.set(chiave(e.nome), e.nome); }));
-  return Array.from(m, ([k, nome]) => ({k, nome}));
+  const metti = (nome, fascia) => { const k = chiave(nome) + "|" + fascia; if (!m.has(k)) m.set(k, {k, nome, fascia}); };
+  tuttiGliEsercizi().forEach(({e}) => metti(e.nome, fasciaEs(e)));
+  stato.sessioni.forEach(s => s.esercizi.forEach(x => metti(x.nome, fasciaVoce(x))));
+  const quante = new Map();
+  m.forEach(v => { const c = chiave(v.nome); quante.set(c, (quante.get(c) || 0) + 1); });
+  // fascia davanti al nome: nella tendina chiusa i nomi lunghi finiscono coi puntini e le due voci sembrerebbero uguali
+  return Array.from(m.values()).map(v => ({...v, etichetta: quante.get(chiave(v.nome)) > 1 && v.fascia ? etichettaFascia(v.fascia) + " · " + v.nome : v.nome}));
 }
 function vistaProgressi(){
   const lista = elencoEsercizi();
   if (!stato.esSel || !lista.some(x => x.k === stato.esSel)){
-    const conDati = lista.find(x => storicoDi(x.nome).length);
+    const conDati = lista.find(x => storicoDi(x.nome, x.fascia).length);
     stato.esSel = (conDati || lista[0] || {}).k || null;
   }
   let html = '<div class="stack"><div><div class="eyebrow">Carico progressivo</div><h1>Progressi</h1></div>';
@@ -1476,9 +1546,9 @@ function vistaProgressi(){
   }
   const sel = lista.find(x => x.k === stato.esSel) || lista[0];
   html += '<label class="f" style="gap:6px"><span class="eyebrow">Esercizio</span><select class="sel" id="sel-es">' +
-    lista.map(x => '<option value="' + x.k + '"' + (x.k === stato.esSel ? " selected" : "") + '>' + esc(x.nome) + '</option>').join("") + '</select></label>';
+    lista.map(x => '<option value="' + x.k + '"' + (x.k === stato.esSel ? " selected" : "") + '>' + esc(x.etichetta) + '</option>').join("") + '</select></label>';
 
-  const storia = sel ? storicoDi(sel.nome) : [];
+  const storia = sel ? storicoDi(sel.nome, sel.fascia) : [];
   if (!storia.length){
     html += '<div class="card vuoto"><h3>Nessun dato per questo esercizio</h3><p class="small">Comparirà qui appena lo registri in un allenamento.</p></div>';
   } else {
@@ -1746,7 +1816,44 @@ function avviaTimerIphone(sec){
   location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(COMANDO_IPHONE) + "&input=text&text=" + Math.max(1, Math.round(sec));
 }
 function svegliaForte(){ try { return localStorage.getItem(CHIAVE_SVEGLIA) !== "discreta"; } catch (e) { return true; } }
+/* Suono della sveglia come file audio (dalla v13): tre bip in un WAV costruito qui, niente file esterni.
+   Con la musica accesa, su iPhone la sessione audio cambia quando la sveglia parte: il suono fatto con Web Audio
+   in quel passaggio restava muto (la musica si fermava e la sveglia non si sentiva). Un elemento <audio> sbloccato
+   da un tocco invece può suonare dopo, da solo. Web Audio resta come riserva. */
+let campanello = null, campanelloPronto = false;
+function wavBip(){
+  const sr = 22050, n = Math.round(sr * 0.72);
+  const buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+  const scrivi = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  scrivi(0, "RIFF"); v.setUint32(4, 36 + n * 2, true); scrivi(8, "WAVE"); scrivi(12, "fmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true);
+  v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  scrivi(36, "data"); v.setUint32(40, n * 2, true);
+  for (let i = 0; i < n; i++){
+    // come squilla(): tre bip da 0,16 s a 1976 Hz, uno ogni 0,24 s, con attacco e coda morbidi (niente "clic")
+    const t = i / sr, k = Math.floor(t / 0.24), dt = t - k * 0.24;
+    const inv = k < 3 && dt < 0.16 ? Math.min(1, dt / 0.01, (0.16 - dt) / 0.03) : 0;
+    const onda = Math.sin(2 * Math.PI * 1976 * t) >= 0 ? 1 : -1;
+    v.setInt16(44 + i * 2, Math.round(inv * onda * 0.45 * 32767), true);
+  }
+  return URL.createObjectURL(new Blob([buf], {type: "audio/wav"}));
+}
+// Va chiamata dentro un tocco: fa partire il campanello muto e lo ferma subito, così l'iPhone lo lascia suonare più tardi.
+// Muto non prende la sessione audio: la musica non si ferma.
+function sbloccaCampanello(){
+  try {
+    if (!campanello){ campanello = new Audio(wavBip()); campanello.preload = "auto"; }
+    if (campanelloPronto) return;
+    campanello.muted = true;
+    const p = campanello.play();
+    const ok = () => { campanello.pause(); campanello.currentTime = 0; campanello.muted = false; campanelloPronto = true; };
+    if (p && p.then) p.then(ok, () => { campanello.muted = false; }); else ok();
+  } catch (e) {}
+}
 function sbloccaSuono(){
+  sbloccaCampanello();
+  // "discreta": la sessione audio si sceglie già qui, dentro il tocco, e a fine recupero non cambia più (si mescola alla musica)
+  try { if (navigator.audioSession && !svegliaForte()) navigator.audioSession.type = "ambient"; } catch (e) {}
   try {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return;
@@ -1821,7 +1928,8 @@ function sveglia(){
   el.querySelectorAll("[data-piu30],[data-iphone]").forEach(b => b.remove());
   el.classList.remove("campana");
   el.querySelector("[data-stop]").textContent = "Stop";
-  try { if (navigator.audioSession) navigator.audioSession.type = svegliaForte() ? "playback" : "transient"; } catch (e) {}
+  // "forte": sessione da lettore, suona anche col silenzioso (la musica si ferma); "discreta": resta "ambient", sopra la musica
+  try { if (navigator.audioSession) navigator.audioSession.type = svegliaForte() ? "playback" : "ambient"; } catch (e) {}
   let giri = 0;
   // gli squilli si contano solo con l'app a schermo: se la lasci in secondo piano, al rientro sta ancora suonando
   const giro = () => { if (document.visibilityState !== "visible") return; if (++giri > 40){ fermaTimer(); return; } if (!muta) squilla(); };
@@ -1838,6 +1946,7 @@ function fermaTimer(){
   era.el.remove();
   document.documentElement.style.removeProperty("--timer-h");
   if (era.suona){
+    try { if (campanello){ campanello.pause(); campanello.currentTime = 0; } } catch (e) {}
     try { if (navigator.vibrate) navigator.vibrate(0); } catch (e) {}
     try { if (navigator.audioSession) navigator.audioSession.type = "auto"; } catch (e) {}
   }
@@ -1846,6 +1955,19 @@ function fermaTimer(){
 // uno squillo: tre bip acuti e, dove il telefono lo permette, tre vibrazioni
 function squilla(){
   try { if (navigator.vibrate) navigator.vibrate([260, 120, 260, 120, 260]); } catch (e) {}
+  // prima il campanello (file audio); se il telefono lo rifiuta, i bip di Web Audio
+  if (campanello && campanelloPronto){
+    try {
+      campanello.currentTime = 0;
+      const p = campanello.play();
+      // rifiuto dovuto a Stop (pause durante l'avvio): niente bip di riserva dopo lo Stop
+      if (p && p.catch) p.catch(() => { if (timer && timer.suona) bipWebAudio(); });
+      return;
+    } catch (e) {}
+  }
+  bipWebAudio();
+}
+function bipWebAudio(){
   try {
     if (!audio) return;
     if (audio.state !== "running") audio.resume().catch(() => {});
@@ -1952,6 +2074,15 @@ $("#form-es").addEventListener("submit", ev => {
       if (!dati.recupero) dati.recupero = prima && prima.superset ? 150 : 90;
       if (dopo && !dopo.superset && dopo.recupero === 150) dopo.recupero = 90;
     }
+  }
+  // ripetizioni cambiate su un esercizio con storico: un ritocco (8-10 → 8-12) tiene la progressione, un lavoro
+  // diverso (8-10 → 15-20) riparte con un carico stimato. Decide l'utente; con "OK" le sedute di questo esercizio
+  // passano alla fascia nuova (cambia solo il campo fascia, non kg né ripetizioni).
+  if (vecchio){
+    const da = fasciaEs(vecchio), a = fasciaEs(dati);
+    const voci = da === a ? [] : [].concat.apply([], stato.sessioni.map(s => s.esercizi.filter(x => x.esId === vecchio.id && fasciaVoce(x) === da)));
+    if (voci.length && confirm("Ripetizioni cambiate da " + etichettaFascia(da) + " a " + etichettaFascia(a) + "\n\nOK: è lo stesso lavoro, tieni lo storico e la progressione.\nAnnulla: è un lavoro diverso, riparti con un carico stimato dallo storico."))
+      voci.forEach(x => { x.fascia = a; });
   }
   if (vecchio) Object.assign(vecchio, dati);
   else g.esercizi.splice(posto, 0, Object.assign({id: uid(), sezione: "main"}, dati));
@@ -2110,7 +2241,7 @@ document.addEventListener("click", ev => {
   if (!t.closest("#menu")) $("#menu").open = false;
   if (t.closest("[data-stop]")){ fermaTimer(); return; }
   const sto = t.closest("[data-storico]");
-  if (sto){ apriStorico(sto.dataset.storico); return; }
+  if (sto){ apriStorico(sto.dataset.storico, sto.dataset.fascia); return; }
   const dst = $("#dlg-storico");
   if (t.closest("[data-chiudi-storico]") || t === dst){ dst.close(); return; }
   if (t.closest("[data-storico-progressi]")){ dst.close(); stato.esSel = dst.dataset.es; stato.vista = "progressi"; render(); return; }
@@ -2382,7 +2513,7 @@ async function azione(a){
     const forte = !svegliaForte();
     try { localStorage.setItem(CHIAVE_SVEGLIA, forte ? "forte" : "discreta"); } catch (e) {}
     scriviVoceSveglia();
-    toast(forte ? "La sveglia suona anche col silenzioso (mette in pausa la musica)" : "La sveglia si mescola alla musica (col silenzioso tace)", 4500);
+    toast(forte ? "La sveglia suona anche col silenzioso (la musica si ferma)" : "La sveglia suona sopra la musica, senza fermarla (col silenzioso tace)", 4500);
     return;
   }
   if (a === "figura"){
@@ -2410,6 +2541,8 @@ async function azione(a){
   if (a === "ripristina"){
     if (!confirm("Rimettere la scheda come l'ha scritta il coach? Perdi le modifiche fatte alla scheda; storico e questionario restano.")) return;
     const vecchio = stato.scheda.blocco;
+    // prima di cambiare scheda: gli id della vecchia non si ritroverebbero più
+    timbraFasce();
     stato.scheda = schedaCoach();
     stato.scheda.blocco = vecchio;
     stato.bozza = null;
@@ -2443,6 +2576,7 @@ $("#file-import").addEventListener("change", ev => {
       // lo stesso per le figure scelte a mano, che i backup fatti prima della v9 non hanno
       if (d.movimenti && typeof d.movimenti === "object" && !Array.isArray(d.movimenti)) stato.movimenti = movimentiValidi(d.movimenti);
       stato.bozza = null;
+      timbraFasce();
       salvaTutto();
       stato.sessioni.forEach(s => { if (db) db.doc("sessioni/" + s.id).set(s).catch(() => {}); });
       render(); toast("Backup importato");
@@ -2461,6 +2595,8 @@ stato.pesi = salvato.pesi || [];
 stato.miei = mieiValidi(salvato.miei);
 stato.movimenti = movimentiValidi(salvato.movimenti);
 stato.bozza = salvato.bozza && salvato.bozza.data === oggiISO() ? salvato.bozza : null;
+// allenamenti salvati prima della v13: ricevono la loro fascia di ripetizioni finché la scheda è ancora quella
+if (timbraFasce()) salvaLocale();
 render();
 scriviVoceSveglia();
 scriviVoceFigura();
