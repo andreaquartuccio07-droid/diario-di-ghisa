@@ -6,6 +6,16 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v14 — 22 novembre 2026
+
+**Scheda Andrea 9.0 (9° blocco), primo allenamento il 23 novembre 2026.**
+
+- 3 full body + 1 allenamento focus braccia/dorso, gambe a volume di mantenimento.
+- Torna lo schema "1×5 + 3×8-6": la serie da 5 riparte da sola dal carico più alto fatto da 5 nella
+  scheda precedente. Le serie da 8-6 partono dalla stima dell'app, con 2 ripetizioni di margine.
+- Sul telefono la scheda arriva solo con "Ripristina la scheda del coach" e poi "Inizia un nuovo
+  blocco" dal menu ⋯. Il blocco va iniziato il giorno del primo allenamento: conta da quel giorno.
+
 ## ghisa-v13 — 18 novembre 2026
 
 **Due difetti segnalati da Andrea dopo le sei settimane della scheda 8.0.**
@@ -28,8 +38,8 @@ Sveglia con la musica
 - Ora la sveglia suona con un file audio preparato al tocco della serie, e solo se il telefono lo
   rifiuta torna al suono di prima. Con "Sveglia col silenzioso: no" la sveglia suona sopra la musica
   senza fermarla (col tasto silenzioso tace); con "sì" suona anche col silenzioso, ma la musica si ferma.
-- Da provare sull'iPhone vero, con la musica accesa: menu ⋯ → "Prova la sveglia", con la voce
-  "Sveglia col silenzioso" su sì e su no.
+- Provato da Andrea sull'iPhone il 18 novembre 2026, con la musica accesa e la voce "Sveglia col
+  silenzioso" su sì e su no: funziona.
 
 ## ghisa-v12 — 11 ottobre 2026
 

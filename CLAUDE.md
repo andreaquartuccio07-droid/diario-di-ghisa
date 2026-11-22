@@ -35,7 +35,7 @@ questionario di fine blocco da mandare al coach. Interfaccia in italiano.
 Tutto dentro una IIFE in fondo a `index.html` (più un secondo `<script>` che registra il
 service worker e mostra la striscia "Nuova versione disponibile"):
 
-- `schedaCoach()` — la scheda vera dell'utente (4 giorni + blocchi post-allenamento), oggi la 8.0.
+- `schedaCoach()` — la scheda vera dell'utente (4 giorni + blocchi post-allenamento), oggi la 9.0.
   Cambiarla non tocca la scheda già salvata sui telefoni: arriva solo con "Ripristina la scheda del
   coach" o "Azzera tutto" dal menu ⋯.
   `REV` va alzato solo per sovrascrivere la scheda già salvata sul dispositivo.

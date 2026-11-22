@@ -791,12 +791,12 @@ function sistemaRecuperi(scheda){
 function schedaCoach(){
   const e = o => Object.assign({id: uid(), gruppo:"petto", att:0, coda:0, serie:4, repMin:8, repMax:8, repsTxt:"", recupero:90, incremento:2.5, tecnica:"", nota:"", superset:false, sezione:"main"}, o);
   const ADDOME = [
-    e({nome:"Crunch al cavo", gruppo:"core", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, sezione:"post"}),
-    e({nome:"Ab wheel (con elastico se riesci)", gruppo:"core", serie:3, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, sezione:"post"}),
+    e({nome:"Crunch al cavo", gruppo:"core", serie:3, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5, sezione:"post"}),
+    e({nome:"Ab wheel (con elastico se riesci)", gruppo:"core", serie:3, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, sezione:"post"}),
   ];
   const POLPACCI = [
-    e({nome:"Calf alla pressa orizzontale", gruppo:"gambe", serie:3, repMin:12, repMax:12, repsTxt:"12", incremento:5, sezione:"post"}),
-    e({nome:"Calf seduto (macchinario)", gruppo:"gambe", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, sezione:"post"}),
+    e({nome:"Calf alla pressa orizzontale", gruppo:"gambe", serie:3, repMin:12, repMax:15, repsTxt:"12-15", incremento:5, sezione:"post"}),
+    e({nome:"Calf seduto (macchinario)", gruppo:"gambe", serie:3, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5, sezione:"post"}),
   ];
   const g = (nome, tipo, post, esercizi) => ({
     id: uid(), nome, tipo, post,
@@ -804,46 +804,46 @@ function schedaCoach(){
   });
   return sistemaRecuperi({
     rev: REV,
-    nome: "Scheda Andrea 8.0",
-    sottotitolo: "8° blocco — 3 full body + 1 allenamento focus petto/dorso, gambe a volume di mantenimento",
-    blocco: {numero: 8, settimane: 6, inizio: oggiISO(), sedutePerSettimana: 4},
+    nome: "Scheda Andrea 9.0",
+    sottotitolo: "9° blocco — 3 full body + 1 allenamento focus braccia/dorso, gambe a volume di mantenimento",
+    blocco: {numero: 9, settimane: 6, inizio: oggiISO(), sedutePerSettimana: 4},
     giorni: [
       g("1° giorno", "Full body", "addome", [
-        e({nome:"Stacco rumeno", gruppo:"gambe", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:5, nota:"oppure hyperextension: valutare dolore lombare"}),
-        e({nome:"Chest press incline", gruppo:"petto", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
-        e({nome:"Lat machine presa prona", gruppo:"dorso", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
+        e({nome:"Stacco rumeno", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5, nota:"oppure hyperextension: valutare dolore lombare"}),
+        e({nome:"Chest press incline", gruppo:"petto", att:5, serie:2, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5, nota:"aggiorna il coach su come vanno i carichi"}),
+        e({nome:"Lat machine presa prona", gruppo:"dorso", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
         e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:1.25, superset:true}),
         e({nome:"Leg extension", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
         e({nome:"Panca Scott macchina", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, superset:true}),
         e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, nota:"sdraiato su panca, spalle al cavo"}),
       ]),
       g("2° giorno", "Full body", "polpacci", [
-        e({nome:"Piegamenti zavorrati", gruppo:"petto", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
-        e({nome:"Pulley", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Chest press rettilinea", gruppo:"petto", serie:3, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
+        e({nome:"Rematore bilanciere presa prona", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"rest-pause ×2"}),
         e({nome:"Leg curl sdraiato", gruppo:"gambe", serie:4, repMin:8, repMax:10, repsTxt:"8-10", incremento:2.5}),
-        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25}),
-        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", incremento:1.25, nota:"deltoidi posteriori; cavo o macchina"}),
+        e({nome:"Alzate laterali singole su panca 30°", gruppo:"spalle", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, tecnica:"stripping ×1"}),
+        e({nome:"Croci inverse cavo altezza spalle", gruppo:"spalle", serie:4, repMin:12, repMax:12, repsTxt:"12", incremento:1.25, tecnica:"rest-pause ×2", nota:"deltoidi posteriori; cavo o macchina"}),
         e({nome:"Panca Scott libera", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, superset:true}),
         e({nome:"Pusshdown con voulchen su panca 30°", gruppo:"braccia", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, nota:"voulchen o corda, cavo dietro di te"}),
       ]),
       g("3° giorno", "Upper", "addome", [
         e({nome:"Panca inclinata bilanciere", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
-        e({nome:"Croci cavi alti", gruppo:"petto", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
-        e({nome:"Pulley barra lat focus upper back", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Croci panca 90° cavo altezza spalle", gruppo:"petto", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1", nota:"oppure pec fly"}),
+        e({nome:"T-bar machine", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Pulley barra lat focus upper back", gruppo:"dorso", serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
         e({nome:"Alzate laterali cavo basso avanti", gruppo:"spalle", serie:4, repMin:10, repMax:12, repsTxt:"10-12", incremento:1.25, tecnica:"stripping ×1"}),
+        e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25}),
+        e({nome:"Kickback singolo cavo", gruppo:"braccia", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25}),
+      ]),
+      g("4° giorno", "Full body", "polpacci", [
+        e({nome:"Lento avanti manubri", gruppo:"spalle", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
+        e({nome:"Pressa 45°", gruppo:"gambe", att:5, serie:3, repMin:6, repMax:8, repsTxt:"8-6", incremento:5}),
+        e({nome:"Lat machine singola su panca 75°", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"stripping ×1"}),
+        e({nome:"Rematore manubrio poggiato su panca 30°", gruppo:"dorso", serie:4, repMin:8, repMax:8, repsTxt:"8", incremento:2.5, nota:"focus upper back"}),
         e({nome:"Curl panca 45°", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25, superset:true}),
         e({nome:"French press manubri", gruppo:"braccia", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:1.25}),
         e({nome:"Pusshdown barra dritta", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, superset:true}),
         e({nome:"Curl cavo basso barra dritta spalle al cavo", gruppo:"braccia", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:1.25, nota:"focus allungamento"}),
-      ]),
-      g("4° giorno", "Full body", "polpacci", [
-        e({nome:"Lento avanti manubri", gruppo:"spalle", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:2.5}),
-        e({nome:"Pressa 45°", gruppo:"gambe", serie:3, repMin:5, repMax:5, repsTxt:"5", coda:8, incremento:5}),
-        e({nome:"T-bar machine", gruppo:"dorso", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
-        e({nome:"Lat machine singola su panca 75°", gruppo:"dorso", serie:4, repMin:8, repMax:10, repsTxt:"10-8", incremento:2.5, tecnica:"stripping ×1"}),
-        e({nome:"Rematore manubrio poggiato su panca 30°", gruppo:"dorso", serie:3, repMin:8, repMax:8, repsTxt:"8", incremento:2.5, nota:"focus upper back"}),
-        e({nome:"Chest press rettilinea", gruppo:"petto", serie:4, repMin:6, repMax:8, repsTxt:"8-6", incremento:2.5}),
-        e({nome:"Croci manubri panca 30°", gruppo:"petto", serie:4, repMin:10, repMax:10, repsTxt:"10", incremento:1.25, tecnica:"rest-pause ×2"}),
       ]),
     ],
   });
@@ -1049,6 +1049,16 @@ function stimaDaAltraFascia(es){
   return {kg, reps, ultima: null, stima: true,
     motivo: "Prima volta da " + etichettaFascia(fasciaEs(es)) + ": carico stimato da " + num(m.kg, 2) + "×" + m.reps + " del " + dataBreve(u.data) + ", con 2 ripetizioni di margine. Aggiustalo dopo la prima serie."};
 }
+// Prima volta con la serie iniziale in questa fascia: riparte dal carico più alto dell'ultima seduta in cui
+// hai fatto quelle stesse ripetizioni (per esempio dal 3×5 della scheda precedente). Se non c'è, resta da scrivere.
+function attDaAltraFascia(es){
+  const storia = storicoDi(es.nome);
+  for (let i = storia.length - 1; i >= 0; i--){
+    const pari = storia[i].sets.filter(s => !s.coda && Number(s.reps) === Number(es.att));
+    if (pari.length) return Math.max.apply(null, pari.map(s => s.kg));
+  }
+  return "";
+}
 function obiettivo(es){
   const storia = storicoDi(es.nome, fasciaEs(es));
   const ultima = storia[storia.length - 1];
@@ -1174,7 +1184,7 @@ function creaBozza(giornoId){
     const righe = [];
     // la serie iniziale ha un carico suo: riparte da quello dell'ultima volta che l'hai fatta, non da quello delle serie di lavoro
     const attUltima = e.att ? storicoDi(e.nome, fasciaEs(e)).map(x => x.sets.find(y => y.att)).filter(Boolean).pop() : null;
-    if (e.att) righe.push({kg: attUltima ? attUltima.kg : "", reps: e.att, done: false, att: true});
+    if (e.att) righe.push({kg: attUltima ? attUltima.kg : attDaAltraFascia(e), reps: e.att, done: false, att: true});
     for (let i = 0; i < e.serie; i++) righe.push({kg: o.kg || "", reps: o.reps || "", done: false});
     // anche la serie finale ha un carico suo (più leggero), ripreso dall'ultima volta
     const codaUltima = e.coda ? storicoDi(e.nome, fasciaEs(e)).map(x => x.sets.find(y => y.coda)).filter(Boolean).pop() : null;

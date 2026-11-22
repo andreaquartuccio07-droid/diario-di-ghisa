@@ -53,7 +53,7 @@ Spariscono dopo il commit. Finché non faccio commit e push, il telefono non ved
 - "Sveglia col silenzioso: sì" la fa sentire anche col tasto silenzioso ma mette in pausa la musica; "no" la mescola alla musica ma col silenzioso tace.
 - Su iPhone la sveglia del Diario suona solo con l'app aperta e lo schermo acceso (l'app prova a tenerlo acceso da sola durante il recupero). Non vibra: Apple non lo permette alle app web.
 - Per farla suonare anche da un'altra app: menu ⋯ → "Timer dell'iPhone: sì". Sul timer compare una campanella: toccandola parte il timer dell'Orologio coi secondi che restano. Funziona grazie al comando rapido "Recupero Ghisa" che ho creato nell'app Comandi: se lo cancello o lo rinomino, smette di funzionare (la guida per rifarlo si apre riaccendendo la voce).
-- La scheda del coach sta dentro `index.html`. Quando il coach me ne dà una nuova, Claude la riscrive lì; sul telefono arriva solo quando tocco "Ripristina la scheda del coach" (tiene lo storico) o "Azzera tutto" (cancella tutto) dal menu ⋯. Oggi dentro c'è la Scheda Andrea 8.0.
+- La scheda del coach sta dentro `index.html`. Quando il coach me ne dà una nuova, Claude la riscrive lì; sul telefono arriva solo quando tocco "Ripristina la scheda del coach" (tiene lo storico) o "Azzera tutto" (cancella tutto) dal menu ⋯. Oggi dentro c'è la Scheda Andrea 9.0.
 - Lo schema "3×5 + 1×8": tre serie da 5 su cui l'app calcola l'obiettivo, più una serie finale più leggera da 8 (riga "FIN") col suo carico.
 - Chiunque abbia il link può usare l'app: i suoi dati restano sul suo telefono, ma parte con la mia scheda e riceve i miei aggiornamenti.
 
