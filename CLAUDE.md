@@ -60,6 +60,9 @@ service worker e mostra la striscia "Nuova versione disponibile"):
   come la `att` (fuori dalla regola e dall'andamento, carico suo, gruppo a sé, etichetta "fin"). Sull'esercizio
   `coda` è il numero di ripetizioni (0 = non c'è), sulla serie salvata è `coda:true`. Non ha un campo nel
   dialog di Scheda: si imposta solo in `schedaCoach()`.
+  Dalla v15 un esercizio di `schedaCoach()` può avere `partenza` (`P(kg, reps, kgSerieDa5)`): `partenzaDi()` la usa
+  solo nel blocco indicato, per chi aveva sedute prima del blocco e finché quell'esercizio in quella fascia non è
+  stato fatto. `ultimoCarico()` riempie il box "ultima volta" dentro `.obiettivo`.
 - `sistemaRecuperi(scheda)` — regola dei recuperi, applicata una volta sola a ogni scheda
   (marcatore `scheda.recuperi = 2`): 90 s ovunque, 0 sul primo esercizio di una superserie, 150 su
   quello dopo. Poi i valori restano modificabili da Scheda.

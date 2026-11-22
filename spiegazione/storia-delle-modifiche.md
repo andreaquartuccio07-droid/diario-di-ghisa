@@ -6,6 +6,18 @@ provare, quelle lasciate così apposta e i limiti che non si possono togliere.
 
 Questo file va aggiornato a ogni rilascio: una voce nuova in cima.
 
+## ghisa-v15 — 22 novembre 2026
+
+**Riquadro "ultima volta" e carichi di partenza della scheda 9.0, controllati sul backup di Andrea.**
+
+- Nel riquadro dell'obiettivo c'è un box piccolo con il carico più alto dell'ultima volta (`70×5`). Se
+  le ripetizioni sono cambiate, mostra comunque quello fatto con le ripetizioni di prima.
+- Alla prima seduta del 9° blocco ogni esercizio propone un carico scelto sugli ultimi allenamenti, con
+  margine dopo i 10 giorni di stop. Si può cambiare e, dopo quella seduta, torna la regola normale.
+  Chi usa l'app da zero non riceve i carichi di Andrea.
+- Corretto un errore: con ripetizioni fisse e solo una serie al carico più alto (24·22·22) l'app
+  proponeva un salto a 27,5 kg. Ora prima si chiudono tutte le serie.
+
 ## ghisa-v14 — 22 novembre 2026
 
 **Scheda Andrea 9.0 (9° blocco), primo allenamento il 23 novembre 2026.**
